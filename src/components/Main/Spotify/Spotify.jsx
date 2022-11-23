@@ -16,6 +16,7 @@ import PlaylistContent from '../Playlist/PlaylistContent';
 import AlbumContent from '../Album/AlbumContent';
 import PodcastContent from '../Podcast/PodcastContent';
 import UserArtists from '../Artist/UserArtists';
+import TopNavBar from '../Navbar/TopNavBar';
 export default function Spotify() {
   const [{ token,user}, dispatch] = useStateProvider()
 
@@ -38,7 +39,8 @@ export default function Spotify() {
       <div className="spotify_body">
         <SideBar />
         <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
-          <TopNav navBg={navBg}/>
+          {/* <TopNav navBg={navBg}/> */}
+          <TopNavBar navBg={navBg}/>
           <Routes>
             <Route path='/' element={<Home/>} />
             <Route path='/search' element={<Search/>}/>
@@ -84,7 +86,7 @@ const Container = styled.div`
       &::-webkit-scrollbar{
         width: 0.7rem;
         &-thumb{
-            background-color: rgba(255,255,255,0.6);
+            background-color:rgb(75,75,75);
         }
      }
     }

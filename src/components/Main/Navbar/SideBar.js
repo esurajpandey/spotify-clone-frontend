@@ -56,9 +56,11 @@ const Container = styled.div`
   color: #b3b3b3;
   display: flex;
   flex-direction: column;
-  height: 82.5%;
+  padding-bottom: 10rem;
+  height: 100%;
   width: 100%;
   padding: 0rem;
+  z-index: 0;
   /* border: 1px solid rebeccapurple; */
   ul {
     list-style-type: none;

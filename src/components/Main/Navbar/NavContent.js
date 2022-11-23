@@ -63,3 +63,44 @@ export const sideNav = [
         path : '/likedSong',
     },
 ]
+
+
+export const dropMenu =  [
+    {
+        name: "Account",
+        path: '',
+        cName: 'account menu_item'
+    },
+    {
+        name: "Profile",
+        path: '',
+        cName: 'profile menu_item'
+    },
+    {
+        name: "Upgrade to premium",
+        path: '',
+        cName: 'upgrade_to menu_item'
+    },
+    {
+        name: "Support",
+        path: '',
+        cName: 'support menu_item'
+    },
+    {
+        name: "Download",
+        path: '',
+        cName: 'download menu_item'
+    },
+    {
+        name: "Setting",
+        path: '',
+        cName: 'setting menu_item'
+    },
+    {
+        name: "Log out",
+        path: '',
+        cName: 'logout menu_item'
+    },
+
+
+]

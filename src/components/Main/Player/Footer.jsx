@@ -16,6 +16,7 @@ export default function Footer() {
 
 const Container = styled.div`
     /* border : 1px solid red; */
+    z-index: 2;
     background-color: #181818;
     position: relative;
     height: 100%;

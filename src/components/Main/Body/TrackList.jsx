@@ -1,14 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import { AiFillPauseCircle, AiFillPlayCircle, AiFillClockCircle } from 'react-icons/ai';
+import {AiFillClockCircle } from 'react-icons/ai';
 import { itemContent } from './HomeContent';
-
+import { BsFillPlayFill } from 'react-icons/bs';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import DropdownMenu from '../../Element/DropdownMenu';
+import PlayerButton from '../../Element/PlayerButton';
+import { listenForOutsideClicks } from './helper/TrackBody';
 
-function TrackList() {
-    const [play, setPlay] = useState(false);
+
+function TrackList({headerBg}) {
+    const [open, setOpen] = useState(false);
+    const [liked, setLiked] = useState(false);
+    const [listening, setListening] = useState(false);
+    const menuRef = useRef(null);
+
+    const inPublic = true;
+
+    const handleMenuOpen = () => {
+        setOpen(!open);
+    }
     const trackList = itemContent[0].songs;
-    console.log(trackList);
+
+    const onLike = (e) => {
+        setLiked(!liked);
+    }
 
     const getMinSec = (ms) => {
         const min = Math.floor(ms / 60000);
@@ -18,6 +35,7 @@ function TrackList() {
     const playTrack = (id, name, artists, image, context_uri, track_number) => {
 
     }
+
     const getDay = (date) => {
         const added = new Date(date);
         console.log(date);
@@ -27,21 +45,31 @@ function TrackList() {
         return diff;
     }
 
-    const [open, setOpen] = useState(false);
+    useEffect(() => {
+        listenForOutsideClicks(listening, setListening, menuRef, setOpen);
+    }, []);
 
     return (
-        <Container>
-
+        <Container ref={menuRef}>
             <div className='top_header'>
-                <div className='play_pause'>
-                    {play ? <AiFillPauseCircle onClick={() => setPlay(!play)} /> : <AiFillPlayCircle onClick={() => setPlay(!play)} />}
-                </div>
+                <PlayerButton />
+                {
+                    inPublic &&
+                    <div className='like_btn'>
+                        {
+                            liked ? <FaHeart onClick={onLike} className="liked" /> : <FaRegHeart onClick={onLike} className="unliked" />
+                        }
+                    </div>
+                }
                 <div className="menu">
-                    <DropdownMenu />
+                    <HiOutlineDotsHorizontal onClick={handleMenuOpen} className="dot" />
+                    {
+                        open && <DropdownMenu useRef={menuRef} />
+                    }
                 </div>
             </div>
 
-            {/* <div className="lists">
+            <div className="lists">
                 <div className="header_row">
                     <div className="col">
                         <span>#</span>
@@ -92,7 +120,7 @@ function TrackList() {
                         })
                     }
                 </div>
-            </div> */}
+            </div>
         </Container>
 
     )
@@ -102,34 +130,38 @@ const Container = styled.div`
     padding-left: 2rem;
     padding-top: 1.6rem;
     padding-right: 0.4rem;
-    padding-bottom: 50rem;
+    padding-bottom: 10rem;
     margin-top: 2rem;
     background-color: #494b4d;
     display: flex;
     flex-direction: column;
     gap:1rem;
+    height: 100%;
     .top_header{
         display: flex;
         position: relative;
-        /* border: 1px solid red; */
         align-items: center;
         width: 100%;
         gap:1.7rem;
-        .play_pause{
-            display: flex;
-            border-radius: 50%;
-            svg{
-                transition: 0.5s ease-in-out;
-                font-size: 3.8rem;
-                fill: #60d660;
-                border-radius: 50%;
-                transition: transform .2s;
+        .like_btn{
+            font-size: 2rem;
+            padding-top:0.5rem;
+            .liked{
+                fill:#60d660;
             }
-            &:hover{                                
-                svg{
-                    transform: scale(1.05);
-                }
+            .unliked{
+                fill:#cec6c6;
             }
+        }
+        .menu{
+            width: 10rem;
+            .dot{
+                font-size: 1.5rem;
+                color: #cec6c6;
+                display: flex;
+                position: relative;
+            }
+            position: relative;
         }
     }
 
@@ -142,11 +174,12 @@ const Container = styled.div`
             grid-template-columns : 0.2fr 2fr 2fr 1.4fr 0.18fr;
             color: #dddcdc;
             margin: 1rem 0 0 0;
+            width: 100%;
             position: sticky;
-            top: 15vh;
-            padding: 1rem 1.8rem;
+            top: 11vh;
+            padding: 0.8rem 1.8rem;
             transition: 0.3s ease-in-out;
-            background-color: ${({ headerBg }) => headerBg ? "#000000dc" : "none"};
+            background-color: ${({ headerBg }) => headerBg ? "#000000dc" : "#050505dc"};
         }
         .tracks{
         margin: 0 1rem;
@@ -157,9 +190,7 @@ const Container = styled.div`
             width: 100%;
             padding: 1rem 1rem;
             display: grid;
-            /* grid-template-columns : 0.3fr 3fr 2fr 0.1fr; */
             grid-template-columns : 0.2fr 2fr 2fr 1.4fr 0.18fr;
-            /* grid-template-columns : 0.3fr 2.9fr 2fr 0.1fr; */
             .index{
             svg{
                 font-size: 1.2rem;

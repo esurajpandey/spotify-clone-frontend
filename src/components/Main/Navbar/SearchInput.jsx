@@ -4,7 +4,7 @@ import { FaSearch } from 'react-icons/fa';
 function Search() {
     return (
         <Container>
-            <FaSearch />
+            <FaSearch className='srch' />
             <input type="text" placeholder='Artists, songs, or podcasts' />
         </Container>
     )
@@ -13,12 +13,16 @@ function Search() {
 const Container = styled.div`
     background-color: white;
     width: 100%;
-    padding: 0.2rem 1rem;
+    padding: 0.35rem 1rem;
     border-radius: 2rem;
     display: flex;
     align-items: center;
     gap:0.5rem;
     z-index: 2;
+    .srch{
+      font-size: 1.5rem;
+      font-weight: 100;
+    }
     input{
       border: none;
       height: 2rem;

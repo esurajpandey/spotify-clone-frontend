@@ -1,30 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-function DropdownMenu() {
-    const [open, setOpen] = useState(false);
-    const [listening,setListening] = useState(false);
-    const menuRef =  useRef(null);
-    const handleOpen = () => {
-        setOpen(!open);
-    }
+import {BiPlay}  from 'react-icons/bi';
 
-
-    const listenForOutsideClicks=(listening,setListening,menuRef,setOpen)=>{
-        if(listening) return;
-        if(!menuRef.current) return;
-        setListening(true);
-
-        ['click','touchstart'].forEach((type)=>{
-            document.addEventListener('click',(evt) =>{
-                const cur = menuRef.current;
-                const node = evt.target;
-                if(cur.contains(node)) return;
-                setOpen(false);
-            })
-        })
-    }
-    const list = [
+function DropdownMenu(props) { 
+    const data = [
         {
             name: "Add to queue",
             path: '',
@@ -66,52 +45,45 @@ function DropdownMenu() {
             cName: 'open_in_desktop menu_item'
         }
     ]
-
-    useEffect(()=>{
-        listenForOutsideClicks(listening,setListening,menuRef,setOpen);
-    },[]);
-
+    
+    const list =  props?.menuItem ??data;
     return (
-        <Container ref={menuRef}>
-            <HiOutlineDotsHorizontal onClick={handleOpen} className="dot"/>
-            {
-                open ?
-                    (
-                        <ul className='menu'>
-                            {
-                                list.map(item => {
-                                    return (
-                                        <li className='item'>
-                                            <button className={item.cName}>{item.name}</button>
-                                        </li>
+        <Container ref={props.menuRef} >
+            <ul className='menu-item'>
+                {
+                    list.map(item => {
+                        return (
+                            <li className='item'>
+                                <button className={item.cName}>{item.name}
+                                {
+                                    item.name ==="Share" && (
+                                        <BiPlay/>
                                     )
-                                })
-                            }
-                        </ul>
-                    ) :
-                    null
-            }
+                                }
+                                </button>
+                                
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         </Container>
     )
 }
 
 const Container = styled.div`
     position: relative;
-   
-    .dot{
-        font-size: 1.5rem;
-        color: #cec6c6;
-        display: flex;
-        position: relative;
-    }
-    .menu{
+    z-index: 1;
+    width: 100%;
+    .menu-item{
+        /* margin: auto;
+        bottom: 100%;//for showing top */
+        border: 1px solid red;
         position: absolute;
-        top: auto; 
-        bottom: 100%;
         list-style-type: none;
         margin: 5px 0;
         border: 1px solid grey;
-        width: 10rem;
+        width: 100% ;
         border:0;
         border-radius: 4px;
         background-color: #242323;
@@ -122,11 +94,21 @@ const Container = styled.div`
         .share,.delete,.add_to_profile{
             border-bottom:1px solid #c5c1c1;
         }
-
+        .share{
+            display: flex;
+            align-content: center;
+            text-align: center;
+            gap:5rem;
+            svg{
+                font-size: 1.2rem;
+                display: flex;
+            }
+        }
         li{
             margin: 0;
             padding-left: 0.3rem;
             padding-right: 0.3rem;
+            width: 100%;
             button{
                 width: 100%;
                 font-size: 0.8rem;

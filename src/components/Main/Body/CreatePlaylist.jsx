@@ -7,6 +7,7 @@ import TrackList from './TrackList';
 function CreatePlaylist() {
   const playlistData = itemContent[0];
   const isImg = true;
+
   return (
     <Container>
       <div className="top_items">
@@ -35,14 +36,14 @@ function CreatePlaylist() {
       </div>
     
       <div className="track_lists">
-        <TrackList/>
+        <TrackList headerBg={true}/>
       </div>
     </Container>
   )
 }
 
 const Container = styled.div`
-  background: linear-gradient(transparent,#646363);
+  background: rgb(67,67,67);
   height: 100%;
   .top_items{
     margin: 0 2rem;

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
+import EditPlaylist from './components/Main/Playlist/EditPlaylist';
 import Spotify from './components/Main/Spotify/Spotify';
 // import Library from './components/Main/Body/Library';
 
@@ -16,12 +17,15 @@ function App() {
   // }
   
   return (
-    <BrowserRouter>
-      <Spotify/>
-      <Routes>
-        {/* <Route path='/' exact element={<Spotify/>}/> */}
-      </Routes>
-    </BrowserRouter>
+    <div style={{display:'flex',justifyContent : "center",alignItems : "center"}}>
+      <EditPlaylist />
+    </div>
+    // <BrowserRouter>
+    //   <Spotify/>
+    //   <Routes>
+        
+    //   </Routes>
+    // </BrowserRouter>
   )
 }
 
