@@ -18,12 +18,11 @@ import PodcastContent from '../Podcast/PodcastContent';
 import UserArtists from '../Artist/UserArtists';
 import TopNavBar from '../Navbar/TopNavBar';
 export default function Spotify() {
-  const [{ token,user}, dispatch] = useStateProvider()
-
+  const [{ token,user,editPopup}, dispatch] = useStateProvider()
   const bodyRef =  useRef();
   const [navBg,setNavBg] = useState(false);
   const [headerBg,setHeaderBg] = useState(false);
-
+  console.log("Hel",editPopup);
   const bodyScrolled = () =>{
     bodyRef.current.scrollTop >= 30 ? setNavBg(true) : setNavBg(false);
     bodyRef.current.scrollTop >= 268 ? setHeaderBg(true) : setHeaderBg(false); 
@@ -34,36 +33,50 @@ export default function Spotify() {
     }
     getUser();
   }, [token, dispatch])
+  const closePopup = () =>{
+    dispatch({type:reducerCases.SET_EDIT_PLAYLIST,editPopup:!editPopup});
+  }
   return (
     <Container>
-      <div className="spotify_body">
-        <SideBar />
-        <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
-          {/* <TopNav navBg={navBg}/> */}
-          <TopNavBar navBg={navBg}/>
-          <Routes>
-            <Route path='/' element={<Home/>} />
-            <Route path='/search' element={<Search/>}/>
-            <Route path='/tagContents/:id' element={<TagBody/>}/>
-            <Route path='/createPlaylist' element={<CreatePlaylist/>}/>
-            <Route path='/likedSong' element={<LikedSong/>}/>
-            <Route path='/body/:id' element={<PlaylistBody/>} />
-            <Route path='/user/playlists' element={<PlaylistContent/>} />
-            <Route path='/user/albums' element={<AlbumContent/>} />
-            <Route path='/user/podcasts' element={<PodcastContent/>} />
-            <Route path='/user/artists' element={<UserArtists/>} />
-          </Routes>
+      <Model onClick={closePopup} className="modal" editPopup={editPopup}/>
+        <div className="spotify_body">
+          <SideBar />
+          <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
+            {/* <TopNav navBg={navBg}/> */}
+            <TopNavBar navBg={navBg}/>
+            <Routes>
+              <Route path='/' element={<Home/>} />
+              <Route path='/search' element={<Search/>}/>
+              <Route path='/tagContents/:id' element={<TagBody/>}/>
+              <Route path='/createPlaylist' element={<CreatePlaylist/>}/>
+              <Route path='/likedSong' element={<LikedSong/>}/>
+              <Route path='/body/:id' element={<PlaylistBody/>} />
+              <Route path='/user/playlists' element={<PlaylistContent/>} />
+              <Route path='/user/albums' element={<AlbumContent/>} />
+              <Route path='/user/podcasts' element={<PodcastContent/>} />
+              <Route path='/user/artists' element={<UserArtists/>} />
+            </Routes>
+          </div>
         </div>
-      </div>
-      <div className="footer">
-        <Footer/>
-      </div>
+        <div className="footer">
+          <Footer/>
+        </div>
     </Container>
   )
 }
 
 
+const Model  = styled.div`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: ${({editPopup}) => !editPopup ? 'transparent' :"#000000dc"};
+    z-index: ${({editPopup}) => editPopup === false? '-1': '5'};
+    display: ${({editPopup}) => editPopup === false? 'none': 'block'};
 
+`
 
 const Container = styled.div`
   max-width: 100vw;

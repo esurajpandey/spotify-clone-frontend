@@ -8,6 +8,7 @@ export const initialState = {
   playlistData: null,
   currentlyPlaying : null,
   playerState : false,
+  editPopup : false
 };
 
 const reducer = (state, action) => {
@@ -57,6 +58,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         selectedPlaylistId :  action.selectedPlaylistId
+      }
+    }
+    case reducerCases.SET_EDIT_PLAYLIST : {
+      return {
+        ...state,
+        editPopup :  action.editPopup
       }
     }
     default:

@@ -17,15 +17,15 @@ function App() {
   // }
   
   return (
-    <div style={{display:'flex',justifyContent : "center",alignItems : "center"}}>
-      <EditPlaylist />
-    </div>
-    // <BrowserRouter>
-    //   <Spotify/>
-    //   <Routes>
+    // <div style={{display:'flex',justifyContent : "center",alignItems : "center",position:'relative',margin:"0",padding:'0',boxSizing:'border-box'}}>
+    //   <EditPlaylist />
+    // </div>
+    <BrowserRouter>
+      <Spotify/>
+      <Routes>
         
-    //   </Routes>
-    // </BrowserRouter>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

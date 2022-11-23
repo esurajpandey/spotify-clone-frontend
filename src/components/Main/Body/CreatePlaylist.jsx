@@ -1,17 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { itemContent } from './HomeContent';
 import { RiMusic2Line } from 'react-icons/ri';
 import {HiOutlinePencil} from 'react-icons/hi';
 import TrackList from './TrackList';
+import EditPlaylist from '../Playlist/EditPlaylist';
+import { useStateProvider } from '../../../utils/StateProvider';
+import { reducerCases } from '../../../utils/Constants';
 function CreatePlaylist() {
   const playlistData = itemContent[0];
+  const [{editPopup},dispatch] = useStateProvider();
   const isImg = true;
 
+  const uploadImage = () =>{
+    dispatch({ type: reducerCases.SET_EDIT_PLAYLIST, editPopup: !editPopup})
+  }
   return (
-    <Container>
+    <Container editOn={editPopup}>
+      {
+            editPopup && <EditPlaylist/>
+      }
       <div className="top_items">
-        <div className="image">
+        <div className="image" onClick={uploadImage}>
+          
           {
             !isImg ? (
               <div className='music_icon'>
