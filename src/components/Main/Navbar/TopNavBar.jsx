@@ -137,7 +137,7 @@ const Container = styled.div`
     justify-content: space-between;
     width: 100%;
     height: 11.5vh;
-    background: ${({ navBg }) => (navBg ? "black" : 'linear-gradient(transparent,#6d6969)')};
+    background: ${({ navBg }) => (navBg ? "#273036" : 'transparent')};
     position: sticky;
     top: 0;
     transition: 0.3s ease-in-out;
@@ -171,7 +171,7 @@ const Container = styled.div`
                 padding: 5px;
                 width: 2rem;
                 height: 2rem;
-                background-color: #292828;
+                background-color: #070707;
                 img{
                     width: 100%;
                     height: 100%;

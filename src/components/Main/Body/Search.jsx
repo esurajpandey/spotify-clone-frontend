@@ -33,7 +33,7 @@ function Search() {
 const Container = styled.div`
   padding-left: 2rem;
   padding-top: 1.6rem;
-  padding-right: 0.4rem;
+  padding-right: 0.6rem;
   padding-bottom: 8rem;
   .tag_head{
     font-size: 1.5rem;
@@ -48,7 +48,7 @@ const Container = styled.div`
     .tag_cards{
       display: flex;
       flex-wrap: wrap;
-      gap:1.7rem;
+      gap:1.5rem;
       width: 100%;
       list-style-type: none;
       .tag_card{

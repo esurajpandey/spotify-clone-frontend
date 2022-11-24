@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { RiMusic2Line } from 'react-icons/ri';
 import { HiOutlinePencil,HiOutlineDotsHorizontal } from 'react-icons/hi';
 import {AiOutlineClose} from 'react-icons/ai';
 import { useStateProvider } from '../../../utils/StateProvider';
 import { reducerCases } from '../../../utils/Constants';
-function EditPlaylist() {
+
+function EditPlaylist({title,image}) {
     const [values, setValues] = useState({ title: "", description: "" });
     const [{editPopup},dispatch] =  useStateProvider();
     const [selectedImage,setSelectedImage] = useState(null);
+    const isFirstRender = useRef(true);
+    const fileRef =  useRef(null);
 
+
+    
     const handleInputs = (e) => {
         const { name, value } = e.target;
         setValues({ ...values, [name]: value })
@@ -18,6 +23,8 @@ function EditPlaylist() {
     const savePlaylist = () =>{
 
     }
+
+    
     const fileChangeHandler = (e) =>{
         let files = e.target.files;
         const reader = new FileReader();
@@ -28,13 +35,24 @@ function EditPlaylist() {
         }
         reader.readAsDataURL(files[0]);
     }
-    console.log(selectedImage);
     const closeEdit = () =>{
         dispatch({ type: reducerCases.SET_EDIT_PLAYLIST, editPopup: !editPopup})
     }
     const fileUpload = (e) => {
-        document.getElementById('selectFile').click();
+        fileRef.current.click();
     }
+
+
+    useEffect(()=>{
+        if(isFirstRender?.current){
+            isFirstRender.current = false;
+            setSelectedImage(image)
+            values.title =  title;
+            fileUpload();
+        }
+        
+    },[]);
+    
     return (
         <Container>
             <div className="heading">
@@ -45,7 +63,8 @@ function EditPlaylist() {
                 <div className='details'>
                     <ImageUploader>
                         <input id="selectFile" type='file'  className='file_uploader' accept="image/*"
-                        onChange={fileChangeHandler} multiple={false}/>
+                        onChange={fileChangeHandler} multiple={false}
+                        ref={fileRef}/>
 
                         <div className="top">
                             <HiOutlineDotsHorizontal/>
@@ -105,10 +124,10 @@ function EditPlaylist() {
 }
 
 const Container = styled.div`
-    width: 33.5rem;
+    width: 33rem;
     height: 24rem;
     padding: 1rem 1.5rem;
-    background-color: #464444;
+    background-color: #423f3f;
     position: fixed;
     top:20%;
     left: 30%;
@@ -140,12 +159,11 @@ const Container = styled.div`
     }
     .body{
         /* border: 1px solid blue; */
+        position: relative;
         display: grid;
         grid-template-rows: 3fr 2fr;    
         position: relative;
         top:1rem;
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
         .file_uploader{
           display  :none ;
@@ -155,7 +173,8 @@ const Container = styled.div`
             grid-template-columns: 2.7fr 4fr;
             position: relative;
             /* border: 1px solid red; */
-            width: 100%;
+            background-color: #423f3f;
+
             .text_inputs{
                 display: flex;
                 flex-direction: column;
@@ -175,7 +194,7 @@ const Container = styled.div`
                         padding: 0.7rem;
                         border: 0;
                         font-size: 0.875rem;
-                        color: #a3a0a0;
+                        color: #f8eeee;
                         background-color: #423f3f;
                         outline: none;
                         &::placeholder{
@@ -222,7 +241,7 @@ const Container = styled.div`
 
         }
         .save_btn{
-            /* border: 1px solid red; */
+            background-color: #423f3f;
             display: flex;
             justify-content: flex-end;
             box-sizing: border-box;

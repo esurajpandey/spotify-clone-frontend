@@ -5,9 +5,7 @@ import { reducerCases } from '../../../utils/Constants';
 import { useStateProvider } from '../../../utils/StateProvider';
 import Home from '../Body/Home';
 import SideBar from '../Navbar/SideBar';
-import TopNav from '../Navbar/TopNav';
-import Footer from '../Player/Footer';
-import CreatePlaylist from "../Body/CreatePlaylist";
+import PlayerFooter from '../Player/PlayerFooter';
 import LikedSong from "../Body/LikedSong";
 import PlaylistBody from "../Playlist/PlaylistBody";
 import Search from '../Body/Search';
@@ -17,16 +15,20 @@ import AlbumContent from '../Album/AlbumContent';
 import PodcastContent from '../Podcast/PodcastContent';
 import UserArtists from '../Artist/UserArtists';
 import TopNavBar from '../Navbar/TopNavBar';
+import CreatePlaylist from '../Playlist/CreatePlaylist';
 export default function Spotify() {
+  
   const [{ token,user,editPopup}, dispatch] = useStateProvider()
   const bodyRef =  useRef();
   const [navBg,setNavBg] = useState(false);
+  
   const [headerBg,setHeaderBg] = useState(false);
-  console.log("Hel",editPopup);
+
   const bodyScrolled = () =>{
     bodyRef.current.scrollTop >= 30 ? setNavBg(true) : setNavBg(false);
     bodyRef.current.scrollTop >= 268 ? setHeaderBg(true) : setHeaderBg(false); 
   }
+
   useEffect(() => {
     const getUser = async () => {
       dispatch({type:reducerCases.SET_USER});
@@ -39,7 +41,7 @@ export default function Spotify() {
   return (
     <Container>
       <Model onClick={closePopup} className="modal" editPopup={editPopup}/>
-        <div className="spotify_body">
+        <SpotifyBody>
           <SideBar />
           <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
             {/* <TopNav navBg={navBg}/> */}
@@ -57,9 +59,9 @@ export default function Spotify() {
               <Route path='/user/artists' element={<UserArtists/>} />
             </Routes>
           </div>
-        </div>
+        </SpotifyBody>
         <div className="footer">
-          <Footer/>
+          <PlayerFooter/>
         </div>
     </Container>
   )
@@ -82,20 +84,33 @@ const Container = styled.div`
   max-width: 100vw;
   max-height: 1000000vh;
   overflow: hidden;
-  display: grid;
-  grid-template-rows: 85vh 15vh;
-  .spotify_body{
-    display: grid;
-    grid-template-columns: 20vw 80vw; 
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  .footer{
+    width: 100%;
+    height: 14vh;
+  }
+  @media (max-width: 480px) {
+    .footer{
+      display: none;
+    }
+  }
+`
+
+
+const SpotifyBody = styled.div`
+    display: flex;
+    overflow: hidden;
     width: 100%;
     background: linear-gradient(transparent,#363535);
-    background-color:#282828;;
+    background-color:#282828;
+    height: 86vh;
     .body{
       height: 100%;
       width: 100%;
       overflow: auto;
       position: relative;
+      background: linear-gradient(transparent, #004d80);
       &::-webkit-scrollbar{
         width: 0.7rem;
         &-thumb{
@@ -103,10 +118,9 @@ const Container = styled.div`
         }
      }
     }
-  }
-  .footer{
-    width: 100%;
-      /* border: 5px solid green; */
-  }
-`
 
+    @media (max-width: 768px) {
+      height:86vh;
+      width: 100%;
+    }
+`

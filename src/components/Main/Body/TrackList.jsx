@@ -1,31 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import {AiFillClockCircle } from 'react-icons/ai';
-import { itemContent } from './HomeContent';
+import { AiFillClockCircle } from 'react-icons/ai';
 import { BsFillPlayFill } from 'react-icons/bs';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import DropdownMenu from '../../Element/DropdownMenu';
-import PlayerButton from '../../Element/PlayerButton';
 import { listenForOutsideClicks } from './helper/TrackBody';
 
 
-function TrackList({headerBg}) {
+function TrackList({ headerBg, trackList,type }) {
     const [open, setOpen] = useState(false);
     const [liked, setLiked] = useState(false);
     const [listening, setListening] = useState(false);
     const menuRef = useRef(null);
-
-    const inPublic = true;
-
-    const handleMenuOpen = () => {
-        setOpen(!open);
-    }
-    const trackList = itemContent[0].songs;
-
-    const onLike = (e) => {
-        setLiked(!liked);
-    }
+    
 
     const getMinSec = (ms) => {
         const min = Math.floor(ms / 60000);
@@ -38,9 +23,7 @@ function TrackList({headerBg}) {
 
     const getDay = (date) => {
         const added = new Date(date);
-        console.log(date);
         const now = new Date();
-        console.log(now);
         const diff = Math.round(Math.abs((now - added) / (1000 * 3600 * 24)));
         return diff;
     }
@@ -50,79 +33,62 @@ function TrackList({headerBg}) {
     }, []);
 
     return (
-        <Container ref={menuRef}>
-            <div className='top_header'>
-                <PlayerButton />
-                {
-                    inPublic &&
-                    <div className='like_btn'>
+        <Container>
+            {trackList &&
+                <div className="lists">
+                    <div className="header_row">
+                        <div className="col">
+                            <span>#</span>
+                        </div>
+                        <div className="col">
+                            <span>TITLE</span>
+                        </div>
+                        <div className="col">
+                            <span>ALBUM</span>
+                        </div>
+                        <div className="col">
+                            <span>DATE ADDED</span>
+                        </div>
+                        <div className="col">
+                            <span><AiFillClockCircle /></span>
+                        </div>
+                    </div>
+                    <div className="tracks">
                         {
-                            liked ? <FaHeart onClick={onLike} className="liked" /> : <FaRegHeart onClick={onLike} className="unliked" />
+                            trackList.map(({ id, name, artists, duration, album, added }, index) => {
+                                return (
+                                    <div className='row' key={id} onClick={() => playTrack(id, name, artists)}>
+                                        <div className="col index">
+                                            <span>{index + 1}</span>
+                                            <BsFillPlayFill />
+                                        </div>
+                                        <div className="col detail">
+                                            <div className="image">
+                                                <img src={require('../../../assets//femalVersion.jpg')} alt="track" />
+                                            </div>
+                                            <div className="info">
+                                                <span className='name'>{name}</span>
+                                                <span>{artists}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="col">
+                                            <span>{album}</span>
+                                        </div>
+                                        <div className="col">
+                                            <span>{getDay(added)} days ago</span>
+                                        </div>
+                                        <div className="col">
+                                            <span>{getMinSec(duration)} </span>
+                                        </div>
+                                    </div>
+                                )
+                            })
                         }
                     </div>
-                }
-                <div className="menu">
-                    <HiOutlineDotsHorizontal onClick={handleMenuOpen} className="dot" />
-                    {
-                        open && <DropdownMenu useRef={menuRef} />
-                    }
                 </div>
-            </div>
-
-            <div className="lists">
-                <div className="header_row">
-                    <div className="col">
-                        <span>#</span>
-                    </div>
-                    <div className="col">
-                        <span>TITLE</span>
-                    </div>
-                    <div className="col">
-                        <span>ALBUM</span>
-                    </div>
-                    <div className="col">
-                        <span>DATE ADDED</span>
-                    </div>
-                    <div className="col">
-                        <span><AiFillClockCircle /></span>
-                    </div>
-                </div>
-                <div className="tracks">
-                    {
-                        trackList.map(({ id, name, artists, duration, album,added }, index) => {
-                            return (
-                                <div className='row' key={id} onClick={() => playTrack(id, name, artists)}>
-                                    <div className="col index">
-                                        <span>{index + 1}</span>
-                                        <BsFillPlayFill />
-                                    </div>
-                                    <div className="col detail">
-                                        <div className="image">
-                                            <img src={require('../../../assets//femalVersion.jpg')} alt="track" />
-                                        </div>
-                                        <div className="info">
-                                            <span className='name'>{name}</span>
-                                            <span>{artists}</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="col">
-                                        <span>{album}</span>
-                                    </div>
-                                    <div className="col">
-                                        <span>{getDay(added)} days ago</span>
-                                    </div>
-                                    <div className="col">
-                                        <span>{getMinSec(duration)} </span>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-            </div>
+            }
         </Container>
-
     )
 }
 
@@ -132,39 +98,10 @@ const Container = styled.div`
     padding-right: 0.4rem;
     padding-bottom: 10rem;
     margin-top: 2rem;
-    background-color: #494b4d;
     display: flex;
     flex-direction: column;
     gap:1rem;
     height: 100%;
-    .top_header{
-        display: flex;
-        position: relative;
-        align-items: center;
-        width: 100%;
-        gap:1.7rem;
-        .like_btn{
-            font-size: 2rem;
-            padding-top:0.5rem;
-            .liked{
-                fill:#60d660;
-            }
-            .unliked{
-                fill:#cec6c6;
-            }
-        }
-        .menu{
-            width: 10rem;
-            .dot{
-                font-size: 1.5rem;
-                color: #cec6c6;
-                display: flex;
-                position: relative;
-            }
-            position: relative;
-        }
-    }
-
     .lists{
         display: flex;
         flex-direction: column;

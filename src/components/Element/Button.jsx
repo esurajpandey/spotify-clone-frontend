@@ -20,11 +20,7 @@ const Container = styled.div`
     border-radius: 5rem;
     background-color: white;
     a{
-        /* padding-top: 0.98rem;
-        padding-bottom:0.98rem;
-        padding-left: 2rem;
-        padding-right: 2rem; */
-        padding: 0.8rem 2rem;
+        padding: 0.98rem 2rem;
         text-decoration: none;
         span{
             font-size: 1rem;

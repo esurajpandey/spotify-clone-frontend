@@ -32,7 +32,6 @@ export default function SideBar() {
             }}
           />
         </div>
-
         <ul>
           {sideNav.map((item) => {
             return (
@@ -56,12 +55,13 @@ const Container = styled.div`
   color: #b3b3b3;
   display: flex;
   flex-direction: column;
+  width: 23.6rem;
   padding-bottom: 10rem;
-  height: 100%;
-  width: 100%;
+  min-width: 17.6rem;
+  @media (max-width: 768px) {
+      width: 36rem;
+  }
   padding: 0rem;
-  z-index: 0;
-  /* border: 1px solid rebeccapurple; */
   ul {
     list-style-type: none;
     display: flex;
@@ -70,6 +70,7 @@ const Container = styled.div`
     padding: 1.4rem;
     padding-top: 0.5rem;
     padding-bottom: 0rem;
+    background-color: black;
     .buttom_link {
       padding-top: 1.4rem;
     }
@@ -79,6 +80,7 @@ const Container = styled.div`
     }
 
     li {
+      background-color: black;
       display: flex;
       gap: 1rem;
       font-size: 1rem;

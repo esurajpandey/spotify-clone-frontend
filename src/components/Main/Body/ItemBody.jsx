@@ -7,7 +7,7 @@ function ItemBody({ items, play }) {
         <Container>
             <ul className='card_lists'>
                 {
-                    items.map((item, index) => {
+                   items &&  items.map((item, index) => {
                         return (
                             <li className='cards' key={item.id}>
                                 <h2 className='heading'><a href='/'>{item.title}</a></h2>

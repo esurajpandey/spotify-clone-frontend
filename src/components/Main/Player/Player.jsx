@@ -9,21 +9,7 @@ import { reducerCases } from '../../../utils/Constants';
 function Player() {
   const [{ playerState, token ,currentlyPlaying}, dispatch] = useStateProvider();
   const changeTrack = async (type) => {
-    
-    // await axios.post(`https://api.spotify.com/v1/me/player/${type}`, {}, {
-    //   headers: {
-    //     Authorization: 'Bearer ' + token,
-    //     "Content-Type": 'application/json'
-    //   }
-    // });
 
-    // const resp = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
-    //   headers: {
-    //     Authorization: 'Bearer ' + token,
-    //     "Content-Type": 'application/json'
-    //   }
-    // });
-    
     const resp = "";
     if (resp.data !== "") {
       const { item } = resp.data;
