@@ -1,56 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
-import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import PlayerButton from '../Element/PlayerButton';
+import cover from '../../assets/artist.jpeg';
 
-function ArtistCard({ item, play,playBtn }) {
+function ArtistCard({artist,playBtn}) {
     return (
         <Container className="card_item">
-            <Link to={`/body/${item.id}`}>
+            <Link to={`/body/${artist.id}`}>
                 <div className="card_image">
-                    <img src={require('../../assets/femalVersion.jpg')} alt="Spotify" />
+                    <img src={cover} alt="Spotify" />
                 </div>
                 <div className='card_info'>
-                    <h4 className='title'>{item.title}</h4>
-                    <span className='info_details'>
-                        {item.description}
-                    </span>
+                    <h4 className='title'>{artist.title}</h4>
+                    <p>Artist</p>
                 </div>
             </Link>
             {
                 playBtn && (
-                    <div className='play_pause'>
-                        {play ? <BsFillPauseCircleFill /> : <BsFillPlayCircleFill />}
-                    </div>
+                    <ButtonContainer>
+                        <PlayerButton/>
+                    </ButtonContainer>
                 )
             }
         </Container>
     )
 }
 
+
+const ButtonContainer =  styled.div`
+    opacity: 0;
+    position: absolute;
+    top:6rem;
+    left:6.5rem;
+    transform: translateY(20px);
+    transition: transform 0.4s ease-in-out,opacity 0.5s ease-in-out;
+`
 const Container = styled.div`
     cursor: pointer;
-    /* border:1px solid red; */
     display: flex;
     flex-direction: column;
     width: 11rem;
+    height: 16rem;
     padding:1rem;
-    background-color: #181717;
+    background: linear-gradient(transparent,#0a0909);
     border-radius: 4px;
     position: relative;
-    &:hover{
-        background-color: #1f1d1d;
-        .play_pause{
-            opacity: 1;
-            transform:translateY(0px);                                
-        }
-    }
+    transition: 0.8s ease-in-out;
     a{
         text-decoration: none;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        
         .card_image{
             display: flex;
             align-items: center;
@@ -58,7 +61,7 @@ const Container = styled.div`
             img{
                 width: 9rem;
                 height: 9rem;
-                border-radius: 4px;
+                border-radius: 50%;
             }
         }
         .card_info{
@@ -70,44 +73,22 @@ const Container = styled.div`
                 padding-bottom: 0.6rem;
                 color:white;
             }
-            span{
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                color:grey;
-                font-family:Arial, Helvetica, sans-serif;
-                font-size: 0.95rem;
-                justify-content: center;
-                align-items: center;
+            p{
+                color:#ddd6d6;
+                font-size: 0.875rem;
             }
         }
+
     }
-    .play_pause{
-        opacity: 0;
-        transform: translateY(20px);
-        transition: transform 0.3s ease-in-out,opacity 0.5s ease-in-out;
-        justify-content: flex-end;
-        align-items: center;
-        position: absolute;
-        left:6.6rem;
-        top:6.6rem;
-        
-        svg{
-            font-size: 3rem;
-            color:black;
-            fill: #349e34;
-            transition: 0.1s ease-in-out;
-            justify-content: flex-end;
-            background-color: black;
-            border-radius: 50%;
-            border: 0;
-        }
-        &:hover{                                
-            svg{
-                font-size: 3.08rem;
-                
-            }
+    
+    &:hover{
+        background: linear-gradient(transparent,#141414);
+        ${ButtonContainer}{
+            opacity: 1;
+            transform:translateY(0px);   
         }
     }
 `
+
+
 export default ArtistCard

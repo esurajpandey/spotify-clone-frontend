@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
@@ -8,13 +8,28 @@ import Card from '../../Cards/Card';
 import ItemBody from './ItemBody';
 function Home() {
     const play = false;
+    const recent =  recentContent.slice(0,6);
+    const [message,setMessage] = useState("");
+    const currHrs =  new Date().getHours();
+
+    useEffect(()=>{
+        if (currHrs < 12)
+            setMessage('Good Morning');
+        else if (currHrs >= 12 && currHrs <= 17)
+            setMessage('Good Afternoon');
+        else if (currHrs >= 17 && currHrs <= 24)
+            setMessage('Good Evening');
+    },[currHrs])
+
+    console.log(recent);
+    
     return (
         <Container>
             <div className='recent'>
-                <h1>{"Good Evening"}</h1>
+                <h1>{message}</h1>
                 <ul>
                     {
-                        recentContent.map((item, index) => {
+                        recent?.map((item, index) => {
                             return (
                                 <li key={item.id}>
                                     <Link to={`/body/${item.id}`}>
@@ -42,21 +57,23 @@ function Home() {
 const Container = styled.div`
     /* position: absolute; */
     position: relative;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     .recent{
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
         justify-content: center;
+        width: 100%;
         h1{
             color: white;
         }   
         ul{
             display: flex;
             margin-top: 1rem;
+            width: 100%;
             list-style-type: none;
-            gap:2rem;
-
+            gap:1.3rem;
+            flex-wrap: wrap;
             li{
                 /* border: 1px solid black; */
                 display: flex;

@@ -126,7 +126,7 @@ const Container = styled.div`
       top: 15vh;
       padding: 1rem 3rem;
       transition: 0.3s ease-in-out;
-      background-color: ${({headerBg})=> headerBg ? "#000000dc" : "none"};
+      background-color: ${({headerBg})=> headerBg ? "#000000dc" : "black"};
     }
     .tracks{
       margin: 0 2rem;

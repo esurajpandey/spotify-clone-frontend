@@ -68,37 +68,37 @@ export const sideNav = [
 export const dropMenu =  [
     {
         name: "Account",
-        path: '',
+        path: '/',
         cName: 'account menu_item'
     },
     {
         name: "Profile",
-        path: '',
+        path: '/user/profile',
         cName: 'profile menu_item'
     },
     {
         name: "Upgrade to premium",
-        path: '',
+        path: '/',
         cName: 'upgrade_to menu_item'
     },
     {
         name: "Support",
-        path: '',
+        path: '/',
         cName: 'support menu_item'
     },
     {
         name: "Download",
-        path: '',
+        path: '/',
         cName: 'download menu_item'
     },
     {
         name: "Setting",
-        path: '',
+        path: '/',
         cName: 'setting menu_item'
     },
     {
         name: "Log out",
-        path: '',
+        path: '/',
         cName: 'logout menu_item'
     },
 

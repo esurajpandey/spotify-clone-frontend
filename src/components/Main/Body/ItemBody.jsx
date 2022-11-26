@@ -31,6 +31,7 @@ function ItemBody({ items, play }) {
         </Container>
     )
 }
+
 const Container = styled.div`
     margin-top: 4rem;
         .card_lists{

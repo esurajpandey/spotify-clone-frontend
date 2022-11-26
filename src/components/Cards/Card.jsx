@@ -11,9 +11,9 @@ function Card({ item, play,playBtn }) {
                     <img src={require('../../assets/femalVersion.jpg')} alt="Spotify" />
                 </div>
                 <div className='card_info'>
-                    <h4 className='title'>{item.title}</h4>
+                    <h4 className='title'>{item?.title}</h4>
                     <span className='info_details'>
-                        {item.description}
+                        {item?.description}
                     </span>
                 </div>
             </Link>

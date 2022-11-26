@@ -95,6 +95,14 @@ export const itemContent = [
                 added : "2022-06-01",
                 duration : 230000,
                 artists: "Arijit Sing,Raja Kumar"
+            },
+            {
+                id: 6,
+                name : "Hare Hare Dile Se Hare",
+                album : "Keshariya",
+                added : "2022-06-01",
+                duration : 230000,
+                artists: "Arijit Sing,Raja Kumar"
             }
         ] 
     },
@@ -402,3 +410,56 @@ export const tagContent = [
         items : cardsContent,
     },
 ]
+
+
+export const songs = [
+    {
+        id: 1,
+        name : "Ye Dil Mushkil Hai dil",
+        album : "Keshariya",
+        added : "2022-10-01",
+        duration : 290000,
+        artists:[ 'Arijit Sing','Raja Kumar']
+
+    },
+    {
+        id: 2,
+        name : "Mana ki Mushkil hai ye",
+        album : "Keshariya",
+        added : "2022-06-05",
+        duration : 250000,
+        artists:[ 'Arijit Sing','Raja Kumar']
+    },
+    {
+        id: 3,
+        name : "Hare Dil mera",
+        album : "Keshariya",
+        added : "2020-06-01",
+        duration : 290000,
+        artists:[ 'Arijit Sing','Raja Kumar']
+    },
+    {
+        id: 4,
+        name : "Ye Dil Mushkil Hai dil",
+        album : "Keshariya",
+        added : "2022-05-01",
+        duration : 290000,
+        artists:[ 'Arijit Sing','Raja Kumar']
+    },
+    {
+        id: 5,
+        name : "Ye Dil Mushkil Hai dil",
+        album : "Keshariya",
+        added : "2022-06-01",
+        duration : 230000,
+        artists:[ 'Arijit Sing','Raja Kumar']
+    },
+    {
+        id: 6,
+        name : "Hare Hare Dile Se Hare",
+        album : "Keshariya",
+        added : "2022-06-01",
+        duration : 230000,
+        artists:[ 'Arijit Sing','Raja Kumar']
+    }
+] ;

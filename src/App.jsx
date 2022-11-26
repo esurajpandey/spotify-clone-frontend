@@ -12,14 +12,10 @@ function App() {
 
   }, [token, dispatch]);
 
-  // if (!token) {
-  //   redirect('/login')
-  // }
+ 
   
   return (
-    // <div style={{display:'flex',justifyContent : "center",alignItems : "center",position:'relative',margin:"0",padding:'0',boxSizing:'border-box'}}>
-    //   <EditPlaylist />
-    // </div>
+    
     <BrowserRouter>
       <Spotify/>
       <Routes>

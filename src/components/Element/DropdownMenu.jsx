@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import {BiPlay}  from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 function DropdownMenu(props) { 
     const data = [
@@ -46,6 +47,11 @@ function DropdownMenu(props) {
         }
     ]
     
+    const linkRef =  useRef();
+    const handleClick = () => {
+        alert("Hello");
+        // linkRef.current.click();
+    }
     const list =  props?.menuItem ??data;
     return (
         <Container ref={props.menuRef} >
@@ -53,15 +59,14 @@ function DropdownMenu(props) {
                 {
                     list.map(item => {
                         return (
-                            <li className='item'>
-                                <button className={item.cName}>{item.name}
+                            <li className={`${item.cName} item`} onclick={(e)=>handleClick()} key={item.name}>
+                                <Link to={item?.path} ref={linkRef}><span>{item.name}</span>
                                 {
-                                    item.name ==="Share" && (
+                                    item?.name ==="Share" && (
                                         <BiPlay/>
                                     )
                                 }
-                                </button>
-                                
+                                </Link>
                             </li>
                         )
                     })
@@ -76,32 +81,34 @@ const Container = styled.div`
     z-index: 1;
     width: 100%;
     .menu-item{
-        /* margin: auto;
-        bottom: 100%;//for showing top */
-        border: 1px solid red;
+        overflow: hidden;
         position: absolute;
         list-style-type: none;
         margin: 5px 0;
+        min-width: 11rem;
         border: 1px solid grey;
-        width: 100% ;
+        width: 100%;
         border:0;
         border-radius: 4px;
         background-color: #242323;
-        padding-top: 6px;
-        padding-bottom: 6px;
+        padding: 5px 6px ;
         color:#f3f2f2;
         z-index: 1;
-        .share,.delete,.add_to_profile{
-            border-bottom:1px solid #c5c1c1;
+        /* border: 5px solid green; */
+        .share,.delete,.add_to_profile,.setting{
+            border-bottom:1px solid #4d4747;
         }
         .share{
-            display: flex;
-            align-content: center;
-            text-align: center;
-            gap:5rem;
-            svg{
-                font-size: 1.2rem;
+            padding: 0;
+            a{
                 display: flex;
+                align-content: center;
+                text-align: center;
+                gap:5rem;
+                svg{
+                    font-size: 1.2rem;
+                    display: flex;
+                }
             }
         }
         li{
@@ -109,11 +116,13 @@ const Container = styled.div`
             padding-left: 0.3rem;
             padding-right: 0.3rem;
             width: 100%;
-            button{
+            padding: 0.7rem 0.1rem;
+            cursor: pointer;
+            a{  
+                text-decoration: none;
                 width: 100%;
                 font-size: 0.8rem;
                 font-weight: 500;
-                padding:5px;
                 height: 100%;
                 text-align: left;
                 border:none;
@@ -123,10 +132,13 @@ const Container = styled.div`
                 cursor: pointer;
                 border: 0;
                 border-radius: 2px;
-                padding: 12px;
-                &:hover{
-                    background-color: #3f3b3b;
+                padding: 10px;
+                span{
+                    font-size: 0.8rem;
                 }
+            }
+            &:hover{
+                    background-color: #3f3b3b;
             }
         }
     }

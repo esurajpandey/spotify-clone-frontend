@@ -7,7 +7,7 @@ function TrackListItem(props) {
     const {serialNumber,cover,title,singers,album_playlist,dateAdded,duration,handler,liked} = props
     const [isLiked,setLiked] = useState(false);
     const [play,setPlay] = useState(false);
-
+    const addedDate =  dateAdded ? true : false;
     const playHandle = (e) =>{
         setPlay(!play);
     }
@@ -15,9 +15,10 @@ function TrackListItem(props) {
     const handleLike = (e) =>{
         setLiked(!isLiked);
     }
+
     return (
-    <Container>
-        <SerialNumber>
+    <Container addedDate={addedDate}>
+        <SerialNumber onClick={playHandle}>
             {play ? <BsPause className='playBtn' onClick={playHandle}/> : <BsFillPlayFill className='playBtn' onClick={playHandle}/>}
             <span>{serialNumber}</span>
         </SerialNumber>
@@ -26,21 +27,25 @@ function TrackListItem(props) {
         </Cover>
         <Info>
             <a href='/'>{title}</a>
-            <a href='.'>{singers.join(',')}</a>
+            <a href='.' className='singers'>{singers.join(',')}</a>
         </Info>
         <AlbumPlaylist>
             <a href='.'>{album_playlist}</a>
         </AlbumPlaylist>
-        <DateAdded>
-            <span>{dateAdded}</span>
-        </DateAdded>
+        {
+            props.dateAdded && (
+                <DateAdded>
+                    <span>{dateAdded}</span>
+                </DateAdded>
+            )
+        }
 
         <Heart>
-            {isLiked ? <FaHeart className='filled' onClick={handleLike}/> :<FaRegHeart onClick={handleLike}/>}
+            {liked ? <FaHeart className='filled' onClick={handleLike}/> :<FaRegHeart onClick={handleLike}/>}
         </Heart>
 
         <Duration>
-            {`3:40`}
+            <span>{duration}</span>
         </Duration>
     </Container>
   )
@@ -52,6 +57,9 @@ const SerialNumber = styled.div`
     position: relative;
     align-items: center;
     justify-content: flex-start;
+    span{
+        padding-left: 5px;
+    }
     .playBtn{
         opacity: 0;
         position: absolute;
@@ -65,16 +73,32 @@ const Cover = styled.div`
         height: 2.8rem;
     }
 `
+
 const Info = styled.div`
     display: flex;
     flex-direction: column;
     gap:0.5rem;
+    width: 100%;
+    .singers{
+        color: #afa8a8;
+    }
+    overflow: hidden;
+    a{
+        width: fit-content;
+    }
 `
+
+
+
 const AlbumPlaylist = styled.div`
-    
+    a{
+        font-size: 0.9rem;
+    }
 `
 const DateAdded = styled.div`
-    
+    span{
+        font-size: 0.9rem;
+    }
 `
 const Heart = styled.div`
     svg{
@@ -86,24 +110,32 @@ const Heart = styled.div`
     }
 `
 const Duration = styled.div`
-    
+    span{
+        font-size: 0.9rem;
+    }
 `
 const Container = styled.div`
     color:#e0d7d7;
     a{
         text-decoration: none;
+        font-size: 0.875rem;
         color:inherit;
         &:hover{
             text-decoration: underline;
         }
     }
+    cursor: default;
+    transition: 0.3s ease-in-out;
     display: grid;
-    grid-template-columns: 0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr;
+    /* grid-template-columns: 0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr; *///for nomal
+    grid-template-columns: ${({addedDate})=> addedDate ? '0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr' : '0.6fr 0.9fr 7.7fr 4.8fr 1fr 1.1fr'};
+
+    // grid-template-columns: 0.6fr 0.9fr 7.7fr 4.8fr 1fr 1.3fr;
     align-items: center;
-    padding: 0.3rem 0.5rem;
+    padding: 0.3rem 0.8rem;
     border-radius: 0.3rem;
     &:hover{
-        background : linear-gradient(grey,#161616);
+        background :#242323;
     }
 
     &:hover ${SerialNumber}{

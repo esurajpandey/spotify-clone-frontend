@@ -5,7 +5,7 @@ import { reducerCases } from '../../../utils/Constants';
 import { useStateProvider } from '../../../utils/StateProvider';
 import Home from '../Body/Home';
 import SideBar from '../Navbar/SideBar';
-import PlayerFooter from '../Player/PlayerFooter';
+import Footer from '../Player/Footer';
 import LikedSong from "../Body/LikedSong";
 import PlaylistBody from "../Playlist/PlaylistBody";
 import Search from '../Body/Search';
@@ -16,9 +16,11 @@ import PodcastContent from '../Podcast/PodcastContent';
 import UserArtists from '../Artist/UserArtists';
 import TopNavBar from '../Navbar/TopNavBar';
 import CreatePlaylist from '../Playlist/CreatePlaylist';
+import ProfilePage from '../../Account/Profile/ProfilePage';
+import TopTracks from '../Body/Tracks/TopTracks';
 export default function Spotify() {
   
-  const [{ token,user,editPopup}, dispatch] = useStateProvider()
+  const [{ token,user,editPopup,isScroll}, dispatch] = useStateProvider()
   const bodyRef =  useRef();
   const [navBg,setNavBg] = useState(false);
   
@@ -27,6 +29,7 @@ export default function Spotify() {
   const bodyScrolled = () =>{
     bodyRef.current.scrollTop >= 30 ? setNavBg(true) : setNavBg(false);
     bodyRef.current.scrollTop >= 268 ? setHeaderBg(true) : setHeaderBg(false); 
+    dispatch({type:reducerCases.SET_SCROLL,isScroll:navBg});
   }
 
   useEffect(() => {
@@ -38,6 +41,11 @@ export default function Spotify() {
   const closePopup = () =>{
     dispatch({type:reducerCases.SET_EDIT_PLAYLIST,editPopup:!editPopup});
   }
+
+  useEffect(()=>{
+    dispatch({type:reducerCases.SET_SCROLL,isScroll:navBg});
+  },[navBg]);
+
   return (
     <Container>
       <Model onClick={closePopup} className="modal" editPopup={editPopup}/>
@@ -57,11 +65,13 @@ export default function Spotify() {
               <Route path='/user/albums' element={<AlbumContent/>} />
               <Route path='/user/podcasts' element={<PodcastContent/>} />
               <Route path='/user/artists' element={<UserArtists/>} />
+              <Route path='/user/profile' element={<ProfilePage/>} />
+              <Route path='/topTracks' element={<TopTracks/>} />
             </Routes>
           </div>
         </SpotifyBody>
         <div className="footer">
-          <PlayerFooter/>
+          <Footer/>
         </div>
     </Container>
   )
@@ -103,14 +113,14 @@ const SpotifyBody = styled.div`
     overflow: hidden;
     width: 100%;
     background: linear-gradient(transparent,#363535);
-    background-color:#282828;
+    background-color:#3d3a3a;
     height: 86vh;
     .body{
       height: 100%;
       width: 100%;
       overflow: auto;
       position: relative;
-      background: linear-gradient(transparent, #004d80);
+      background: linear-gradient(transparent, #423f3f);
       &::-webkit-scrollbar{
         width: 0.7rem;
         &-thumb{

@@ -8,7 +8,8 @@ export const initialState = {
   playlistData: null,
   currentlyPlaying : null,
   playerState : false,
-  editPopup : false
+  editPopup : false,
+  isScroll :  false,
 };
 
 const reducer = (state, action) => {
@@ -64,6 +65,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         editPopup :  action.editPopup
+      }
+    }
+
+    case reducerCases.SET_SCROLL : {
+      return {
+        ...state,
+        isScroll :  action.isScroll
       }
     }
     default:
