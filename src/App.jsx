@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, redirect } from "react-router-dom";
-import EditPlaylist from './components/Main/Playlist/EditPlaylist';
-import Spotify from './components/Main/Spotify/Spotify';
-// import Library from './components/Main/Body/Library';
-
+import Login from './Pages/Account/Login/Login';
+import EditPlaylist from './Pages/Main/Playlist/EditPlaylist';
+import Spotify from './Pages/Main/Spotify/Spotify';
 import { useStateProvider } from './utils/StateProvider';
 function App() {
   const [{ token }, dispatch] = useStateProvider();
@@ -17,9 +16,9 @@ function App() {
   return (
     
     <BrowserRouter>
-      <Spotify/>
+      <Login/>
       <Routes>
-        
+        {/* <Route path='/account' exact element={}/> */}
       </Routes>
     </BrowserRouter>
   )
