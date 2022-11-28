@@ -18,8 +18,8 @@ function Login() {
   }
 
   const onChange = (e) => {
-    const { name, value } = e.target.value;
-    setFormValue({ ...formValue, [name]: value })
+    const { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value})
   }
   return (
     <Container>

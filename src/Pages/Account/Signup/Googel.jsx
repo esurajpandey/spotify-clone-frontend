@@ -1,14 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import {AiFillFacebook}  from 'react-icons/ai';
-
-function Facebook() {
+import {FcGoogle}  from 'react-icons/fc';
+function Google() {
   return (
     <Container>
         <Link to=''>
-            <AiFillFacebook/>
-            <span>CONTINUE WITH FACEBOOK</span>
+            <FcGoogle/>
+            <span>CONTINUE WITH GOOGLE</span>
         </Link>
     </Container>
   )
@@ -20,13 +19,12 @@ const Container = styled.div`
     padding: 0.18rem 0.2rem;
     border-radius: 500px;
     a{
-        background-color: rgb(59, 89, 152);
         width: 100%;
         text-decoration: none;
-        color:white;
+        color:grey;
         font-weight: 500;
         border: 1px solid grey;
-        padding: 0.7rem 7rem;
+        padding: 0.77rem 5rem;
         font-size: 14px;
         line-height: 20px;
         border-radius: 500px;
@@ -37,7 +35,6 @@ const Container = styled.div`
         gap:0.5rem;
         svg{
             font-size: 1.3rem;
-            fill: white;
         }
         &:hover{
             border: 1px solid black;
@@ -49,7 +46,7 @@ const Container = styled.div`
         transition: border-color 300ms ease-in 0.1s;
         border-radius: 500px;
         border: 3px solid black;
-    }    
+    }  
 `
 
-export default Facebook
+export default Google

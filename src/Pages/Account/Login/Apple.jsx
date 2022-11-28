@@ -19,6 +19,9 @@ const Container = styled.div`
     border: 3px solid transparent;
     padding: 0.18rem 0.2rem;
     border-radius: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     a{
         background-color: #0a0a0a;
         width: 100%;
@@ -26,7 +29,7 @@ const Container = styled.div`
         color:white;
         font-weight: 500;
         border: 1px solid grey;
-        padding: 0.7rem 7rem;
+        padding: 0.8rem 7rem;
         font-size: 14px;
         line-height: 20px;
         border-radius: 500px;

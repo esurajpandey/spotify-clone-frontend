@@ -19,12 +19,12 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    color: black;
-    font-size: 0.875rem;
     width: 28rem;
     gap:0.5rem;
     label{
         font-weight: 700;
+        color: black;
+        font-size: 0.875rem;
     }
     input{
         appearance: none;
