@@ -2,30 +2,30 @@ import React, { useEffect } from 'react'
 import { useStateProvider } from "../../../utils/StateProvider";
 import { reducerCases } from '../../../utils/Constants';
 import styled from 'styled-components';
-export default function Playlist() {
-  const [{ token, playlists }, dispatch] = useStateProvider();
+import { itemContent } from '../Body/HomeContent';
+import { Link } from 'react-router-dom';
 
+export default function Playlist() {
+  const [{playlists}, dispatch] = useStateProvider();
+  
   useEffect(() => {
     const getPlaylist = async () => {
-      playlists.push({ id: 1, name: "My Playlist #1" });//testing
-      playlists.push({ id: 2, name: "My Playlist #2" });//testing
-      dispatch({ type: reducerCases.SET_PLAYLISTS, playlists })
+      dispatch({ type: reducerCases.SET_PLAYLISTS, playlists:itemContent })
     }
     getPlaylist();
-  }, [token,playlists, dispatch]);
+  }, [playlists,dispatch]);
 
-  const changePlayList = (selectedPlaylistId) => {
-    dispatch({ type: reducerCases.SET_PLAYLIST_ID, selectedPlaylistId })
-  }
 
   return (
     <Container>
       <ul>
         {
-          playlists.map(({ id, name }) => {
+          playlists.map((playlist,index) => {
             return (
-              <li onClick={() => changePlayList(id)}>
-                {name}
+              <li key={playlist?.id}>
+                <Link to={`/body/${playlist?.id}`}>
+                  {playlist?.title}
+                </Link>
               </li>
             )
           })
@@ -57,7 +57,6 @@ const Container = styled.div`
               background-color: white;
             }
         }
-        
     }
     li{
       display: flex;
@@ -66,6 +65,11 @@ const Container = styled.div`
       cursor: pointer;
       transition: 0.3s ease-in-out;
       &:hover{
+        color:white;
+      }
+    }
+    .active{
+      a{
         color:white;
       }
     }

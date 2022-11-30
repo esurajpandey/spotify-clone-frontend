@@ -1,33 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import heart from '../../../assets/svg/heart.svg';
 import { BsDot } from 'react-icons/bs';
-import { IoIosMusicalNote } from 'react-icons/io';
-import Button from '../../Element/Button';
-import cv from '../../../assets/femalVersion.jpg';
-import TrackListItem from '../../Element/TrackListItem';
+import {songs} from './HomeContent';
+import Body from '../Playlist/Body';
+
 function LikedSong() {
   const playlistData = {};
   playlistData.img = heart;
   const count = 1;
   const user = {};
   const tracks = {};
-  const handleSelectedSong = (e) => {
-
-  }
-
-  const t = {
-    serialNumber: 1,
-    cover: cv,
-    title: "My Janu Song",
-    singers: ["Arijit Singh", 'Shreya Ghoshal'],
-    album_playlist: 'OK Janu',
-    dateAdded: "2022-02-19",
-    duration: 320000,
-    handler: handleSelectedSong,
-    liked: true
-  }
-
+  const songData = songs.filter(song => song?.loved === true);
+  useEffect(()=>{
+    
+  },[])
 
   return (
     <Container>
@@ -44,30 +31,7 @@ function LikedSong() {
           </div>
         </DetailsContainer>
       </TopContainer>
-      {
-        !tracks &&
-        <FindSongContainer>
-          <IoIosMusicalNote />
-          <h2>Songs you like will appear here</h2>
-          <h4>Save songs by tapping the heart icon.</h4>
-          <Button text="Find Songs" path='/search' />
-          <div className='line'></div>
-        </FindSongContainer>
-      }
-      {
-        tracks &&
-        <TrackList>
-          <TrackListItem serialNumber={1}
-            cover={cv}
-            title={"My Janu Song"}
-            singers={["Arijit Singh", 'Shreya Ghoshal']}
-            album_playlist={'OK Janu'}
-            dateAdded={"2022-02-19"}
-            duration={320000}
-            handler={handleSelectedSong}
-            liked={true} />
-        </TrackList>
-      }
+      <Body songs={songData}/> 
     </Container>
   )
 }
@@ -76,7 +40,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden                      ;
-  background: linear-gradient(transparent, #004d80);
+  /* background: linear-gradient(transparent, #004d80); */
   padding-bottom: 10rem;
 `
 

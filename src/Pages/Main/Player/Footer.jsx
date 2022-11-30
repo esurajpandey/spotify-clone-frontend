@@ -7,38 +7,20 @@ import mypic from '../../../assets/mypic.jpg';
 import {HiHeart,HiOutlineHeart} from 'react-icons/hi';
 import Player from './Player';
 import Volume from './Volume';
-
+import {useStateProvider} from '../../../utils/StateProvider';
+import { reducerCases } from '../../../utils/Constants';
 function Footer() {
-    // useEffect(()=>{
-    //     let nodeId = null;
-    //     if(playing){
-    //         nodeId =  setInterval(()=>{
-    //             if(timing===duration){
-    //                 setTiming(prev => 0);
-    //                 console.log(playing)
-    //                 setPlaying(prev => !prev);
-    //             }else{
-    //                 setTiming(prev => prev + 1000);
-    //             }
-    //         },1000);
-    //         setIntervalId(nodeId);
-    //     }else{
-    //         clearInterval(intervalId);
-    //     }
 
-    //     return ()=>{
-    //         console.log(timing);
-    //     }
-    // },[playing]);
-    const [isLiked,setIsLiked] = useState(false);
-    const song =  {
-        cover:mypic,
-        title : "As it was",
-        singers : ['Arijit Singh','Radha,Song'],
-        liked :  isLiked
-    }
+    const [{currentSong},dispatch] = useStateProvider();
+    
+    useEffect(()=>{
+        dispatch({type:reducerCases.SET_CURRENT_SONG,currentSong});
+        console.log(currentSong);
+    },[currentSong,dispatch]);
+
+    const [loved,setLoved] = useState(false);
     const handleLike =  () =>{
-        setIsLiked(!isLiked);
+        setLoved(!loved);
     }
 
     return (
@@ -46,14 +28,14 @@ function Footer() {
             <LeftContainer>
                 <Details>
                     <div className="image">
-                        <img src={song.cover} alt="" />
+                        <img src={currentSong?.cover} alt="" />
                     </div>
                     <div className="text">
-                        <a href="/" className='song_title'><span>{song.title}</span></a>
+                        <a href="/" className='song_title'><span>{currentSong?.title}</span></a>
                         <div className="singers">
                             <ul>
                                 {
-                                    song.singers.map(item=>{
+                                    currentSong?.artists.map(item=>{
                                         return (
                                             <li><a href='/' className='singer_list'>{item}</a>,</li>
                                         )
@@ -65,14 +47,14 @@ function Footer() {
                 </Details>
                 <Icons>
                     <div className="heart">
-                        {song?.liked ? <HiHeart onClick={handleLike} className='fillHeart'/>:<HiOutlineHeart  onClick={handleLike} className='emptyHeart'/>}
+                        {currentSong?.loved ? <HiHeart onClick={handleLike} className='fillHeart'/>:<HiOutlineHeart  onClick={handleLike} className='emptyHeart'/>}
                     </div>
                     <div className="mono">
                         <img src={mono} alt="" />
                     </div>
                 </Icons>
             </LeftContainer>
-            <Player/>
+            <Player track={currentSong?.track}/>
             <VolumeControl>
                 <Volume/>
             </VolumeControl>

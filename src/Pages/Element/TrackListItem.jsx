@@ -2,24 +2,28 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import {BsFillPlayFill,BsPause} from 'react-icons/bs';
 import {FaHeart,FaRegHeart} from 'react-icons/fa';
+import { useStateProvider } from '../../utils/StateProvider';
+import { reducerCases } from '../../utils/Constants';
 
 function TrackListItem(props) {
-    const {serialNumber,cover,title,singers,album_playlist,dateAdded,duration,handler,liked} = props
+    const {serialNumber,id,cover,title,singers,album_playlist,dateAdded,duration,handlePlay,liked} = props
     const [isLiked,setLiked] = useState(false);
-    const [play,setPlay] = useState(false);
     const addedDate =  dateAdded ? true : false;
-    const playHandle = (e) =>{
-        setPlay(!play);
-    }
+    const [{isPlaying,currentSong}]= useStateProvider();
 
     const handleLike = (e) =>{
         setLiked(!isLiked);
     }
 
+    const getMinSec = (ms) =>{
+        const min =  Math.floor(ms/60000);
+        const sec =  ((ms%60000)/1000).toFixed(0);
+        return min + ":" + (sec < 10 ? "0"  : "") + sec;
+    }
     return (
-    <Container addedDate={addedDate}>
-        <SerialNumber onClick={playHandle}>
-            {play ? <BsPause className='playBtn' onClick={playHandle}/> : <BsFillPlayFill className='playBtn' onClick={playHandle}/>}
+    <Container addedDate={addedDate} >
+        <SerialNumber onClick={()=>handlePlay(id)}>
+            {(currentSong?.id === id && isPlaying )? <BsPause className='playBtn'/> : <BsFillPlayFill className='playBtn'/>}
             <span>{serialNumber}</span>
         </SerialNumber>
         <Cover>
@@ -45,7 +49,7 @@ function TrackListItem(props) {
         </Heart>
 
         <Duration>
-            <span>{duration}</span>
+            <span>{getMinSec(duration)}</span>
         </Duration>
     </Container>
   )

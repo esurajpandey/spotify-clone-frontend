@@ -31,6 +31,8 @@ function ProfilePage({ user }) {
         return navigate("/topTracks");
     }
 
+    
+
     useEffect(()=>{
         const four = allSongs.slice(0,4)
         setFourSong(four) 

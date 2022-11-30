@@ -3,70 +3,108 @@ import styled from 'styled-components'
 import { BsFillPlayCircleFill, BsFillPauseCircleFill, BsShuffle } from 'react-icons/bs';
 import { CgPlayTrackNext, CgPlayTrackPrev, } from 'react-icons/cg';
 import { FiRepeat } from 'react-icons/fi';
-import music from "../../../assets/Music/Jaihind Ki Senaa - Shershaah 320 Kbps.mp3";
-import useAudio from './useAudio';
+import { useStateProvider } from '../../../utils/StateProvider';
+import { reducerCases } from '../../../utils/Constants';
 
-function Player() {
+function Player({track}) {
   const progressBar = useRef();
   const audioPlayer = useRef();
-  const [state, setState] = useState(false)
-  const [playing, currentTime, play, pause, jump,duration] = useAudio(music);
+  const animationRef = useRef();
+  const [duration,setDuration] = useState(0);
+  const [currentTime,setCurrentTime] = useState(0);
+  const [progressWidth,setProgressWidth] = useState(0);
+  const [{isPlaying,currentSong,previousSong},dispatch] = useStateProvider();
 
-  const changeRange = () => {
-    audioPlayer.current.currentTime = progressBar.current.value;
-  };
-
-  const handleState = (e) => {
-    setState(!state);
-  }
 
   useEffect(() => {
-    if (state) {
-      play();
-    } else {
-      pause();
-    }
-  }, [state])
+    const seconds = audioPlayer?.current.duration;
+    setDuration(seconds);
+  }, [audioPlayer?.current?.loadedmetadata,audioPlayer?.current?.readyState,track]);
 
-  const getMinSec = (value) => {
-    const sec = parseInt(value, 10); // convert value to number if it's string
-    let hours   = Math.floor(sec / 3600); // get hours
-    let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
-    let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
-    // add 0 if value < 10; Example: 2 => 02
+  const getMinSec = (sec) => {
+    const mins = Math.floor(sec/60);
+    const retMin = mins < 10  ? `0${mins}` : `${mins}`;
+    
+    const seconds = Math.floor(sec%60);
+    const retSec = seconds < 10  ? `0${seconds}` : `${seconds}`;
 
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return minutes+':'+seconds; // Return is HH : MM : SS
+    return `${retMin} : ${retSec}`;
   }
+
+  const handleState = (e) => {
+    const prev =  isPlaying;
+    console.log(previousSong?.id, isPlaying ,currentSong?.id);
+    dispatch({type:reducerCases.SET_PLAYING,isPlaying: !prev});
+  }
+
+
+  useEffect(()=>{
+    console.log(`${currentSong?.id} - ${previousSong?.id} is playing ${isPlaying}` ) ;
+    if(isPlaying){
+      audioPlayer?.current.play();
+      animationRef.current =  requestAnimationFrame(whilePlaying);
+    }else{
+      audioPlayer?.current.pause();
+      cancelAnimationFrame(animationRef.current);
+    }
+  },[currentSong, previousSong, isPlaying])
+
+
+  useEffect(()=>{
+    
+  },[isPlaying]);
+
+  const whilePlaying = () => {
+    progressBar.current.value = audioPlayer?.current.currentTime;
+    changeCurrentTime();
+    animationRef.current = requestAnimationFrame(whilePlaying);
+  }
+
+  const changeProgress = () => {
+    audioPlayer.current.currentTime = progressBar.current.value;
+    changeCurrentTime();
+  };
+
+  const changeCurrentTime = () =>{
+    setProgressWidth((progressBar.current.value / duration) * 100);
+    setCurrentTime(progressBar?.current.value);
+  }
+
+
+
 
 
   return (
     <Container>
       <audio
         ref={audioPlayer}
-        src={music}
-        preload="auto"
+        src={currentSong?.track}
+        preload="metadata"
         volume
       ></audio>
 
       <div className="icons">
         <BsShuffle />
         <CgPlayTrackPrev className='size2rem' />
-        {playing ? <BsFillPauseCircleFill className='play_pause' onClick={handleState} /> : <BsFillPlayCircleFill className='play_pause' onClick={handleState} />}
+        {isPlaying ? <BsFillPauseCircleFill className='play_pause' onClick={handleState} /> : <BsFillPlayCircleFill className='play_pause' onClick={handleState} />}
         <CgPlayTrackNext className='size2rem' />
         <FiRepeat />
       </div>
 
       <ProgressBar>
-        <span>{getMinSec(currentTime)}</span>
-        <input
+        <span className='currentTime'>{getMinSec(currentTime)}</span>
+        <Progress
           type="range"
           defaultValue="0"
           ref={progressBar}
-          onChange={changeRange}
+          onChange={changeProgress}
+          progressWidth={progressWidth}
         />
-        <span>-{getMinSec(duration - currentTime)}</span>
+        <span className='left_time'>-{
+          duration && !isNaN(duration) && getMinSec(duration) ?
+          getMinSec(audioPlayer?.current.duration - currentTime)
+          :"00:00"
+        }</span>
       </ProgressBar>
     </Container>
   )
@@ -108,10 +146,46 @@ const ProgressBar = styled.div`
     position: relative;
     padding: 0 3rem;
     color:white;
-    input{
-      width: 100%;
-      height: 2px;
-      background-color: #ad4848;
+
+    span{
+      width: 20%;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
     }
 `
+const Progress =  styled.input`
+  width: 100%;
+  position: relative;
+  height: 5px;
+  outline: none;
+  border: none;
+  appearance: none;
+  border-radius: 10px;
+  background-color:rgba(255,255,255,0.1);
+  cursor: pointer;
+  ::before{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    background:#848484;
+    width: ${({progressWidth})=>(progressWidth ? `${progressWidth}%` : `0%`)};
+    border-radius: 10px;
+    height: 100%;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+
+  ::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+  }
+`
+
 export default Player

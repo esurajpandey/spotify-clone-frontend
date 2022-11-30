@@ -7,7 +7,7 @@ import Home from '../Body/Home';
 import SideBar from '../Navbar/SideBar';
 import Footer from '../Player/Footer';
 import LikedSong from "../Body/LikedSong";
-import PlaylistBody from "../Playlist/PlaylistBody";
+import PrivatePlaylist from "../Playlist/PrivatePlaylist";
 import Search from '../Body/Search';
 import TagBody from '../Body/TagBody';
 import PlaylistContent from '../Playlist/PlaylistContent';
@@ -18,6 +18,8 @@ import TopNavBar from '../Navbar/TopNavBar';
 import CreatePlaylist from '../Playlist/CreatePlaylist';
 import ProfilePage from '../../Account/Profile/ProfilePage';
 import TopTracks from '../Body/Tracks/TopTracks';
+import Login from '../../Account/Login/Login';
+import Signup from '../../Account/Signup/Signup';
 export default function Spotify() {
   
   const [{ token,user,editPopup,isScroll}, dispatch] = useStateProvider()
@@ -60,7 +62,7 @@ export default function Spotify() {
               <Route path='/tagContents/:id' element={<TagBody/>}/>
               <Route path='/createPlaylist' element={<CreatePlaylist/>}/>
               <Route path='/likedSong' element={<LikedSong/>}/>
-              <Route path='/body/:id' element={<PlaylistBody/>} />
+              <Route path='/body/:id' element={<PrivatePlaylist/>} />
               <Route path='/user/playlists' element={<PlaylistContent/>} />
               <Route path='/user/albums' element={<AlbumContent/>} />
               <Route path='/user/podcasts' element={<PodcastContent/>} />

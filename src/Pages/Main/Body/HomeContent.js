@@ -1,4 +1,12 @@
 // import femalVersion from "../../../assets/femalVersion.jpg";
+import jayhindSong from "../../../assets/Music/Jaihind Ki Senaa - Shershaah 320 Kbps.mp3";
+import rate from "../../../assets/Music/Raataan Lambiyan - Shershaah 128 Kbps.mp3";
+import ranjha from  "../../../assets/Music/Ranjha - Shershaah 128 Kbps.mp3";
+import femaleVersion from "../../../assets/cover/femalVersion.jpg";
+import fikernot from "../../../assets/cover/fikarnot.jpg";
+import jayhindkisena from "../../../assets/cover/Jaihind.jpg";
+import manbhariya from "../../../assets/cover/manbhariya.jpg";
+import ranjhana from "../../../assets/cover/ranjhna.jpg";
 export const recentContent = [
     {
         id:1,
@@ -47,6 +55,75 @@ export const recentContent = [
 ];
 
 
+export const songs = [
+    {
+        id: 1,
+        title : "Ye Dil Mushkil Hai dil",
+        album : "Keshariya",
+        added : "2022-10-01",
+        duration : 290000,
+        artists:[ 'Arijit Sing','Raja Kumar'],
+        loved : false,
+        track: ranjha,
+        cover: femaleVersion
+    },
+    {
+        id: 2,
+        title : "Rate labmiya",
+        album : "Sersah",
+        added : "2022-06-05",
+        duration : 250000,
+        artists:[ 'Arijit Sing','Raja Kumar'],
+        loved : false,
+        track: rate,
+        cover: fikernot
+    },
+    {
+        id: 3,
+        title : "Hare Dil mera",
+        album : "Keshariya",
+        added : "2020-06-01",
+        duration : 290000,
+        artists:[ 'Arijit Sing','Raja Kumar'],
+        loved : true,
+        track: ranjha,
+        cover: ranjhana
+    },
+    {
+        id: 4,
+        title : "Jay Hind Ki Sena",
+        album : "Sersah",
+        added : "2022-05-01",
+        duration : 290000,
+        artists:[ 'Arijit Sing','Raja Kumar'],
+        loved : false,
+        track: jayhindSong,
+        cover: jayhindkisena
+    },
+    {
+        id: 5,
+        title : "Ye Dil Mushkil Hai dil",
+        album : "Keshariya",
+        added : "2022-06-01",
+        duration : 230000,
+        artists:[ 'Arijit Sing','Raja Kumar'],
+        loved : true,
+        track: rate,
+        cover: manbhariya
+    },
+    {
+        id: 6,
+        title : "Hare Hare Dile Se Hare",
+        album : "Keshariya",
+        added : "2022-06-01",
+        duration : 230000,
+        artists:[ 'Arijit Sing','Raja Kumar'],
+        loved : false,
+        track: ranjha,
+        cover: femaleVersion
+    }
+] ;
+
 export const itemContent = [
     {
         id : 1,
@@ -54,230 +131,44 @@ export const itemContent = [
         description:"This is good playlist",
         img:'',
         type : 'private',
-        songs : [
-            {
-                id: 1,
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "2022-10-01",
-                duration : 290000,
-                artists: "Arijit Sing,Raja Kumar"
-
-            },
-            {
-                id: 2,
-                name : "Mana ki Mushkil hai ye",
-                album : "Keshariya",
-                added : "2022-06-05",
-                duration : 250000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 3,
-                name : "Hare Dil mera",
-                album : "Keshariya",
-                added : "2020-06-01",
-                duration : 290000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 4,
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "2022-05-01",
-                duration : 290000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 5,
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "2022-06-01",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 6,
-                name : "Hare Hare Dile Se Hare",
-                album : "Keshariya",
-                added : "2022-06-01",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            }
-        ] 
+        likes : 555000,
+        songs
     },
     {
         id : 3,
         title : 'Hollywood',
         description:"This is good playlist",
-        songs : [
-            {
-                id: 1,
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 330000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 2,
-                name : "Mana ki Mushkil hai ye",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 330000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 3,
-                name : "Hare Dil mera",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 430000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 4,
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 130000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                id: 5,
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 330000,
-                artists: "Arijit Sing,Raja Kumar"
-            }
-        ] 
+        img:'',
+        type : 'private',
+        likes : 555000,
+        songs
     },
     {
         id : 2,
         title : 'Stark Playlist',
         description:"This is good playlist",
-        songs : [
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Mana ki Mushkil hai ye",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Hare Dil mera",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            }
-        ] 
+        img:'',
+        type : 'private',
+        likes : 10,
+        songs 
     },
     {
         id : 4,
         title : 'Bollywood Butter',
         description:"This is good playlist",
-        songs : [
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Mana ki Mushkil hai ye",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Hare Dil mera",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            }
-        ] 
+        img:'',
+        type : 'public',
+        likes : 555000,
+        songs
     },
     {
         id : 5,
         title : 'Trending Now',
         description:"This is good playlist",
-        songs : [
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Mana ki Mushkil hai ye",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Hare Dil mera",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            },
-            {
-                name : "Ye Dil Mushkil Hai dil",
-                album : "Keshariya",
-                added : "10 days ago",
-                duration : 230000,
-                artists: "Arijit Sing,Raja Kumar"
-            }
-        ] 
+        img:'',
+        type : 'public',
+        likes : 5556,
+        songs
     }
 ]
 
@@ -411,55 +302,3 @@ export const tagContent = [
     },
 ]
 
-
-export const songs = [
-    {
-        id: 1,
-        name : "Ye Dil Mushkil Hai dil",
-        album : "Keshariya",
-        added : "2022-10-01",
-        duration : 290000,
-        artists:[ 'Arijit Sing','Raja Kumar']
-
-    },
-    {
-        id: 2,
-        name : "Mana ki Mushkil hai ye",
-        album : "Keshariya",
-        added : "2022-06-05",
-        duration : 250000,
-        artists:[ 'Arijit Sing','Raja Kumar']
-    },
-    {
-        id: 3,
-        name : "Hare Dil mera",
-        album : "Keshariya",
-        added : "2020-06-01",
-        duration : 290000,
-        artists:[ 'Arijit Sing','Raja Kumar']
-    },
-    {
-        id: 4,
-        name : "Ye Dil Mushkil Hai dil",
-        album : "Keshariya",
-        added : "2022-05-01",
-        duration : 290000,
-        artists:[ 'Arijit Sing','Raja Kumar']
-    },
-    {
-        id: 5,
-        name : "Ye Dil Mushkil Hai dil",
-        album : "Keshariya",
-        added : "2022-06-01",
-        duration : 230000,
-        artists:[ 'Arijit Sing','Raja Kumar']
-    },
-    {
-        id: 6,
-        name : "Hare Hare Dile Se Hare",
-        album : "Keshariya",
-        added : "2022-06-01",
-        duration : 230000,
-        artists:[ 'Arijit Sing','Raja Kumar']
-    }
-] ;

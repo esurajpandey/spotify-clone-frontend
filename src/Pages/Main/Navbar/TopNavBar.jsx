@@ -3,21 +3,24 @@ import styled from 'styled-components';
 import { Link, useLocation } from "react-router-dom";
 import left from "../../../assets/svg/svgexport-1.svg";
 import right from "../../../assets/svg/svgexport-2.svg";
-import user from "../../../assets/svg/user.svg";
+import userIcon from "../../../assets/svg/user.svg";
 import SearchInput from "./SearchInput";
 import PlayerButton from '../../Element/PlayerButton';
-import {GoTriangleUp,GoTriangleDown} from 'react-icons/go';
-
-import { topNavContent,dropMenu } from "./NavContent";
+import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
+import { topNavContent, dropMenu } from "./NavContent";
 import DropdownMenu from '../../Element/DropdownMenu';
+import Button from '../../Element/Button';
 
 function TopNavBar({ navBg }) {
-    const [userMenu,setUserMenu] = useState(false);
-    const [openMenu,setOpenMenu] = useState(false);
+    const [userMenu, setUserMenu] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
+    const user = false;
     const handleUserMenuClicked = (e) => {
         setOpenMenu(!openMenu);
         setUserMenu(!userMenu);
     }
+
+
 
     const loc = {
         inLibrary: false,
@@ -30,8 +33,12 @@ function TopNavBar({ navBg }) {
             inArtist: false,
         },
     };
+
     const location = useLocation();
-    const isPlayer =  navBg && location.pathname === '/createPlaylist';
+    const isPlayer = navBg && location.pathname === '/createPlaylist';
+    if(!user){
+        navBg = true;
+    }
     switch (location.pathname) {
         case "/":
             loc.inHome = true;
@@ -68,64 +75,72 @@ function TopNavBar({ navBg }) {
                         <img src={right} alt="" />
                     </div>
                 </div>
-                {loc.inSearch && 
-                <div className="search">
-                    <SearchInput />
-                </div>}
+                {loc.inSearch &&
+                    <div className="search">
+                        <SearchInput />
+                    </div>}
 
                 {
                     isPlayer && <div className="playlist_data">
-                        <PlayerButton/>
+                        <PlayerButton />
                         <h2>{`Playlist Title`}</h2>
                     </div>
                 }
 
                 {
-                    loc.inLibrary && <div className="library_nav">
+                    (loc.inLibrary && user) && <div className="library_nav">
                         <ul>
-                        {topNavContent.map((item) => {
-                            return (
-                            <li
-                                key={item.title}
-                                className={`${item.cName} ${
-                                location.pathname === item.path && "active"
-                                }`}>
-                                <Link to={item.path}>
-                                    <span>{item.title}</span>
-                                </Link>
-                            </li>
-                            );
-                        })}
+                            {topNavContent.map((item) => {
+                                return (
+                                    <li
+                                        key={item.title}
+                                        className={`${item.cName} ${location.pathname === item.path && "active"
+                                            }`}>
+                                        <Link to={item.path}>
+                                            <span>{item.title}</span>
+                                        </Link>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 }
             </div>
 
-            <div className='top_right'>
-                <div className="upgrade">
-                    <Link to='/'>Upgrade</Link>
-                </div>
-                <div className="user">
-                    {
-                        userMenu && 
-                        <div className='user_menu'>
-                            <DropdownMenu menuItem={dropMenu}/>
-                        </div>
-                    }
-                    <button onClick={handleUserMenuClicked} className="user_btn">
-                        <div className="icon">
-                            <img src={user} alt="User" />
-                        </div>
-                        <span>{`Suraj Pandey`}</span>
+            {
+                user ?
+                <div className='top_right'>
+                    <div className="upgrade">
+                        <Link to='/'>Upgrade</Link>
+                    </div>
+                    <div className="user">
                         {
-                            userMenu ? 
-                            <GoTriangleUp/>
-                            :
-                            <GoTriangleDown/>
+                            userMenu &&
+                            <div className='user_menu'>
+                                <DropdownMenu menuItem={dropMenu} />
+                            </div>
                         }
-                    </button>
+                        <button onClick={handleUserMenuClicked} className="user_btn">
+                            <div className="icon">
+                                <img src={userIcon} alt="User" />
+                            </div>
+                            <span>{`Suraj Pandey`}</span>
+                            {
+                                userMenu ?
+                                    <GoTriangleUp />
+                                    :
+                                    <GoTriangleDown />
+                            }
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+                :
+                <NoUser>
+                    <Link to="/signup" className='signup'>Sign up</Link>
+                    <Button text="Log in" path='/login'/>
+                </NoUser>
+            }
 
         </Container>
     )
@@ -136,8 +151,8 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 11.5vh;
-    background: ${({ navBg }) => (navBg ? "#273036" : 'transparent')};
+    padding: 0.5rem 0rem;
+    background: ${({ navBg }) => (navBg ? "#161718" : 'transparent')};
     position: sticky;
     top: 0;
     transition: 0.3s ease-in-out;
@@ -286,5 +301,23 @@ const Container = styled.div`
             width: 100%;
         }
     }
+`
+
+const NoUser = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:1.5rem;
+    margin-right: 1rem;
+    .signup{
+        font-family: 'glory-font';
+        text-decoration: none;
+        color:#ccc8c8;
+        &:hover{
+            color:white;
+            transform: scale(1.1); 
+        }
+    }
+
 `
 export default TopNavBar

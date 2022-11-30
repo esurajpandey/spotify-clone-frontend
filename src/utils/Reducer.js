@@ -1,15 +1,17 @@
 import { reducerCases } from "./Constants";
 
 export const initialState = {
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTY2ODgzODYzNH0.hYM0ZP_Ik2Xx1GAjCD12vhzrgCRzWjtzp1sLXzWWX58",
-  playlists : [],
-  user : null,
-  selectedPlaylistId : "4d0zNXLqtpGEbEDjorMEjW",
-  playlistData: null,
-  currentlyPlaying : null,
-  playerState : false,
   editPopup : false,
   isScroll :  false,
+  isPlaying : false,
+  token: null,
+  playlists : [],
+  user : null,
+  selectedPlaylistId : "",
+  currentlyPlaying : null,
+  playlistData: null,
+  currentSong : null,
+  previousSong :  null
 };
 
 const reducer = (state, action) => {
@@ -44,10 +46,10 @@ const reducer = (state, action) => {
     case reducerCases.SET_PLAYING : {
       return {
         ...state,
-        currentlyPlaying :  action.currentlyPlaying
+        isPlaying : action.isPlaying
       }
     }
-
+    
     case reducerCases.SET_PLAYER_STATE : {
       return {
         ...state,
@@ -61,19 +63,26 @@ const reducer = (state, action) => {
         selectedPlaylistId :  action.selectedPlaylistId
       }
     }
-    case reducerCases.SET_EDIT_PLAYLIST : {
-      return {
-        ...state,
-        editPopup :  action.editPopup
-      }
-    }
-
     case reducerCases.SET_SCROLL : {
       return {
         ...state,
         isScroll :  action.isScroll
       }
     }
+
+    case reducerCases.SET_CURRENT_SONG : {
+      return {
+        ...state,
+        currentSong : action.currentSong
+      }
+    }
+    case reducerCases.SET_PREVIOUS_SONG : {
+      return {
+        ...state,
+        previousSong : action.previousSong
+      }
+    }
+
     default:
       return state;
   }
