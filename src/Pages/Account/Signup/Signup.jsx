@@ -8,13 +8,14 @@ import TextButton from '../../../components/TextButton';
 import Date from '../../../components/Date';
 import RadioButton from '../../../components/RadioButton';
 import CheckBox from '../../../components/CheckBox';
-import {initialValues} from './SignupContent';
+import { initialValues } from './SignupContent';
+import { Link } from 'react-router-dom';
 function Signup() {
-    
+
     const [formValue, setFormValue] = useState(initialValues);
     const [gender, setGender] = useState({ male: "Male", female: "Female", non: "Non-Binary", other: 'Other', unknown: "Unknown" });
     const [dateErrors, setDateErrors] = useState({});
-    const [formErrors,setFormErrors] = useState({});
+    const [formErrors, setFormErrors] = useState({});
 
     const handleGender = () => {
 
@@ -29,7 +30,7 @@ function Signup() {
     }
 
 
-    
+
     return (
         <Container>
             <Top>
@@ -139,7 +140,9 @@ function Signup() {
             </Form>
 
             <div className="instead_login">
-                <p><span>Have an account? <a href="/login" className='signup-link'>Log in.</a></span></p>
+                <p><span>Have an account? 
+                    <Link to="/user/login" className='signup-link'>Log in.</Link>
+                </span></p>
             </div>
         </Container>
     )

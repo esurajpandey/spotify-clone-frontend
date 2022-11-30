@@ -19,6 +19,7 @@ function CreatePlaylist() {
   const onChangeHanlde = (e) => {
     setSearchValue(e.target.value);
   }
+
   return (
     <Container>
       <PlaylistContainer playlistData={playlistData} />
@@ -29,6 +30,7 @@ function CreatePlaylist() {
           <span>FIND MORE</span>
         </div>
         }
+        
         {
           showSearch && (
             <div className="search_for_song">
@@ -46,7 +48,7 @@ function CreatePlaylist() {
         {
           !showSearch && (
             <Recommendation>
-                <RecommendationItem cover={``} album={`BTS`} singers={`Suraj`} title={`Hello Stark`}handler={(e)=>{}}albumLink='' singersLink=''/>
+                <RecommendationItem cover={``} album={`BTS`} singers={`Suraj`} title={`Hello Stark`} handler={(e)=>{}}albumLink='' singersLink=''/>
             </Recommendation>
           )
         }

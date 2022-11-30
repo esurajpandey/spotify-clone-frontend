@@ -18,14 +18,12 @@ import TopNavBar from '../Navbar/TopNavBar';
 import CreatePlaylist from '../Playlist/CreatePlaylist';
 import ProfilePage from '../../Account/Profile/ProfilePage';
 import TopTracks from '../Body/Tracks/TopTracks';
-import Login from '../../Account/Login/Login';
-import Signup from '../../Account/Signup/Signup';
+
 export default function Spotify() {
-  
-  const [{ token,user,editPopup,isScroll}, dispatch] = useStateProvider()
+
+  const [{token,user,editPopup,isScroll}, dispatch] = useStateProvider()
   const bodyRef =  useRef();
   const [navBg,setNavBg] = useState(false);
-  
   const [headerBg,setHeaderBg] = useState(false);
 
   const bodyScrolled = () =>{
@@ -35,18 +33,23 @@ export default function Spotify() {
   }
 
   useEffect(() => {
-    const getUser = async () => {
-      dispatch({type:reducerCases.SET_USER});
+    let store =  JSON.parse(localStorage.getItem('user-info'));
+    if(store?.token){
+      dispatch({type:reducerCases.SET_USER,user : store.name})
+      dispatch({type:reducerCases.SET_TOKEN,token : store.tokem})
     }
-    getUser();
-  }, [token, dispatch])
+    console.log('Hello in app ',token)
+  }, [token, dispatch]);
+
+
   const closePopup = () =>{
-    dispatch({type:reducerCases.SET_EDIT_PLAYLIST,editPopup:!editPopup});
+    dispatch({type:reducerCases.SET_POP_UP,editPopup:!editPopup});
   }
 
   useEffect(()=>{
     dispatch({type:reducerCases.SET_SCROLL,isScroll:navBg});
-  },[navBg]);
+  },[navBg,dispatch]);
+
 
   return (
     <Container>
@@ -57,18 +60,18 @@ export default function Spotify() {
             {/* <TopNav navBg={navBg}/> */}
             <TopNavBar navBg={navBg}/>
             <Routes>
-              <Route path='/' element={<Home/>} />
-              <Route path='/search' element={<Search/>}/>
-              <Route path='/tagContents/:id' element={<TagBody/>}/>
-              <Route path='/createPlaylist' element={<CreatePlaylist/>}/>
-              <Route path='/likedSong' element={<LikedSong/>}/>
-              <Route path='/body/:id' element={<PrivatePlaylist/>} />
-              <Route path='/user/playlists' element={<PlaylistContent/>} />
-              <Route path='/user/albums' element={<AlbumContent/>} />
-              <Route path='/user/podcasts' element={<PodcastContent/>} />
-              <Route path='/user/artists' element={<UserArtists/>} />
-              <Route path='/user/profile' element={<ProfilePage/>} />
-              <Route path='/topTracks' element={<TopTracks/>} />
+                <Route path='/'  exact element={<Home/>} />
+                <Route path='search' element={<Search/>}/>
+                <Route path='tagContents/:id' element={<TagBody/>}/>
+                <Route path='createPlaylist' element={<CreatePlaylist/>}/>
+                <Route path='likedSong' element={<LikedSong/>}/>
+                <Route path='body/:id' element={<PrivatePlaylist/>} />
+                <Route path='playlists' element={<PlaylistContent/>} />
+                <Route path='albums' element={<AlbumContent/>} />
+                <Route path='podcasts' element={<PodcastContent/>} />
+                <Route path='artists' element={<UserArtists/>} />
+                <Route path='profile' element={<ProfilePage/>} />
+                <Route path='topTracks' element={<TopTracks/>} />
             </Routes>
           </div>
         </SpotifyBody>
@@ -114,7 +117,7 @@ const SpotifyBody = styled.div`
     display: flex;
     overflow: hidden;
     width: 100%;
-    background: linear-gradient(transparent,#363535);
+    background: linear-gradient(transparent,#141414);
     background-color:#3d3a3a;
     height: 86vh;
     .body{
@@ -122,7 +125,7 @@ const SpotifyBody = styled.div`
       width: 100%;
       overflow: auto;
       position: relative;
-      background: linear-gradient(transparent, #423f3f);
+      background: linear-gradient(transparent, #000000);
       &::-webkit-scrollbar{
         width: 0.7rem;
         &-thumb{

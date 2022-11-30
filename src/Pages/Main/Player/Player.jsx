@@ -33,7 +33,6 @@ function Player({track}) {
 
   const handleState = (e) => {
     const prev =  isPlaying;
-    console.log(previousSong?.id, isPlaying ,currentSong?.id);
     dispatch({type:reducerCases.SET_PLAYING,isPlaying: !prev});
   }
 
@@ -47,12 +46,16 @@ function Player({track}) {
       audioPlayer?.current.pause();
       cancelAnimationFrame(animationRef.current);
     }
-  },[currentSong, previousSong, isPlaying])
+  },[isPlaying])
 
 
-  useEffect(()=>{
-    
-  },[isPlaying]);
+  // useEffect(()=>{
+  //   if(isPlaying){
+  //     animationRef.current =  requestAnimationFrame(whilePlaying);
+  //   }else{
+  //     cancelAnimationFrame(animationRef.current);
+  //   }
+  // },[currentTime,isPlaying]);
 
   const whilePlaying = () => {
     progressBar.current.value = audioPlayer?.current.currentTime;
@@ -64,9 +67,8 @@ function Player({track}) {
     audioPlayer.current.currentTime = progressBar.current.value;
     changeCurrentTime();
   };
-
   const changeCurrentTime = () =>{
-    setProgressWidth((progressBar.current.value / duration) * 100);
+    setProgressWidth((progressBar.current.value / duration) * currentTime/100);
     setCurrentTime(progressBar?.current.value);
   }
 
@@ -97,6 +99,8 @@ function Player({track}) {
           type="range"
           defaultValue="0"
           ref={progressBar}
+          step="00.01"
+          max={duration}
           onChange={changeProgress}
           progressWidth={progressWidth}
         />
@@ -164,6 +168,7 @@ const Progress =  styled.input`
   appearance: none;
   border-radius: 10px;
   background-color:rgba(255,255,255,0.1);
+  overflow: hidden;
   cursor: pointer;
   ::before{
     position: absolute;
@@ -171,7 +176,7 @@ const Progress =  styled.input`
     top: 0;
     left: 0;
     background:#848484;
-    width: ${({progressWidth})=>(progressWidth ? `${progressWidth}%` : `0%`)};
+    width: ${({progressWidth})=>(progressWidth ? `${progressWidth}%` : `1%`)};
     border-radius: 10px;
     height: 100%;
     z-index: 2;

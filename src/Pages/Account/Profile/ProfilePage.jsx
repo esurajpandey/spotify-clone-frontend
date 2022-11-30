@@ -28,7 +28,7 @@ function ProfilePage({ user }) {
     }
     const seeMore = () =>{
         console.log('hello');
-        return navigate("/topTracks");
+        return navigate("/spotify/topTracks");
     }
 
     

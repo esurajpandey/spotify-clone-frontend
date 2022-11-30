@@ -24,7 +24,7 @@ const Container = styled.div`
         color:grey;
         font-weight: 500;
         border: 1px solid grey;
-        padding: 0.7rem 7rem;
+        padding: 0.9rem 7rem;
         font-size: 14px;
         line-height: 20px;
         border-radius: 500px;

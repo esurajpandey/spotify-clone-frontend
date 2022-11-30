@@ -14,7 +14,7 @@ function Phone() {
 const Container = styled.div`
     width: 100%;
     border: 3px solid transparent;
-    padding: 0.9rem 0.2rem;
+    padding: 1.1rem 0.2rem;
     border-radius: 500px;
     a{
         width: 100%;
@@ -22,7 +22,7 @@ const Container = styled.div`
         color:grey;
         font-weight: 500;
         border: 1px solid grey;
-        padding: 0.9rem 7rem;
+        padding: 0.98rem 7rem;
         font-size: 14px;
         line-height: 20px;
         border-radius: 500px;

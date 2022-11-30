@@ -1,26 +1,67 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
+import {BiErrorCircle} from 'react-icons/bi';
 import SpotifyLogo from '../../../assets/Logo'
 import Apple from './Apple'
 import Google from './Googel'
 import Phone from './Phone'
 import Facebook from './Facebook';
 import InputBox from '../../../components/InputBox'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import TextButton from '../../../components/TextButton'
 import SignupBtn from './SignupBtn'
+import { validateForm } from './validaion';
+import { postReuqest } from '../../../request/Post';
+import { useStateProvider } from '../../../utils/StateProvider';
 function Login() {
 
-  const [formValue, setFormValue] = useState({ userEmail: "", userPassword: "" });
-  const onSubmit = (e) =>{
-
-  }
+  const [formValue, setFormValue] = useState({ userEmail: "", userPassword: "",deviceId : 1});
+  const [formErrors,setFormErrors] =  useState({});
+  const [isLogin,setIsLogin] = useState(false);
+  const [loginError,setLoginError] = useState(null);
+  const [{token},dispatch]= useStateProvider();
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value})
   }
+
+  const onSubmit = (e) =>{
+    e.preventDefault();
+    setFormErrors(validateForm(formValue));
+    setIsLogin(true);
+  }
+
+  
+
+  useEffect(()=>{
+    const getUser = async() =>{
+
+      if(Object.keys(formErrors).length === 0 && isLogin){
+        const resp = await postReuqest('user/login',formValue);
+
+        if(resp?.user){
+
+          localStorage.setItem('user-info',JSON.stringify({
+            name :  resp?.user?.name,
+            token :  resp?.token
+          }));
+          return navigate('/spotify');
+        }else{
+          setLoginError(resp)
+        }
+      }
+    }
+    getUser();
+  },[formErrors]);
+
+
+  if(token){
+    return navigate('/spotify');
+  }
+  
   return (
     <Container>
       <Top>
@@ -37,6 +78,13 @@ function Login() {
       </Top>
       <SocialContainer>
         <p>To continue, log in to Spotify.</p>
+        {
+          loginError?.message && (
+            <ErrorConatiner>
+              <BiErrorCircle/> <span>{loginError?.message}</span>
+            </ErrorConatiner>
+          )
+        }
         <Facebook />
         <Apple />
         <Google />
@@ -47,7 +95,7 @@ function Login() {
         <span>or</span>
         <hr/>
       </div>
-      <Form method='POST' >
+      <Form method='POST'  onSubmit={onSubmit}>
         <InputBox
           type="email"
           text="Email address or username"
@@ -55,6 +103,7 @@ function Login() {
           onChange={onChange}
           placeholder="Email address or username"
           name="userEmail"
+          error={formErrors?.userEmail}
         />
 
         <InputBox
@@ -64,6 +113,7 @@ function Login() {
           onChange={onChange}
           placeholder="password"
           name="userPassword"
+          error={formErrors?.userPassword}
         />
         <Link className='forget'><span>Forgot your password?</span></Link>
         <div className="submit">
@@ -71,21 +121,25 @@ function Login() {
             <input type="checkbox"/>
             <span>Remeber me</span>
           </div>
-          <TextButton
-            type={'submit'}
-            onClick={onSubmit}
-            text="LOG IN"                     
-            bg="#1ed760"
-            fg="black"
-          />
+           <div className="loginBtn" onClick={onSubmit}>
+            <TextButton
+                type={'submit'}
+                onClick={onSubmit}
+                text="LOG IN"                     
+                bg="#1ed760"
+                fg="black"
+              />
+           </div>
         </div>
       </Form>
 
      <div className="bottom">
         <hr />
         <h2 className='no_account'>Don't have an account?</h2>
-        <SignupBtn/>
-     </div>
+        <div className="signup" onClick={()=>{return navigate('/user/signup')}}>
+          <SignupBtn/>
+        </div>
+     </div> 
     </Container>
   )
 }
@@ -135,7 +189,9 @@ const Container = styled.div`
         border-bottom: 1px solid grey;
       }
     }
-    
+    .signup{
+
+    }
 `
 
 const Top = styled.div`
@@ -201,5 +257,29 @@ const Form = styled.form`
         }
       }
     }
+`
+
+const ErrorConatiner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap:0.8rem;
+  color:white;
+  border: 1px solid red;
+  width: 97%;
+  background: #e91429;
+  padding: 12px 16px;
+  transition: background 0.1s ease 0s;
+  margin-bottom: 1.5rem;
+  svg{
+    font-size:1.5rem;
+  }
+  span{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  
 `
 export default Login

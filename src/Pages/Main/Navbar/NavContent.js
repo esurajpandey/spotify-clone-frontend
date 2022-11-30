@@ -6,22 +6,22 @@ import { BiHeartSquare } from "react-icons/bi";
 export const topNavContent =  [
     {
         title : "Playlist",
-        path : '/user/playlists',
+        path : '/spotify/playlists',
         cName : 'playlist'
     },
     {
         title : "Podcasts",
-        path : '/user/podcasts',
+        path : '/spotify/podcasts',
         cName : 'podcast'
     },
     {
         title : "Artists",
-        path : '/user/artists',
+        path : '/spotify/artists',
         cName : 'artist'
     },
     {
         title : "Albums",
-        path : '/user/albums',
+        path : '/spotify/albums',
         cName : 'album'
     }
 ];
@@ -32,35 +32,35 @@ export const sideNav = [
         icons : <MdHomeFilled/>,
         cName : `active`,
         clName : 'home',
-        path : '/'
+        path : '/spotify/'
     },
     {
         title : "Search",
         icons : <MdSearch/>,
         cName : `active`,
         clName : 'search',
-        path:'/search'
+        path:'/spotify/search'
     },
     {
         title : "Your Library",
         icons : <IoLibrary/>,
         cName : `active`,
-        clName : 'library',
-        path : '/user/playlists'
+        clName : 'library', 
+        path : '/spotify/playlists'
     },
     {
         title : "Create Playlist",
         icons : <AiFillPlusSquare/>,
         cName : `active`,
         clName : 'create_playlist',
-        path : '/createPlaylist'
+        path : '/spotify/createPlaylist'
     },
     {
         title : "Liked Songs",
         icons : <BiHeartSquare/>,
         cName : `active`,
         clName : 'likedSong',
-        path : '/likedSong',
+        path : '/spotify/likedSong',
     },
 ]
 
@@ -73,7 +73,7 @@ export const dropMenu =  [
     },
     {
         name: "Profile",
-        path: '/user/profile',
+        path: '/spotify/profile',
         cName: 'profile menu_item'
     },
     {

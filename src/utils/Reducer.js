@@ -1,15 +1,13 @@
 import { reducerCases } from "./Constants";
 
 export const initialState = {
-  editPopup : false,
+  
   isScroll :  false,
   isPlaying : false,
   token: null,
   playlists : [],
   user : null,
-  selectedPlaylistId : "",
-  currentlyPlaying : null,
-  playlistData: null,
+  editPopup : false,
   currentSong : null,
   previousSong :  null
 };
@@ -61,6 +59,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         selectedPlaylistId :  action.selectedPlaylistId
+      }
+    }
+
+    case reducerCases.SET_POP_UP :{
+      return {
+        ...state,
+        editPopup : action.editPopup
       }
     }
     case reducerCases.SET_SCROLL : {

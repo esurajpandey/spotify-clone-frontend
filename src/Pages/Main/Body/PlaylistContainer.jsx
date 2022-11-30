@@ -23,8 +23,9 @@ function PlaylistContainer({playlistData,type}) {
       setLiked(!liked);
   }
   const cover = playlistData?.img ?? "";
+  
   const uploadImage = () =>{
-    dispatch({ type: reducerCases.SET_EDIT_PLAYLIST, editPopup: !editPopup})
+    dispatch({ type: reducerCases.SET_POP_UP, editPopup: !editPopup})
   }
   return (
     <Container editOn={editPopup}>

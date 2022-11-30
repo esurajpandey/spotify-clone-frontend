@@ -14,13 +14,11 @@ import Button from '../../Element/Button';
 function TopNavBar({ navBg }) {
     const [userMenu, setUserMenu] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
-    const user = false;
+    const user = true;
     const handleUserMenuClicked = (e) => {
         setOpenMenu(!openMenu);
         setUserMenu(!userMenu);
     }
-
-
 
     const loc = {
         inLibrary: false,
@@ -36,6 +34,7 @@ function TopNavBar({ navBg }) {
 
     const location = useLocation();
     const isPlayer = navBg && location.pathname === '/createPlaylist';
+
     if(!user){
         navBg = true;
     }
@@ -43,29 +42,29 @@ function TopNavBar({ navBg }) {
         case "/":
             loc.inHome = true;
             break;
-        case "/user/playlists":
+        case "/spotify/playlists":
             loc.inLibrary = true;
             loc.libray = true;
             break;
-        case "/user/podcasts":
+        case "/spotify/podcasts":
             loc.inLibrary = true;
             loc.libray = true;
             break;
-        case "/user/albums":
+        case "/spotify/albums":
             loc.inLibrary = true;
             break;
-        case "/user/artists":
+        case "/spotify/artists":
             loc.inLibrary = true;
             loc.libray = true;
             break;
-        case "/search":
+        case "spotify/search":
             loc.inSearch = true;
             break;
         default:
             loc.inHome = true;
     }
     return (
-        <Container navBg={navBg}>
+        <Container navBg={navBg} isUser={user}>
             <div className='top_left'>
                 <div className="navigation_btn">
                     <div className="left">
@@ -88,7 +87,7 @@ function TopNavBar({ navBg }) {
                 }
 
                 {
-                    (loc.inLibrary && user) && <div className="library_nav">
+                    (loc.inLibrary) && <div className="library_nav">
                         <ul>
                             {topNavContent.map((item) => {
                                 return (
@@ -137,8 +136,8 @@ function TopNavBar({ navBg }) {
 
                 :
                 <NoUser>
-                    <Link to="/signup" className='signup'>Sign up</Link>
-                    <Button text="Log in" path='/login'/>
+                    <Link to="/user/signup" className='signup'>Sign up</Link>
+                    <Button text="Log in" path='/user/login'/>
                 </NoUser>
             }
 
@@ -151,7 +150,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 0.5rem 0rem;
+    padding: ${({isUser})=>(isUser ? '1rem 0rem' : '0.5rem 0rem')};
     background: ${({ navBg }) => (navBg ? "#161718" : 'transparent')};
     position: sticky;
     top: 0;

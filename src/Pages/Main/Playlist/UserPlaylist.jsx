@@ -23,7 +23,7 @@ export default function Playlist() {
           playlists.map((playlist,index) => {
             return (
               <li key={playlist?.id}>
-                <Link to={`/body/${playlist?.id}`}>
+                <Link to={`/spotify/body/${playlist?.id}`}>
                   {playlist?.title}
                 </Link>
               </li>

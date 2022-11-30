@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function TextButton({ text, bg, fg, onClick, type }) {
+function TextButton({ text, bg, fg, type }) {
     return (
-        <Container bg={bg} fg={fg} >
-            <button onClick={onClick} type={type} >
+        <Container bg={bg} fg={fg}>
+            <button  type={type} >
                 <span>{text}</span>
             </button>
         </Container>

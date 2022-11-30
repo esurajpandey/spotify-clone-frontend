@@ -20,9 +20,7 @@ function Home() {
         else if (currHrs >= 17 && currHrs <= 24)
             setMessage('Good Evening');
     },[currHrs])
-
-    console.log(recent);
-    
+        
     return (
         <Container>
             <div className='recent'>
@@ -32,7 +30,7 @@ function Home() {
                         recent?.map((item, index) => {
                             return (
                                 <li key={item.id}>
-                                    <Link to={`/body/${item.id}`}>
+                                    <Link to={`/spotify/body/${item.id}`}>
                                         <div className='recent_image'>
                                             <img src={require('../../../assets/femalVersion.jpg')} alt="Recent" />
                                         </div>

@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import {MdError}  from 'react-icons/md';
-function InputBox({ type, placeholder, name, value, text, onChange,error }) {
+function InputBox({ type, placeholder, name, value, text, onChange,error,onBlur }) {
+    
     return (
-        <Container error={error}>
+        <Container error={error} >
             <label htmlFor="">
                 {text}
             </label>
-            <input type={type} placeholder={placeholder} name={name} value={value} onChange={onChange} />
+            <input type={type} placeholder={placeholder} name={name} value={value} onChange={onChange}  onBlur={onBlur}/>
             {
                 error && <p><MdError/>{error}</p>
             }

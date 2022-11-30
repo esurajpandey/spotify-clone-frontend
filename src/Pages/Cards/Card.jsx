@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function Card({ item, play,playBtn }) {
     return (
         <Container className="card_item">
-            <Link to={`/body/${item.id}`}>
+            <Link to={`/spotify/body/${item.id}`}>
                 <div className="card_image">
                     <img src={require('../../assets/femalVersion.jpg')} alt="Spotify" />
                 </div>

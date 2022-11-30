@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-function SignupBtn() {
+function SignupBtn({path}) {
   return (
     <Container>
-        <Link to=''>
+        <Link to={path}>
             <span>SIGN UP FOR SPOTIFY</span>
         </Link>
     </Container>
@@ -16,6 +16,7 @@ const Container = styled.div`
     border: 3px solid transparent;
     padding: 0.98rem 0.2rem;
     border-radius: 500px;
+    cursor: pointer;
     a{
         width: 100%;
         text-decoration: none;

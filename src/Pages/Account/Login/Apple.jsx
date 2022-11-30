@@ -5,16 +5,16 @@ import {AiFillApple}  from 'react-icons/ai';
 
 function Apple() {
   return (
-    <Container>
+    <AppleContainer>
         <Link to=''>
             <AiFillApple/>
             <span>CONTINUE WITH APPLE</span>
         </Link>
-    </Container>
+    </AppleContainer>
   )
 }
 
-const Container = styled.div`
+const AppleContainer = styled.div`
     width: 100%;
     border: 3px solid transparent;
     padding: 0.18rem 0.2rem;
@@ -29,7 +29,7 @@ const Container = styled.div`
         color:white;
         font-weight: 500;
         border: 1px solid grey;
-        padding: 0.8rem 7rem;
+        padding: 0.9rem 7rem;
         font-size: 14px;
         line-height: 20px;
         border-radius: 500px;
