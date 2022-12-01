@@ -98,7 +98,7 @@ export const dropMenu =  [
     },
     {
         name: "Log out",
-        path: '/',
+        path: '/user/logout',
         cName: 'logout menu_item'
     },
 

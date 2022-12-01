@@ -12,15 +12,33 @@ function Home() {
     const [message,setMessage] = useState("");
     const currHrs =  new Date().getHours();
 
+
     useEffect(()=>{
         if (currHrs < 12)
             setMessage('Good Morning');
-        else if (currHrs >= 12 && currHrs <= 17)
+        else if (currHrs >= 12 && currHrs <= 16)
             setMessage('Good Afternoon');
-        else if (currHrs >= 17 && currHrs <= 24)
+        else if (currHrs > 16 && currHrs <= 24)
             setMessage('Good Evening');
     },[currHrs])
         
+
+    useEffect(()=>{
+        
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <Container>
             <div className='recent'>
@@ -76,7 +94,7 @@ const Container = styled.div`
                 /* border: 1px solid black; */
                 display: flex;
                 border-radius: 0.2rem;
-                background: #5c5b5a;
+                background: #383737;
                 width: 20rem;
                 a{
                     display: flex;

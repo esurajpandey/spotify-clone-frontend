@@ -10,15 +10,17 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { topNavContent, dropMenu } from "./NavContent";
 import DropdownMenu from '../../Element/DropdownMenu';
 import Button from '../../Element/Button';
-
+import {useStateProvider} from '../../../utils/StateProvider';
 function TopNavBar({ navBg }) {
     const [userMenu, setUserMenu] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
-    const user = true;
+    const [{token,user}] = useStateProvider();
+
     const handleUserMenuClicked = (e) => {
         setOpenMenu(!openMenu);
         setUserMenu(!userMenu);
     }
+
 
     const loc = {
         inLibrary: false,
@@ -31,13 +33,14 @@ function TopNavBar({ navBg }) {
             inArtist: false,
         },
     };
-
+    
     const location = useLocation();
     const isPlayer = navBg && location.pathname === '/createPlaylist';
-
     if(!user){
         navBg = true;
     }
+
+   
     switch (location.pathname) {
         case "/":
             loc.inHome = true;
@@ -123,7 +126,7 @@ function TopNavBar({ navBg }) {
                             <div className="icon">
                                 <img src={userIcon} alt="User" />
                             </div>
-                            <span>{`Suraj Pandey`}</span>
+                            <span>{user}</span>
                             {
                                 userMenu ?
                                     <GoTriangleUp />

@@ -8,12 +8,13 @@ export const validate = (values) => {
       errors.userEmail = "invalid Email";
     }
 
-    if(!values.cnfEmail){
-        errors.cnfEmail = "Confirm email required"
-    }else if(values.userEmail !== values.cnfEmail){
-        errors.cnfEmail = "Email is not matched"
+    if(!values.cnfMail){
+        console.log("Hello hi",values.cnfMail);
+        errors.cnfMail = "Confirm email required"
+    }else if(values.userEmail !== values.cnfMail){
+        errors.cnfMail = "Email is not matched"
     }else if(!regex.test(values.userEmail)){
-        errors.cnfEmail =  "invalid Email"
+        errors.cnfMail =  "invalid Email"
     }
 
     if (!values.userPassword) {
@@ -24,7 +25,7 @@ export const validate = (values) => {
 
     if(!values.name){
         errors.name = "Name is required"
-    }else if(values.name.length < 6){
+    }else if(values.name.length < 4){
         errors.name = "Name must be more than 6 characters"
     }
     return errors;

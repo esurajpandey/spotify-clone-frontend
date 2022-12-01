@@ -1,15 +1,15 @@
 import { reducerCases } from "./Constants";
 
 export const initialState = {
-  
   isScroll :  false,
   isPlaying : false,
   token: null,
-  playlists : [],
+  userPlaylists : [],
   user : null,
   editPopup : false,
   currentSong : null,
-  previousSong :  null
+  previousSong :  null,
+  volume:10
 };
 
 const reducer = (state, action) => {
@@ -20,10 +20,10 @@ const reducer = (state, action) => {
         token: action.token,
       };
     }
-    case reducerCases.SET_PLAYLISTS : {
+    case reducerCases.SET_USER_PLAYLISTS : {
       return {
         ...state,
-        playlists : action.playlists
+        userPlaylists : action.userPlaylists
       }
     }
 
@@ -85,6 +85,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         previousSong : action.previousSong
+      }
+    }
+
+    case reducerCases.SET_VOLUME : {
+      return{
+        ...state,
+        volume : action.volume
       }
     }
 

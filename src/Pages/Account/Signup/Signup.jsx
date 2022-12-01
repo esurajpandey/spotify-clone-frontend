@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import SpotifyLogo from '../../../assets/Logo';
 import Facebook from './Facebook';
@@ -7,28 +7,58 @@ import InputBox from '../../../components/InputBox';
 import TextButton from '../../../components/TextButton';
 import Date from '../../../components/Date';
 import RadioButton from '../../../components/RadioButton';
-import CheckBox from '../../../components/CheckBox';
 import { initialValues } from './SignupContent';
 import { Link } from 'react-router-dom';
+import { dateValidate, validate } from './validation';
+import { postReuqest } from '../../../request/Post';
 function Signup() {
 
     const [formValue, setFormValue] = useState(initialValues);
-    const [gender, setGender] = useState({ male: "Male", female: "Female", non: "Non-Binary", other: 'Other', unknown: "Unknown" });
+    const [gender, setGender] = useState(null);
+    const [dob, setDob] = useState({ day: "", month: "", year: "" });
+    const [genderError, setGenderError] = useState();
     const [dateErrors, setDateErrors] = useState({});
     const [formErrors, setFormErrors] = useState({});
+    const [isMarketing, setIsMarketing] = useState(false);
+    const [isShare, setIsShare] = useState(false);
+    const [isSubmit, setIsSubmit] = useState(false);
 
-    const handleGender = () => {
-
+   
+    const signup = () => {
+        const data = {
+            name :  formValue?.name,
+            userEmail : formValue?.userEmail,
+            userPassword :  formValue?.userPassword,
+            userGender :  gender,
+            userDob :  `${dob?.year}-${dob?.month}-${dob?.day}`
+        }
+        console.log(data);
+        postReuqest('user/create',data)
+        .then(resp => 
+            console.log(resp)
+        )
     }
-
     const onSubmit = (e) => {
+        e.preventDefault();
+        setFormErrors(validate(formValue));
+        setDateErrors(dateValidate(dob));
 
+        if(gender===null){
+            setGenderError(prev => "Select your gender.")
+        }else{
+            setGenderError(null);
+        }
+
+        if(Object.keys(formErrors).length === 0 && Object.keys(dateErrors).length===0 && gender && formValue?.userEmail === formValue?.cnfMail){
+            setIsSubmit(true);
+            signup();
+        }
     }
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setFormValue({ ...formValue, [name]: value })
     }
-
 
 
     return (
@@ -65,6 +95,7 @@ function Signup() {
                         onChange={onChange}
                         placeholder="Enter your email."
                         name="userEmail"
+                        error={formErrors?.userEmail}
                     />
                     <a href="./" className='phone signup-link'>Use phone number instead.</a>
                 </div>
@@ -75,6 +106,7 @@ function Signup() {
                     onChange={onChange}
                     placeholder="Enter your email again."
                     name="cnfMail"
+                    error={formErrors?.cnfMail}
                 />
 
                 <InputBox
@@ -84,6 +116,7 @@ function Signup() {
                     onChange={onChange}
                     placeholder="Create a password."
                     name="userPassword"
+                    error={formErrors?.userPassword}
                 />
 
                 <div className="profile_name">
@@ -94,31 +127,71 @@ function Signup() {
                         onChange={onChange}
                         placeholder="Enter a profile name."
                         name="name"
+                        error={formErrors?.name}
                     />
                     <p>This appears on your profile.</p>
                 </div>
                 <div className="dob">
-                    <Date />
+                    <Date dob={dob} setDob={setDob} errors={dateErrors} />
                 </div>
                 <Gender>
                     <label htmlFor="" className='gen'>What's your gender?</label>
                     <div className="option">
-                        <RadioButton name="gender" value={gender?.male} onChange={handleGender}
-                            text={"Male"} />
-                        <RadioButton name="gender" value={gender?.female} onChange={handleGender}
-                            text={"Female"} />
-                        <RadioButton name="gender" value={gender?.non} onChange={handleGender}
-                            text={"Non-Binary"} />
-                        <RadioButton name="gender" value={gender?.other} onChange={handleGender}
-                            text={"Other"} />
-                        <RadioButton name="gender" value={gender?.unknown} onChange={handleGender}
-                            text={"Prefer not to say"} />
+                        <RadioButton
+                            name="gender" value={'Male'}
+                            text={"Male"} gender={gender}
+                            setGender={setGender} />
+
+                        <RadioButton
+                            name="gender" value={'Female'}
+                            text={"Female"} gender={gender}
+                            setGender={setGender} />
+
+                        <RadioButton
+                            name="gender" value={'Non-Binary'}
+                            text={"Non-Binary"} gender={gender}
+                            setGender={setGender} />
+
+                        <RadioButton
+                            name="gender" value={'Others'}
+                            text={"Other"} gender={gender}
+                            setGender={setGender} />
+
+                        <RadioButton
+                            name="gender" value={'Unknown'}
+                            text={"Prefer not to say"}
+                            gender={gender} setGender={setGender} />
+                        {
+                            genderError && <p className='gender-error'>{genderError}</p>
+                        }
                     </div>
                 </Gender>
-                <div className="check-list">
-                    <CheckBox name='not_marketing' value={false} text="I would prefer not to receive marketing messages from Spotify" />
-                    <CheckBox name='share' value={false} text="Share my registration data with Spotify's content providers for marketing purposes." />
-                </div>
+                <CheckList>
+                    <div className="marketing chk">
+                        <input
+                            type="checkbox"
+                            name="marketing"
+                            value={isMarketing}
+                            checked={isMarketing}
+                            onChange={() => setIsMarketing(prev => !isMarketing)}
+                        />
+                        <label htmlFor="">
+                            I would prefer not to receive marketing messages from Spotify
+                        </label>
+                    </div>
+                    <div className="share_data chk">
+                        <input
+                            type="checkbox"
+                            name="isShare"
+                            value={isShare}
+                            checked={isShare}
+                            onChange={() => setIsShare(prev => !isShare)}
+                        />
+                        <label htmlFor="">
+                            Share my registration data with Spotify's content providers for marketing purposes.
+                        </label>
+                    </div>
+                </CheckList>
                 <div className="terms">
                     <p>
                         By clicking on sign-up, you agree to Spotify's <a href="/">Terms and Conditions of Use</a>.
@@ -128,19 +201,20 @@ function Signup() {
                     </p>
                 </div>
 
-                <div className="btn">
+                <div className="btn" onClick={onSubmit}>
                     <TextButton
                         type={'submit'}
                         onClick={onSubmit}
                         text="Sign Up"
                         bg="#1ed760"
                         fg="black"
+                        padding={'1rem 2.5rem'}
                     />
                 </div>
             </Form>
 
             <div className="instead_login">
-                <p><span>Have an account? 
+                <p><span>Have an account?
                     <Link to="/user/login" className='signup-link'>Log in.</Link>
                 </span></p>
             </div>
@@ -216,14 +290,11 @@ const Form = styled.form`
     flex-direction: column;
     gap:1rem;
     padding-bottom: 2rem;
-    .check-list{
-        margin: 2rem 0rem;
-        display:flex;
-        flex-direction:column;
-        width: 28rem;
-        gap:2rem;
+    .profile_name{
+        display: flex;
+        flex-direction: column;
+        gap:0.3rem;
     }
-
     .terms{
         width: 28rem;
         text-align: center;
@@ -258,5 +329,47 @@ const Gender = styled.div`
         gap:1rem;
         flex-wrap: wrap;
     }
+    .gender-error{
+        color:red;
+    }
+`
+
+const CheckList = styled.div`
+    margin: 2rem 0rem;
+    display:flex;
+    flex-direction:column;
+    width: 28rem;
+    gap:2rem;
+    
+    .chk{
+        input{
+            width: 1rem;
+            height: 1rem;
+        }
+        label{
+            display: flex;
+            flex-wrap: wrap;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+    }
+    .marketing{
+        display: flex;
+        gap:1rem;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .share_data{
+        display:grid;
+        grid-template-columns: 0.3fr 4fr;
+        input{
+            width: 1rem;
+            height: 1.5rem;
+        }
+    }
+
 `
 export default Signup

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function TextButton({ text, bg, fg, type }) {
+function TextButton({ text, bg, fg, type,padding }) {
     return (
-        <Container bg={bg} fg={fg}>
+        <Container bg={bg} fg={fg} padding={padding}>
             <button  type={type} >
                 <span>{text}</span>
             </button>
@@ -28,13 +28,16 @@ const Container = styled.div`
         display: inline-block;
         text-align: center;
         align-self: center;
-        padding: 0.8rem 1.5rem;
+        padding: ${({padding}) => padding ? padding : `0.8rem 1.7rem`};
         border: 0;
         background-color: ${({bg}) => (bg ? bg : 'transparent')};
         span{
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1.25rem;
+        }
+        &:hover{
+            scale: 1.05;
         }
     }
     &:focus-within{

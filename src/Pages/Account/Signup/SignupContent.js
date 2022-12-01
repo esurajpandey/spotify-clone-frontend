@@ -3,7 +3,6 @@ export const initialValues =  {
     cnfMail:"",
     userPassword: "",
     name: "",
-    userGender: "",
 }
 
 export const dobInitialValues =  {

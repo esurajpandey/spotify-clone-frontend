@@ -2,37 +2,47 @@ import React from 'react'
 import styled from 'styled-components'
 import {MdError}  from 'react-icons/md';
 function Date(props) {
-    const {day,month,year,onChange,error} =  props;
+    const {dob,setDob,errors} =  props;
     const monthList = ["January","February","March","April","May","June","July",
     "August","September","October","November","December"];
 
     const months = monthList.map((month,index) => (
-        <option key={index} value={index}>{month}</option>
+        <option key={index} value={index+1}>{month}</option>
     ));
+
+    const onChange = (e) =>{
+        e.preventDefault();
+        const {name,value} = e.target;
+        setDob({...dob,[name]:value});
+    }
+
     return (
         <DateContainer>
             <label htmlFor="" className='title'>
                 What's your date of birth?
             </label>
-            <InputContainer>
+            <InputContainer errors={errors}>
                 <div className="year">
                     <label htmlFor="">
                         Year
                     </label>
-                    <input type="text" value={year} onChange={onChange} name="year" placeholder='YYYY'/>
+                    <input type="text" value={dob?.year} onChange={onChange} name="year" placeholder='YYYY'/>
                 </div>
                 <div className="month">
                     <label htmlFor="">
                         Month
                     </label>
+
                     <MonthList 
                         className="month"
-                        value={month}
+                        // value={dob?.month}
                         name="month"
                         placeholder="Month"
                         onChange={onChange}
+                        errors={errors}
                     >
-                    <option selected="" disabled value="">Month</option>
+
+                    <option  select="true" disabled value="">Month</option>
                     {months}   
                     </MonthList>
                 </div>
@@ -40,14 +50,14 @@ function Date(props) {
                     <label htmlFor="">
                         Day
                     </label>
-                    <input type="text" value={day} onChange={onChange} name="day" placeholder='DD'/>
+                    <input type="text" value={dob?.day} onChange={onChange} name="day" placeholder='DD'/>
                 </div>
             </InputContainer>
 
             <div className="error">
-                <p>{error?.year && <><MdError/> {error?.year} </>}</p>
-                <p>{error?.month && <><MdError/> {error?.month} </>}</p>
-                <p>{error?.day && <><MdError/> {error?.day} </>}</p>
+                <p>{errors?.year && <><MdError/> {errors?.year} </>}</p>
+                <p>{errors?.month && <><MdError/> {errors?.month} </>}</p>
+                <p>{errors?.day && <><MdError/> {errors?.day} </>}</p>
             </div>
         </DateContainer>
     )
@@ -116,6 +126,7 @@ const InputContainer =  styled.div`
             background-color: var(--background-base,#ffffff);
             box-shadow: inset 0 0 0 1px var(--essential-subdued,#878787);
             color: var(--text-base,#000000);
+            outline: ${({errors})=> ((errors?.year || errors?.day) ? '2px solid red' : '1px solid grey')};
         }        
     }
 
@@ -152,6 +163,8 @@ const MonthList =  styled.select`
     background-color: var(--background-base,#ffffff);
     box-shadow: inset 0 0 0 1px var(--essential-subdued,#878787);
     color: var(--text-base,#000000);
+    border: 0;
+    outline: ${({errors})=> ((errors?.month) ? '2px solid red' : 'transparent')};
     .month{
         color: #878787;
         &:hover{

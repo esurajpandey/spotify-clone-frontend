@@ -6,21 +6,21 @@ import { itemContent } from '../Body/HomeContent';
 import { Link } from 'react-router-dom';
 
 export default function Playlist() {
-  const [{playlists}, dispatch] = useStateProvider();
+  const [{userPlaylists}, dispatch] = useStateProvider();
   
   useEffect(() => {
     const getPlaylist = async () => {
-      dispatch({ type: reducerCases.SET_PLAYLISTS, playlists:itemContent })
+      dispatch({ type: reducerCases.SET_USER_PLAYLISTS, userPlaylists:itemContent })
     }
     getPlaylist();
-  }, [playlists,dispatch]);
+  }, [userPlaylists,dispatch]);
 
 
   return (
     <Container>
       <ul>
         {
-          playlists.map((playlist,index) => {
+          userPlaylists.map((playlist,index) => {
             return (
               <li key={playlist?.id}>
                 <Link to={`/spotify/body/${playlist?.id}`}>

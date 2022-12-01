@@ -13,7 +13,7 @@ function Player({track}) {
   const [duration,setDuration] = useState(0);
   const [currentTime,setCurrentTime] = useState(0);
   const [progressWidth,setProgressWidth] = useState(0);
-  const [{isPlaying,currentSong,previousSong},dispatch] = useStateProvider();
+  const [{isPlaying,currentSong,previousSong,volume},dispatch] = useStateProvider();
 
 
   useEffect(() => {
@@ -35,49 +35,44 @@ function Player({track}) {
     const prev =  isPlaying;
     dispatch({type:reducerCases.SET_PLAYING,isPlaying: !prev});
   }
-
-
   useEffect(()=>{
-    console.log(`${currentSong?.id} - ${previousSong?.id} is playing ${isPlaying}` ) ;
     if(isPlaying){
       audioPlayer?.current.play();
+      // if(audioPlayer.current.currentTime === audioPlayer.current.duration){
+        
+      // }
       animationRef.current =  requestAnimationFrame(whilePlaying);
     }else{
       audioPlayer?.current.pause();
       cancelAnimationFrame(animationRef.current);
     }
-  },[isPlaying])
 
+  },[currentSong,isPlaying])
 
-  // useEffect(()=>{
-  //   if(isPlaying){
-  //     animationRef.current =  requestAnimationFrame(whilePlaying);
-  //   }else{
-  //     cancelAnimationFrame(animationRef.current);
-  //   }
-  // },[currentTime,isPlaying]);
+  useEffect(()=>{
+    audioPlayer.current.volume = volume /100;
+  },[volume]);
 
   const whilePlaying = () => {
     progressBar.current.value = audioPlayer?.current.currentTime;
     changeCurrentTime();
     animationRef.current = requestAnimationFrame(whilePlaying);
+
   }
 
   const changeProgress = () => {
     audioPlayer.current.currentTime = progressBar.current.value;
     changeCurrentTime();
   };
+
   const changeCurrentTime = () =>{
-    setProgressWidth((progressBar.current.value / duration) * currentTime/100);
+    console.log(progressBar.current.value) 
+    setProgressWidth((progressBar.current.value / duration) * 100);
     setCurrentTime(progressBar?.current.value);
   }
 
-
-
-
-
   return (
-    <Container>
+    <PlayerContainer>
       <audio
         ref={audioPlayer}
         src={currentSong?.track}
@@ -110,11 +105,11 @@ function Player({track}) {
           :"00:00"
         }</span>
       </ProgressBar>
-    </Container>
+    </PlayerContainer>
   )
 }
 
-const Container = styled.div`
+const PlayerContainer = styled.div`
   min-width: 300px;
   display: flex;
   overflow: hidden;

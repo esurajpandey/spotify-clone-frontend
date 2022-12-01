@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function RadioButton({name,value,onChange,text}) {
+function RadioButton({name,value,setGender,gender,text}) {
   return (
     <RadioButtonContainer>
-        <input type='radio' name={name} value={value} onChange={onChange}/>
+        <input type='radio' name={name} checked={gender===value} value={value} onChange={()=>setGender(value)}/>
         <label htmlFor="">{text}</label>
     </RadioButtonContainer>
   )

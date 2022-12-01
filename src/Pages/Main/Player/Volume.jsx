@@ -1,49 +1,48 @@
 import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
 import mice from '../../../assets/svg/mice.svg';
-import radio from '../../../assets/svg/mono.svg';
 import librarayIcon from '../../../assets/svg/library.svg';
 import mute from '../../../assets/svg/adiooff.svg';
 import mediamSound from '../../../assets/svg/mediamsound.svg';
 import fullSound from '../../../assets/svg/fullsound.svg';
 import lowSound from '../../../assets/svg/lowsound.svg';
-
+import {useStateProvider}  from '../../../utils/StateProvider';
+import {reducerCases}  from '../../../utils/Constants';
 function Volume() {
-    const [volumeRatio,setVolumeRatio] = useState(0);
+
     const [volIcon,setVolIcon] = useState(lowSound);
     const [isMute,setIsMute] = useState(false);
+    const [{volume},dispatch] = useStateProvider();
+    
     const onChange = (e) =>{
-        setVolumeRatio(prev => +e.target.value)
+        const val = +e.target.value;
+        dispatch({type:reducerCases.SET_VOLUME,volume : val});
     }
 
     const muteHandle = (e) =>{
+        const prev =  isMute;
+        if(!prev){
+            dispatch({type:reducerCases.SET_VOLUME,volume : 0});
+        }else{
+            dispatch({type:reducerCases.SET_VOLUME,volume : 30});
+        }
         setIsMute(!isMute);
     }
+
     useEffect(()=>{
-        if(volumeRatio > 0 && volumeRatio <=30){
+        if(volume > 0 && volume <=30){
             setVolIcon(prev => lowSound)
         }
-        else if(volumeRatio > 30 && volumeRatio <=80){
+        else if(volume > 30 && volume <=80){
             setVolIcon(prev => mediamSound)
         }
-        else if(volumeRatio > 80){
+        else if(volume > 80){
             setVolIcon(prev => fullSound)
         }else{
             setVolIcon(prev => mute)
-        }
+        } 
+    },[volume])
 
-        
-    },[volumeRatio])
-
-    useEffect(()=>{
-        if(isMute){
-            setVolIcon(mute);
-            setVolumeRatio(prev => 0);
-        }else{
-            setVolIcon(prev => lowSound)
-            setVolumeRatio(prev => 30)
-        }
-    },[isMute]);
   return (
     <Container>
         <div className="mic">
@@ -57,7 +56,7 @@ function Volume() {
                 <img src={volIcon} alt=""  onClick={muteHandle}/>
            </div>
            <div className="range">
-                <input type="range" step={10} min={10} max={100} defaultValue={volumeRatio} onChange={onChange}/>
+                <input type="range" step={10} min={10} max={100} defaultValue={volume} onChange={onChange}/>
            </div>
         </Vol>
     </Container>
