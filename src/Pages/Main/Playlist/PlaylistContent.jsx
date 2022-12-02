@@ -4,10 +4,13 @@ import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { recentContent } from '../Body/HomeContent';
 import Card from '../../Cards/Card';
+import { useStateProvider } from '../../../utils/StateProvider';
 
 function PlaylistContent() {
+    const [{userPlaylists}] = useStateProvider();
     const play = false;
     const songCount = 0;
+    console.log(userPlaylists);
     return (
         <Container>
             <div className='heading'>
@@ -27,10 +30,10 @@ function PlaylistContent() {
                         </div>
                     </li>
                     {
-                        recentContent.map(item=> {
+                        userPlaylists.map(playlist=> {
                             return (
                                 <li>
-                                    <Card item={item} play={play} playBtn={true}/>
+                                    <Card playlist={playlist} play={play} playBtn={true}/>
                                 </li>
                             )
                         })

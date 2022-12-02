@@ -1,20 +1,36 @@
 import React from 'react'
 import styled from 'styled-components';
 import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
+import {RiMusic2Line} from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
-function Card({ item, play,playBtn }) {
+function Card({ playlist, play, playBtn }) {
     return (
         <Container className="card_item">
-            <Link to={`/spotify/body/${item.id}`}>
+            <Link to={`/spotify/body/${playlist?.id}`}>
                 <div className="card_image">
-                    <img src={require('../../assets/femalVersion.jpg')} alt="Spotify" />
+                    {
+                        playlist?.cover  ?
+                        <img src={playlist?.cover} alt="Spotify" />
+                        :
+                        <div className='music_icon'>
+                                        <RiMusic2Line />
+                        </div>
+
+                    }
                 </div>
                 <div className='card_info'>
-                    <h4 className='title'>{item?.title}</h4>
-                    <span className='info_details'>
-                        {item?.description}
-                    </span>
+                    <h4 className='title'>{playlist?.title}</h4>
+                    {
+                        playlist?.description ?
+                            <span className='descript'>
+                                {playlist?.description}
+                            </span>
+                            :
+                            <span className='info_details'>
+                            {`By ${playlist?.user}`}
+                            </span>
+                    }
                 </div>
             </Link>
             {
@@ -30,14 +46,15 @@ function Card({ item, play,playBtn }) {
 
 const Container = styled.div`
     cursor: pointer;
-    /* border:1px solid red; */
     display: flex;
     flex-direction: column;
     width: 11rem;
+    height: 16rem;
     padding:1rem;
     background-color: #181717;
     border-radius: 4px;
     position: relative;
+
     &:hover{
         background-color: #1f1d1d;
         .play_pause{
@@ -60,25 +77,48 @@ const Container = styled.div`
                 height: 9rem;
                 border-radius: 4px;
             }
+            .music_icon{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 4px;
+                width: 9rem;
+                height: 9rem;
+                background-color: #2e2c2c;
+                svg{
+                    color: #a09e9e;
+                    font-size : 4.2rem ;
+                    font-weight: 100;
+                }
+            }
         }
         .card_info{
             width: 9rem;
             display: flex;
             flex-direction: column;
             padding-top: 1rem;
+            gap:0.7rem;
             h4{
-                padding-bottom: 0.6rem;
                 color:white;
             }
             span{
                 display: flex;
                 flex-direction: column;
                 width: 100%;
-                color:grey;
+                color:#cec5c5;
                 font-family:Arial, Helvetica, sans-serif;
-                font-size: 0.95rem;
+                font-size: 0.85rem;
                 justify-content: center;
-                align-items: center;
+                align-items: flex-start;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            .descript{
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                font-size: 0.8rem;
             }
         }
     }
@@ -105,7 +145,6 @@ const Container = styled.div`
         &:hover{                                
             svg{
                 font-size: 3.08rem;
-                
             }
         }
     }

@@ -53,8 +53,11 @@ export default function Spotify() {
             id:playlist?.playlistId,
             title :playlist?.title,
             cover: playlist?.cover,
+            user :  playlist?.user?.name,
+            description :  playlist?.description
           }
         })
+        console.log(userPlaylists)
         dispatch({type:reducerCases.SET_USER_PLAYLISTS,userPlaylists:userPlaylists});
       }
       getPlaylist();
