@@ -6,16 +6,7 @@ import { itemContent } from '../Body/HomeContent';
 import { Link } from 'react-router-dom';
 
 export default function Playlist() {
-  const [{userPlaylists}, dispatch] = useStateProvider();
-  
-  useEffect(() => {
-    const getPlaylist = async () => {
-      dispatch({ type: reducerCases.SET_USER_PLAYLISTS, userPlaylists:itemContent })
-    }
-    getPlaylist();
-  }, [userPlaylists,dispatch]);
-
-
+  const [{userPlaylists}] = useStateProvider();
   return (
     <Container>
       <ul>
@@ -46,6 +37,7 @@ const Container = styled.div`
     gap: 1rem;
     padding: 1rem;
     padding-top: 1rem;
+    padding-bottom: 5rem;
     height: 52vh;
     overflow: auto;
     max-height: 100%;

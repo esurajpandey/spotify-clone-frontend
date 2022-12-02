@@ -9,21 +9,13 @@ import Logout from './Pages/Account/Login/Logout';
 import { postReuqest } from './request/Post';
 
 function App() {
-  const [{ token,user,playlist }, dispatch] = useStateProvider();
+  const [{ token,user }, dispatch] = useStateProvider();
   useEffect(() => {
       let store =  JSON.parse(localStorage.getItem('user-info'));
       if(store?.token){
         dispatch({type:reducerCases.SET_USER,user : store.name})
         dispatch({type:reducerCases.SET_TOKEN,token : store.token})
       }
-
-      const getPlaylist = async() =>{
-        let playlistData = await fetch('http://localhost:3000/playlist/userPlaylists/:0');
-        playlistData = await playlistData.json();
-        console.log(playlistData);
-      }
-
-      getPlaylist();
   }, [token, dispatch]);
   
   return (

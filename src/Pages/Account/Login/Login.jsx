@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import TextButton from '../../../components/TextButton'
 import SignupBtn from './SignupBtn'
 import { validateForm } from './validaion';
-import { postReuqest } from '../../../request/Post';
+import { postRequest } from '../../../request/Post';
 import { useStateProvider } from '../../../utils/StateProvider';
 function Login() {
 
@@ -40,7 +40,7 @@ function Login() {
     const getUser = async() =>{
 
       if(Object.keys(formErrors).length === 0 && isLogin){
-        const resp = await postReuqest('user/login',formValue);
+        const resp = await postRequest('user/login',formValue);
 
         if(resp?.user){
 

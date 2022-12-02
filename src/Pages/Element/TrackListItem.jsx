@@ -1,58 +1,86 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import {BsFillPlayFill,BsPause} from 'react-icons/bs';
-import {FaHeart,FaRegHeart} from 'react-icons/fa';
+import { BsFillPlayFill, BsPause } from 'react-icons/bs';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useStateProvider } from '../../utils/StateProvider';
 import { reducerCases } from '../../utils/Constants';
 
 function TrackListItem(props) {
-    const {serialNumber,id,cover,title,singers,album_playlist,dateAdded,duration,handlePlay,liked} = props
-    const [isLiked,setLiked] = useState(false);
-    const addedDate =  dateAdded ? true : false;
-    const [{isPlaying,currentSong}]= useStateProvider();
+    const { serialNumber, id, cover, title, singers, album_playlist, dateAdded, duration, handlePlay, liked } = props
+    const [isLiked, setLiked] = useState(false);
+    const addedDate = dateAdded ? true : false;
+    const [{ isPlaying, currentSong }] = useStateProvider();
 
-    const handleLike = (e) =>{
+    const handleLike = (e) => {
         setLiked(!isLiked);
     }
 
-    const getMinSec = (ms) =>{
-        const min =  Math.floor(ms/60000);
-        const sec =  ((ms%60000)/1000).toFixed(0);
-        return min + ":" + (sec < 10 ? "0"  : "") + sec;
+    const getMinSec = (ms) => {
+        const min = Math.floor(ms / 60000);
+        const sec = ((ms % 60000) / 1000).toFixed(0);
+        return min + ":" + (sec < 10 ? "0" : "") + sec;
     }
-    return (
-    <Container addedDate={addedDate} >
-        <SerialNumber onClick={()=>handlePlay(id)}>
-            {(currentSong?.id === id && isPlaying )? <BsPause className='playBtn'/> : <BsFillPlayFill className='playBtn'/>}
-            <span>{serialNumber}</span>
-        </SerialNumber>
-        <Cover>
-            <img src={cover} alt="" />
-        </Cover>
-        <Info>
-            <a href='/'>{title}</a>
-            <a href='.' className='singers'>{singers.join(',')}</a>
-        </Info>
-        <AlbumPlaylist>
-            <a href='.'>{album_playlist}</a>
-        </AlbumPlaylist>
-        {
-            props.dateAdded && (
-                <DateAdded>
-                    <span>{dateAdded}</span>
-                </DateAdded>
-            )
+
+    const getDays = (added) => {
+        const now = new Date();
+        const add = new Date(added);
+        const diffTime = Math.abs(now - add);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+        let seconds = Math.floor(diffTime / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+
+        let res;
+        if(seconds < 60){
+            res = seconds + " seconds ago";
+        }else if(seconds > 60 && minutes < 60){
+            res = minutes + " minutes ago";
+        }else if(minutes > 60 && hours < 24){
+            res = hours +  (hours === 1  ? " hour ago" : " hours ago");
+        }else if(hours > 24){
+            res =  diffDays + (diffDays === 1 ? " day ago" :  " days ago");
         }
+        return res;
+    }
 
-        <Heart>
-            {liked ? <FaHeart className='filled' onClick={handleLike}/> :<FaRegHeart onClick={handleLike}/>}
-        </Heart>
 
-        <Duration>
-            <span>{getMinSec(duration)}</span>
-        </Duration>
-    </Container>
-  )
+
+    return (
+        <Container addedDate={addedDate} >
+            <SerialNumber onClick={() => handlePlay(id)}>
+
+                {(currentSong?.id === id && isPlaying) ? <BsPause className='playBtn' /> : <BsFillPlayFill className='playBtn' />}
+                <span>{serialNumber}</span>
+
+            </SerialNumber>
+            <Cover>
+                <img src={cover} alt="" />
+            </Cover>
+            <Info>
+                <a href='/'>{title}</a>
+                <a href='.' className='singers'>{singers.join(',')}</a>
+            </Info>
+            <AlbumPlaylist>
+                <a href='.'>{album_playlist?.title}</a>
+            </AlbumPlaylist>
+            {
+                props.dateAdded && (
+                    <DateAdded>
+                        <span>{getDays(dateAdded)}</span>
+                    </DateAdded>
+                )
+            }
+
+            <Heart>
+                {liked ? <FaHeart className='filled' onClick={handleLike} /> : <FaRegHeart onClick={handleLike} />}
+            </Heart>
+
+            <Duration>
+                <span>{getMinSec(duration)}</span>
+            </Duration>
+        </Container>
+    )
 }
 
 
@@ -132,7 +160,7 @@ const Container = styled.div`
     transition: 0.3s ease-in-out;
     display: grid;
     /* grid-template-columns: 0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr; *///for nomal
-    grid-template-columns: ${({addedDate})=> addedDate ? '0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr' : '0.6fr 0.9fr 7.7fr 4.8fr 1fr 1.1fr'};
+    grid-template-columns: ${({ addedDate }) => addedDate ? '0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr' : '0.6fr 0.9fr 7.7fr 4.8fr 1fr 1.1fr'};
 
     // grid-template-columns: 0.6fr 0.9fr 7.7fr 4.8fr 1fr 1.3fr;
     align-items: center;

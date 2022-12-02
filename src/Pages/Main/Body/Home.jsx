@@ -6,12 +6,13 @@ import { BsFillPlayCircleFill, BsFillPauseCircleFill } from 'react-icons/bs';
 import { recentContent, cardsContent } from './HomeContent';
 import Card from '../../Cards/Card';
 import ItemBody from './ItemBody';
+import { useStateProvider } from '../../../utils/StateProvider';
 function Home() {
     const play = false;
     const recent =  recentContent.slice(0,6);
     const [message,setMessage] = useState("");
     const currHrs =  new Date().getHours();
-
+    const [{userPlaylists,token},dispatch] = useStateProvider();
 
     useEffect(()=>{
         if (currHrs < 12)
@@ -21,17 +22,7 @@ function Home() {
         else if (currHrs > 16 && currHrs <= 24)
             setMessage('Good Evening');
     },[currHrs])
-        
-
-    useEffect(()=>{
-        
-    })
-
-
-
-
-
-
+    
 
 
 

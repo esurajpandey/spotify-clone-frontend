@@ -1,13 +1,14 @@
 import React, { useEffect,useRef,useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
+import { Route, Routes } from 'react-router-dom';
+
 import { reducerCases } from '../../../utils/Constants';
 import { useStateProvider } from '../../../utils/StateProvider';
+
 import Home from '../Body/Home';
 import SideBar from '../Navbar/SideBar';
 import Footer from '../Player/Footer';
 import LikedSong from "../Body/LikedSong";
-import PrivatePlaylist from "../Playlist/PrivatePlaylist";
 import Search from '../Body/Search';
 import TagBody from '../Body/TagBody';
 import PlaylistContent from '../Playlist/PlaylistContent';
@@ -18,6 +19,7 @@ import TopNavBar from '../Navbar/TopNavBar';
 import CreatePlaylist from '../Playlist/CreatePlaylist';
 import ProfilePage from '../../Account/Profile/ProfilePage';
 import TopTracks from '../Body/Tracks/TopTracks';
+import PlaylistContainer from '../Body/PlaylistContainer';
 
 export default function Spotify() {
 
@@ -36,14 +38,31 @@ export default function Spotify() {
     let store =  JSON.parse(localStorage.getItem('user-info'));
     if(store?.token){
       dispatch({type:reducerCases.SET_USER,user : store.name})
-      dispatch({type:reducerCases.SET_TOKEN,token : store.tokem})
+      dispatch({type:reducerCases.SET_TOKEN,token : store.tokem}) 
+      
+      const getPlaylist = async() =>{
+        let playlistData = await fetch('http://localhost:3000/playlist/userPlaylists/0',{
+          method:"GET",
+          headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        });
+        playlistData = await playlistData.json();
+        let userPlaylists =  playlistData.map((playlist,index)=>{
+          return {
+            id:playlist?.playlistId,
+            title :playlist?.title,
+            cover: playlist?.cover,
+          }
+        })
+        dispatch({type:reducerCases.SET_USER_PLAYLISTS,userPlaylists:userPlaylists});
+      }
+      getPlaylist();
     }
-    console.log('Hello in app ',token)
   }, [token, dispatch]);
 
-
   const closePopup = () =>{
-    dispatch({type:reducerCases.SET_POP_UP,editPopup:!editPopup});
+    dispatch({type:reducerCases.SET_EDIT_POP_UP,editPopup:!editPopup});
   }
 
   useEffect(()=>{
@@ -65,7 +84,7 @@ export default function Spotify() {
                 <Route path='tagContents/:id' element={<TagBody/>}/>
                 <Route path='createPlaylist' element={<CreatePlaylist/>}/>
                 <Route path='likedSong' element={<LikedSong/>}/>
-                <Route path='body/:id' element={<PrivatePlaylist/>} />
+                <Route path='body/:id' element={<PlaylistContainer/>}/>
                 <Route path='playlists' element={<PlaylistContent/>} />
                 <Route path='albums' element={<AlbumContent/>} />
                 <Route path='podcasts' element={<PodcastContent/>} />

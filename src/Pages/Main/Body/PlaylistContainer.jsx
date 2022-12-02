@@ -1,92 +1,187 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from 'styled-components'
+
 import { RiMusic2Line } from 'react-icons/ri';
-import {HiOutlinePencil} from 'react-icons/hi';
-import TrackList from './TrackList';
-import EditPlaylist from '../Playlist/EditPlaylist';
+import { HiOutlinePencil } from 'react-icons/hi';
+import { useParams } from 'react-router-dom';
 import { useStateProvider } from '../../../utils/StateProvider';
 import { reducerCases } from '../../../utils/Constants';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+
+import EditPlaylist from '../Playlist/EditPlaylist';
 import DropdownMenu from '../../Element/DropdownMenu';
 import PlayerButton from '../../Element/PlayerButton';
+import Body from '../Playlist/Body';
 
-function PlaylistContainer({playlistData,type}) {
-  const [{editPopup},dispatch] = useStateProvider();
+function PlaylistContainer() {
+
   const [open, setOpen] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [listening, setListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const [{ editPopup,currentPlaylist,token }, dispatch] = useStateProvider();
+  const playlistId = useParams()?.id;
+
   const handleMenuOpen = () => {
     setOpen(!open);
   }
+
   const onLike = (e) => {
-      setLiked(!liked);
+    setLiked(!liked);
   }
-  const cover = playlistData?.img ?? "";
-  
-  const uploadImage = () =>{
-    dispatch({ type: reducerCases.SET_POP_UP, editPopup: !editPopup})
+
+  const getDuration = (songs) => {
+    let total = 0;
+    songs.forEach(song => {
+      total = total + +song?.duration
+    })
+    let sec = total / 1000;
+    let min = sec / 60;
+    let hrs = min / 24;
+
+    let res = "";
+
+    if (hrs >= 1) {
+      res = res + ` ${hrs} hr`
+      min = Math.floor(min % 60);
+    }
+
+    if (min <= 60) {
+      res = res + ` ${Math.floor(min)} min`
+    }
+    return res;
   }
-  return (
-    <Container editOn={editPopup}>
-      {
-            editPopup && <EditPlaylist title={playlistData?.title} image={playlistData?.img}/>
-      }
-      <div className="top_items">
-        <div className="image" onClick={uploadImage}>
-          
-          {
-            !cover ? (
-              <div className='music_icon'>
-                <RiMusic2Line />
-              </div>
-            )
-              :
-              <img src={cover} alt="Selected Playlist" />
+
+  const getCurrentPlaylist = async () => {
+    if (playlistId) {
+      let data = await fetch(`http://localhost:3000/playlist/private/song/${playlistId}/0`, {
+        method: "GET",
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      data = await data.json();
+
+      let curr = {
+        id: data?.playlistId,
+        title: data?.title,
+        user: data?.user?.name,
+        decription: data?.decription,
+        type: data?.type ?? 'private',
+        cover: data?.cover,
+        songs: data?.songs.map(song => {
+          return {
+            album: {
+              id: song?.albumId,
+              title: song?.album?.title
+            },
+            artists: song?.artists.map(artist => {
+              return {
+                id: artist?.artistId,
+                name: artist?.artistName
+              }
+            }),
+            duration: song?.duration,
+            id: song?.songId,
+            addedOn: song?.songInPlaylist?.addedOn,
+            title: song?.title,
+            cover: song?.cover
           }
-          <div className='edit_icon'>
-            <HiOutlinePencil style={{
-              strokeWidth : "40"
-            }}/>
-            <span>Choose photo</span>
-          </div>
-        </div>
-        <div className="details">
-          <span className='type'>PLAYLIST</span>
-          <h1 className='title'>{playlistData.title}</h1>
-          <p className='created_by'>{playlistData?.userName ?? "Suraj Pandey"}</p>
-        </div>
-      </div>
-      
-      <NavigationContainer>
-        {playlistData?.songs && <PlayerButton />}
+        })//songs
+      }//playlist
 
-        {
-            playlistData.type==='public' &&
-            <div className='like_btn'>
-                {
-                    liked ? <FaHeart onClick={onLike} className="liked" /> : <FaRegHeart onClick={onLike} className="unliked" />
-                }
-            </div>
-        }
-        <div className="menu">
-            <HiOutlineDotsHorizontal onClick={handleMenuOpen} className="dot" />
+      dispatch({ type: reducerCases.SET_CURRENT_PLAYLIST, currentPlaylist: curr })
+
+      //set isLoading false
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getCurrentPlaylist();
+  }, [playlistId]);
+
+  const uploadImage = () => {
+    dispatch({ type: reducerCases.SET_EDIT_POP_UP, editPopup: !editPopup })
+  }
+
+  return (
+    <>
+      {
+        isLoading ? 
+
+        <div className="loading">
+          <h1>Loading</h1>
+        </div>
+
+        : <Container editOn={editPopup}>
             {
-                open && <DropdownMenu/>
+              editPopup && <EditPlaylist id={currentPlaylist?.id} title={currentPlaylist?.title} image={currentPlaylist?.img}  description={currentPlaylist?.decription}/>
             }
-        </div>
-      </NavigationContainer>
+            <div className="top_items">
+              <div className="image" onClick={uploadImage}>
+                {
+                  !currentPlaylist?.cover ? (
+                    <div className='music_icon'>
+                      <RiMusic2Line />
+                    </div>
+                  )
+                    :
+                    <img src={currentPlaylist?.cover} alt="Selected Playlist" />
+                }
+                <div className='edit_icon'>
+                  <HiOutlinePencil style={{
+                    strokeWidth: "40"
+                  }} />
+                  <span>Choose photo</span>
+                </div>
+              </div>
 
-      <div className="track_lists">
-        {
-          playlistData.songs && <TrackList headerBg={true} trackList={playlistData.songs} />
-        }
-      </div>
-    </Container>
+              <div className="details">
+                <span className='type'>PLAYLIST</span>
+                <h1 className='title' onClick={uploadImage}>{currentPlaylist.title}</h1>
+
+                <div className="song-details">
+                  <span className='user'>{currentPlaylist?.user}</span>
+                  {
+                    currentPlaylist?.songs &&
+                    <span className='counts'> &#x2022;{` ${currentPlaylist?.songs.length} songs `}
+                      &#x2022; {getDuration(currentPlaylist?.songs)}
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <NavigationContainer>
+              {currentPlaylist?.songs && <PlayerButton />}
+              {
+                currentPlaylist.type === 'public' &&
+                <div className='like_btn'>
+                  {
+                    liked ? <FaHeart onClick={onLike} className="liked" /> : <FaRegHeart onClick={onLike} className="unliked" />
+                  }
+                </div>
+              }
+              <div className="menu">
+                <HiOutlineDotsHorizontal onClick={handleMenuOpen} className="dot" />
+                {
+                  open && <DropdownMenu />
+                }
+              </div>
+            </NavigationContainer>
+            <Body songs={currentPlaylist?.songs} />
+            
+          </Container>
+      }
+    </>
   )
 }
 
 const Container = styled.div`
+  min-height: 80vh;
+  background-image: linear-gradient(transparent,#242323);
   .top_items{
     margin: 0 2rem;
     display: flex;
@@ -103,7 +198,9 @@ const Container = styled.div`
       align-items: center;
       background-color: #312f2f;
       img{
-        width: 100%;
+        object-fit:cover;
+        width: 14.5rem;
+        height: 14.5rem;
         box-shadow: rgba(0,0,0,0.25) 0px 25px 50px -12px;
       }
       .music_icon{
@@ -149,15 +246,35 @@ const Container = styled.div`
         }
       }
     }
+
     .details{
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      padding-top: 5rem;
-      color: #aaaaaa;
+      padding-top: 4.5rem;
+      font-family: 'product-sans';
+      color: #f0e7e7;
+      .type{
+        font-weight: 400;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        line-height: 0.01rem;
+        letter-spacing: 0.02rem;
+      }
+
+      .user{
+        font-weight: 400;
+        font-size: 0.8rem;
+      }
       .title{
         color:white;
-        font-size:4rem;
+        font-size:5rem;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .counts{
+        font-family: Arial, Helvetica, sans-serif;
       }
     }
   }
@@ -168,7 +285,7 @@ const NavigationContainer = styled.div`
   position: relative;
   align-items: center;
   gap:1.7rem;
-  margin:5rem 2rem;
+  margin:1rem 2rem;
   .like_btn{
       font-size: 2rem;
       padding-top:0.5rem;

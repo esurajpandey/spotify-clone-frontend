@@ -1,28 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState ,useRef} from 'react'
 import styled from 'styled-components'
-import { itemContent } from '../Body/HomeContent';
-import PlaylistContainer from '../Body/PlaylistContainer';
+import { useNavigate } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import {AiOutlineClose}  from 'react-icons/ai';
+import { useStateProvider } from '../../../utils/StateProvider';
+import {root} from '../../../utils/Constants';
 import RecommendationItem from '../../Element/RecommendationItem';
+
 function CreatePlaylist() {
-  const playlistData = {
-    title: 'My Playlist #1',
-    img: "",
-    user: "Stark",
-    type: 'private'
-  }
-  const recommendation = true;
   const [searchValue, setSearchValue] = useState("");
   const [showSearch, setShowSearch] = useState(true);
+  const [{token}]= useStateProvider();
+  
+  const isFirstRender = useRef(true);
+  const navigate = useNavigate();
 
   const onChangeHanlde = (e) => {
     setSearchValue(e.target.value);
   }
 
+  const create = async() => {
+    let resp = await fetch(`${root}/playlist/create`,{
+        method : "POST",
+        body :  JSON.stringify({}),
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    resp = await resp.json();
+    if(!resp?.playlistId ) return;
+
+    
+    
+    return navigate(`/spotify/body/${resp?.playlistId}`)
+  }
+
+  useEffect(()=>{
+    if(isFirstRender?.current){
+      isFirstRender.current = false;
+      create()
+    }
+  },[]);
+
   return (
-    <Container>
-      <PlaylistContainer playlistData={playlistData} />
+    <CreatePlaylistContainer>
       <CreateBody>
         {showSearch && <TopLine />}
         {!showSearch && 
@@ -54,11 +75,11 @@ function CreatePlaylist() {
         }
         <BottomLine />
       </CreateBody>
-    </Container>
+    </CreatePlaylistContainer>
   )
 }
 
-const Container = styled.div`
+const CreatePlaylistContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;

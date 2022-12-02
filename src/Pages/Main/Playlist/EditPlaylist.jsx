@@ -1,76 +1,124 @@
-import React, { createRef, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { RiMusic2Line } from 'react-icons/ri';
-import { HiOutlinePencil,HiOutlineDotsHorizontal } from 'react-icons/hi';
-import {AiOutlineClose} from 'react-icons/ai';
+import { HiOutlinePencil, HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { AiOutlineClose } from 'react-icons/ai';
 import { useStateProvider } from '../../../utils/StateProvider';
-import { reducerCases } from '../../../utils/Constants';
+import { BiErrorCircle } from 'react-icons/bi';
+import { reducerCases, root } from '../../../utils/Constants';
 
-function EditPlaylist({title,image}) {
-    const [values, setValues] = useState({ title: "", description: "" });
-    const [{editPopup},dispatch] =  useStateProvider();
-    const [selectedImage,setSelectedImage] = useState(null);
+function EditPlaylist({ id,title, image ,description}) {
+    const [values, setValues] = useState({ title:"", description: "" });
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [error, setError] = useState("");
+    const [file,setFile] = useState(null);
+
     const isFirstRender = useRef(true);
-    const fileRef =  useRef(null);
+    const fileRef = useRef(null);
+    const [{ editPopup,token,currentPlaylist }, dispatch] = useStateProvider();
 
+    const savePlaylist = () => {
+        const fd = new FormData();
+        fd.append('cover',file);
+        fd.append("title",values?.title?? title)
+        fd.append("description",values?.description?? "");
+        fd.append("playlistId",id);
+        fetch(`${root}/playlist/edit`,{
+            method : "POST",
+            body :  fd,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(resp => resp.json(fd))
+        .then(resp =>{
 
-    
-    const handleInputs = (e) => {
-        const { name, value } = e.target;
-        setValues({ ...values, [name]: value })
+            currentPlaylist.title = resp?.title;
+            currentPlaylist.description = resp?.description;
+            currentPlaylist.cover =  resp?.cover;
+
+            dispatch({type:reducerCases.SET_CURRENT_PLAYLIST,currentPlaylist:currentPlaylist})
+        })
+
+        if(values?.title )
+            dispatch({ type: reducerCases.SET_EDIT_POP_UP, editPopup: !editPopup })
     }
 
-    const savePlaylist = () =>{
 
-    }
-
-    
-    const fileChangeHandler = (e) =>{
+    const fileChangeHandler = (e) => {
         let files = e.target.files;
         const reader = new FileReader();
+
         reader.onload = () => {
-            if(reader.readyState === 2){
+            if (reader.readyState === 2) {
                 setSelectedImage(reader.result);
             }
         }
+        setFile(files[0]);
         reader.readAsDataURL(files[0]);
     }
-    const closeEdit = () =>{
-        dispatch({ type: reducerCases.SET_EDIT_PLAYLIST, editPopup: !editPopup})
+
+    const closeEdit = () => {
+        dispatch({ type: reducerCases.SET_EDIT_POP_UP, editPopup: !editPopup })
     }
+
     const fileUpload = (e) => {
         fileRef.current.click();
     }
 
 
-    useEffect(()=>{
-        if(isFirstRender?.current){
+    const onTitleChange = (e) => {
+        if(!e.target.value){
+            setError("Playlist name is required.");
+        }else{
+            setError(prev=>"")
+        }
+        setValues({...values,[e.target.name]:e.target.value})
+    }
+
+
+    const handleDecription = (e) => {
+        setValues({...values,[e.target.name]:e.target.value})
+    }
+
+    useEffect(() => {
+        if (isFirstRender?.current) {
             isFirstRender.current = false;
             setSelectedImage(image)
-            values.title =  title;
+            values.title = title;
+            values.description = description;
             fileUpload();
         }
-        
-    },[]);
-    
+    }, []);
+
+
+
     return (
         <Container>
-            <div className="heading">
-                <h2>Edit details</h2>
-                <AiOutlineClose onClick={closeEdit}/>
+            <div className="header">
+                <div className="heading">
+                    <h2>Edit details</h2>
+                    <AiOutlineClose onClick={closeEdit} />
+                </div>
+                {error && 
+                    <div className="error-class">
+                        <BiErrorCircle />
+                        <span>{error}</span>
+                    </div>
+                }
             </div>
             <div className="body">
                 <div className='details'>
                     <ImageUploader>
-                        <input id="selectFile" type='file'  className='file_uploader' accept="image/*"
-                        onChange={fileChangeHandler} multiple={false}
-                        ref={fileRef}/>
+                        <input id="selectFile" type='file' className='file_uploader' accept="image/*"
+                            onChange={fileChangeHandler} multiple={false}
+                            ref={fileRef} />
 
                         <div className="top">
-                            <HiOutlineDotsHorizontal/>
+                            <HiOutlineDotsHorizontal />
                         </div>
-                        <div className='bottom' onClick={fileUpload}>
-                            
+                        <div className='image-bottom' onClick={fileUpload}>
+
                             {
                                 !selectedImage ? (
                                     <div className='music_icon'>
@@ -89,16 +137,17 @@ function EditPlaylist({title,image}) {
 
                     <div className="text_inputs">
                         <div className="name">
-                            <input type="text" value={values.title} name="title" onChange={handleInputs} placeholder="Add a name" className='shadow' />
+                            <input type="text" value={values.title} name="title" onChange={onTitleChange} placeholder="Add a name" className='shadow' />
                             <label htmlFor="title" className='lblEdit'>Name</label>
                         </div>
                         <div className="description">
                             <textarea
                                 name="description"
                                 value={values.description}
-                                onChange={handleInputs} placeholder="Add an optional description"
+                                onChange={handleDecription}     
+                                placeholder="Add an optional description"
                                 className='shadow'
-                                rows={6.9} cols={50} 
+                                rows={6.9} cols={50}
                             />
                             <label htmlFor="description" className='lblEdit'>
                                 Description
@@ -135,6 +184,31 @@ const Container = styled.div`
     display: grid;
     grid-template-rows: 0.7fr 4fr 0.8fr;
     border-radius: 0.6rem;
+
+    .header{
+        display: flex;
+        flex-direction: column;
+        gap:0.5rem;
+        .error-class{
+            width: 100%;
+            border: 1px solid red;
+            background-color: red;
+            padding: 5px 3px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap:0.5rem;
+            border-radius: 0.2rem;
+            svg{
+                fill: white;
+                font-size: 1.2rem;
+            }
+            span{
+                font-size: 0.8rem;
+                color:white;
+            }
+        }
+    }
     .heading{
         display: flex;
         align-items: center;
@@ -163,7 +237,7 @@ const Container = styled.div`
         display: grid;
         grid-template-rows: 3fr 2fr;    
         position: relative;
-        top:1rem;
+        top:0.5rem;
         box-sizing: border-box;
         .file_uploader{
           display  :none ;
@@ -280,7 +354,7 @@ const Container = styled.div`
 
 `
 
-const ImageUploader =  styled.div`
+const ImageUploader = styled.div`
     width: 11.5rem;
     height: 11rem;
     position: relative;
@@ -307,7 +381,7 @@ const ImageUploader =  styled.div`
             }
         }
     }
-    .bottom{
+    .image-bottom{
         position: relative;
         width: 100%;
         height: 100%;
@@ -318,6 +392,7 @@ const ImageUploader =  styled.div`
         img{
             width: 100%;
             height: 100%;
+            object-fit: cover;
             box-shadow: rgba(0,0,0,0.25) 0px 25px 50px -12px;
         }
         .music_icon{

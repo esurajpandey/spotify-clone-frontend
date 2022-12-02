@@ -10,7 +10,7 @@ import RadioButton from '../../../components/RadioButton';
 import { initialValues } from './SignupContent';
 import { Link } from 'react-router-dom';
 import { dateValidate, validate } from './validation';
-import { postReuqest } from '../../../request/Post';
+import { postRequest } from '../../../request/Post';
 function Signup() {
 
     const [formValue, setFormValue] = useState(initialValues);
@@ -33,7 +33,7 @@ function Signup() {
             userDob :  `${dob?.year}-${dob?.month}-${dob?.day}`
         }
         console.log(data);
-        postReuqest('user/create',data)
+        postRequest('user/create',data)
         .then(resp => 
             console.log(resp)
         )

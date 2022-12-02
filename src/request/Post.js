@@ -1,4 +1,4 @@
-export const postReuqest = async(url,data)=>{
+export const postRequest = async(url,data)=>{
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

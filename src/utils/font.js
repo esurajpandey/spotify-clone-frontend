@@ -10,7 +10,7 @@ export default createGlobalStyle`
         src: local('product-sans'), local('product-sans'),
         url(${productSans}) format('woff2'),
         url(${productSans}) format('woff');
-        font-weight: 700;
+        font-weight: 900;
         font-style: normal;
     }
     @font-face {
