@@ -4,13 +4,14 @@ import circularsp from '../assets/Circular Font Family/Gotham-Black.otf';
 import productSans from '../assets/Circular Font Family/ProductSans-Black.ttf';
 import glory from '../assets/Circular Font Family/Gilroy-Bold.ttf';
 import gotham from '../assets/Circular Font Family/GothamBook.ttf';
+
 export default createGlobalStyle`
     @font-face {
         font-family: 'product-sans';
         src: local('product-sans'), local('product-sans'),
         url(${productSans}) format('woff2'),
         url(${productSans}) format('woff');
-        font-weight: 900;
+        font-weight: 500;
         font-style: normal;
     }
     @font-face {

@@ -7,6 +7,7 @@ import { useStateProvider } from './utils/StateProvider';
 import { reducerCases } from './utils/Constants';
 import Logout from './Pages/Account/Login/Logout';
 import { postReuqest } from './request/Post';
+import Account from './Pages/Account/Account';
 
 function App() {
   const [{ token,user }, dispatch] = useStateProvider();
@@ -25,6 +26,7 @@ function App() {
         <Route  path='/user/signup' element={<Signup/>}/>
         <Route path='/user/login' element={<Login/>}/>
         <Route path='/user/logout' element={<Logout/>}/>
+        <Route path='account/*' element={<Account/>}/>
         <Route path='spotify/*' element={<Spotify/>}/>
         </Routes>
     </BrowserRouter>

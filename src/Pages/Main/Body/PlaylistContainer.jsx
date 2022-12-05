@@ -13,6 +13,7 @@ import EditPlaylist from '../Playlist/EditPlaylist';
 import DropdownMenu from '../../Element/DropdownMenu';
 import PlayerButton from '../../Element/PlayerButton';
 import Body from '../Playlist/Body';
+import NoSongBody from '../Playlist/NoSongBody';
 
 function PlaylistContainer() {
 
@@ -110,7 +111,6 @@ function PlaylistContainer() {
     <>
       {
         isLoading ? 
-
         <div className="loading">
           <h1>Loading</h1>
         </div>
@@ -171,7 +171,12 @@ function PlaylistContainer() {
                 }
               </div>
             </NavigationContainer>
-            <Body songs={currentPlaylist?.songs} />
+            {
+              currentPlaylist?.songs[0]?.id ?
+              <Body songs={currentPlaylist?.songs} />
+              :
+              <NoSongBody/>
+            }
             
           </Container>
       }

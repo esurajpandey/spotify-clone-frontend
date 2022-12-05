@@ -68,7 +68,7 @@ export const sideNav = [
 export const dropMenu =  [
     {
         name: "Account",
-        path: '/',
+        path: '/account',
         cName: 'account menu_item'
     },
     {

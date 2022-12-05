@@ -60,7 +60,7 @@ function DropdownMenu(props) {
                     list.map(item => {
                         return (
                             <li className={`${item.cName} item`} onclick={(e)=>handleClick()} key={item.name}>
-                                <Link to={item?.path} ref={linkRef}><span>{item.name}</span>
+                                <Link to={item?.path} ref={linkRef} target={(item?.path==='/account') && '_blank'}><span>{item.name}</span>
                                 {
                                     item?.name ==="Share" && (
                                         <BiPlay/>
