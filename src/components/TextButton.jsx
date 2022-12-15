@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function TextButton({ text, bg, fg, type,padding }) {
+function TextButton({ text, bg, fg, type,padding,border }) {
     return (
-        <Container bg={bg} fg={fg} padding={padding}>
+        <Container bg={bg} fg={fg} padding={padding} border={border} >
             <button  type={type} >
                 <span>{text}</span>
             </button>
@@ -13,10 +13,10 @@ function TextButton({ text, bg, fg, type,padding }) {
 
 const Container = styled.div`
     display: flex;
-    justify-content: center;
     align-items: center;
     padding: 2px;
     border: 3px solid transparent;
+    
     button{
         border-radius: 500px;
         color: inherit;
@@ -29,11 +29,11 @@ const Container = styled.div`
         text-align: center;
         align-self: center;
         padding: ${({padding}) => padding ? padding : `0.8rem 1.7rem`};
-        border: 0;
+        border: ${({border})=>(border? border:'0')};
         background-color: ${({bg}) => (bg ? bg : 'transparent')};
+        
         span{
             letter-spacing: 2px;
-            text-transform: uppercase;
             line-height: 1.25rem;
         }
         &:hover{

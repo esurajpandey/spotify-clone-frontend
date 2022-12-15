@@ -7,6 +7,7 @@ export const initialState = {
   userPlaylists : [],
   currentPlaylist : {},
   user : null,
+  userInfo:null,
   editPopup : false,
   currentSong : null,
   previousSong :  null,
@@ -42,6 +43,12 @@ const reducer = (state, action) => {
       }
     }
 
+    case reducerCases.SET_USER_INFO : {
+      return {
+        ...state,
+        userInfo : action.userInfo
+      }
+    }
     case reducerCases.SET_PLAYLIST : {
       return {
         ...state,

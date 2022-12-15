@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import {MdError}  from 'react-icons/md';
-function InputBox({ type, placeholder, name, value, text, onChange,error,onBlur }) {
+function InputBox({ type, placeholder, name, value, text, onChange,error,onBlur,width,padding }) {
     
     return (
-        <Container error={error} >
+        <Container error={error} width={width} padding={padding}>
             <label htmlFor="">
                 {text}
             </label>
@@ -19,8 +19,7 @@ function InputBox({ type, placeholder, name, value, text, onChange,error,onBlur 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
-    width: 28rem;
+    width: ${({width})=>(width?width:'28rem')};
     gap:0.5rem;
     label{
         font-weight: 700;
@@ -42,7 +41,7 @@ const Container = styled.div`
         margin-top: 0px;
         margin-bottom: 0px;
         border-radius: 4px;
-        padding: 14px;
+        padding: ${({padding})=>(padding ?padding:'14px')};
         background-color: #ffffff;
         color: #000000;
         outline: ${({error})=> error ? '2px solid red' : '1px solid grey'};

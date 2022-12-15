@@ -32,7 +32,6 @@ function Signup() {
             userGender :  gender,
             userDob :  `${dob?.year}-${dob?.month}-${dob?.day}`
         }
-        console.log(data);
         postRequest('user/create',data)
         .then(resp => 
             console.log(resp)

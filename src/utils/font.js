@@ -4,6 +4,7 @@ import circularsp from '../assets/Circular Font Family/Gotham-Black.otf';
 import productSans from '../assets/Circular Font Family/ProductSans-Black.ttf';
 import glory from '../assets/Circular Font Family/Gilroy-Bold.ttf';
 import gotham from '../assets/Circular Font Family/GothamBook.ttf';
+import productSansRegular from '../assets/Circular Font Family/ProductSans-Regular.ttf';
 
 export default createGlobalStyle`
     @font-face {
@@ -14,6 +15,15 @@ export default createGlobalStyle`
         font-weight: 500;
         font-style: normal;
     }
+    @font-face {
+        font-family: 'product-sans-regular';
+        src: local('productSansRegular'), local('productSansRegular'),
+        url(${productSansRegular}) format('woff2'),
+        url(${productSansRegular}) format('woff');
+        font-weight: 300;
+        font-style: normal;
+    }
+
     @font-face {
         font-family: 'circular-sp';
         src: local('product-sans'), local('circular-sp'),
@@ -35,7 +45,16 @@ export default createGlobalStyle`
         src: local('gotham'), local('gotham'),
         url(${gotham}) format('woff2'),
         url(${gotham}) format('woff');
-        font-weight: 300;
+        font-weight: 900;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'product-sans300';
+        src: local('product-sans'), local('product-sans'),
+        url(${productSans}) format('woff2'),
+        url(${productSans}) format('woff');
+        font-weight: 400;
         font-style: normal;
     }
 

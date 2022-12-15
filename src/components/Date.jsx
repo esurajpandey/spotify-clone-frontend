@@ -1,63 +1,64 @@
 import React from 'react'
 import styled from 'styled-components'
-import {MdError}  from 'react-icons/md';
+import { MdError } from 'react-icons/md';
 function Date(props) {
-    const {dob,setDob,errors} =  props;
-    const monthList = ["January","February","March","April","May","June","July",
-    "August","September","October","November","December"];
+    const { dob, setDob, errors, width } = props;
+    const monthList = ["January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"];
 
-    const months = monthList.map((month,index) => (
-        <option key={index} value={index+1}>{month}</option>
+    const months = monthList.map((month, index) => (
+        <option key={index} value={index + 1}>{month}</option>
     ));
 
-    const onChange = (e) =>{
+    const onChange = (e) => {
         e.preventDefault();
-        const {name,value} = e.target;
-        setDob({...dob,[name]:value});
+        const { name, value } = e.target;
+        setDob({ ...dob, [name]: value });
     }
 
     return (
-        <DateContainer>
+        <DateContainer width={width}>
             <label htmlFor="" className='title'>
                 What's your date of birth?
             </label>
-            <InputContainer errors={errors}>
+            <InputContainer errors={errors} width={width}>
                 <div className="year">
                     <label htmlFor="">
                         Year
                     </label>
-                    <input type="text" value={dob?.year} onChange={onChange} name="year" placeholder='YYYY'/>
+                    <input type="text" value={dob?.year} onChange={onChange} name="year" placeholder='YYYY' />
                 </div>
                 <div className="month">
                     <label htmlFor="">
                         Month
                     </label>
 
-                    <MonthList 
-                        className="month"
-                        // value={dob?.month}
+                    <MonthList
+                        // className="month"
+                        value={dob?.month}
                         name="month"
                         placeholder="Month"
                         onChange={onChange}
                         errors={errors}
+                        width={width}
                     >
 
-                    <option  select="true" disabled value="">Month</option>
-                    {months}   
+                        <option select="true" disabled value="">Month</option>
+                        {months}
                     </MonthList>
                 </div>
                 <div className="day">
                     <label htmlFor="">
                         Day
                     </label>
-                    <input type="text" value={dob?.day} onChange={onChange} name="day" placeholder='DD'/>
+                    <input type="text" value={dob?.day} onChange={onChange} name="day" placeholder='DD' />
                 </div>
             </InputContainer>
 
             <div className="error">
-                <p>{errors?.year && <><MdError/> {errors?.year} </>}</p>
-                <p>{errors?.month && <><MdError/> {errors?.month} </>}</p>
-                <p>{errors?.day && <><MdError/> {errors?.day} </>}</p>
+                <p>{errors?.year && <><MdError /> {errors?.year} </>}</p>
+                <p>{errors?.month && <><MdError /> {errors?.month} </>}</p>
+                <p>{errors?.day && <><MdError /> {errors?.day} </>}</p>
             </div>
         </DateContainer>
     )
@@ -69,7 +70,7 @@ const DateContainer = styled.div`
     align-items: flex-start;
     flex-direction: column;
     gap:0.5rem;
-    width: 28rem;
+    width: ${({ width }) => (width ? width : '28rem')};
     .title{
         color: black;
         font-size: 0.875rem;
@@ -93,9 +94,10 @@ const DateContainer = styled.div`
         }
     }
 `
-const InputContainer =  styled.div`
+const InputContainer = styled.div`
     display: flex;
     gap:1.6rem;
+    width:${({ width }) => width ? '' : 'auto'};
     .day,.year,.month{
         display: flex;
         flex-direction: column;
@@ -110,7 +112,7 @@ const InputContainer =  styled.div`
             letter-spacing: normal;
             appearance: none;
             background-image: none;
-            border: 0px;
+            border: 0;
             display: block;
             font-size: 1rem;
             line-height: 1.5rem;
@@ -122,28 +124,37 @@ const InputContainer =  styled.div`
             margin-top: 0px;
             margin-bottom: 0px;
             border-radius: 4px;
-            padding: 14px;
+            padding: ${({ width }) => (width ? '12px' : '14px')};
             background-color: var(--background-base,#ffffff);
-            box-shadow: inset 0 0 0 1px var(--essential-subdued,#878787);
+            /* box-shadow: inset 0 0 0 1px var(--essential-subdued,#878787); */
             color: var(--text-base,#000000);
-            outline: ${({errors})=> ((errors?.year || errors?.day) ? '2px solid red' : '1px solid grey')};
+            outline: ${({ errors }) => ((errors?.year || errors?.day) ? '2px solid red' : '1px solid grey')};
+
+            &:focus{
+                outline: 2px solid black;
+                transition: 100ms  all ease-in-out;
+            }
         }        
     }
 
     .day{
-        width: 45%;
+        /* width: 45%; */
+        width: ${({ width }) => (width ? '70%' : '45%')};
+        
     }
     .month{
-        width: 100%;
+        width: ${({ width }) => (width ? '40%' : '100%')};
+        padding: 0;
     }
     .year{
-        width: 55%;
+        /* width: 55%; */
+        width: ${({ width }) => (width ? '70%' : '55%')};
     }
 
 
 `
 
-const MonthList =  styled.select`
+const MonthList = styled.select`
     background-image: none;
     border: 0px;
     display: block;
@@ -152,24 +163,28 @@ const MonthList =  styled.select`
     font-weight: 400;
     width: 100%;
     box-sizing: border-box;
-    font-family: spotify-circular, Helvetica, Arial, sans-serif;
+    font-family: 'product-sans-regular', Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
     margin-top: 0px;
     margin-bottom: 0px;
     appearance: none;
     text-indent: 0.01px;
     border-radius: 4px;
-    padding: 14px 44px 14px 14px;
+    padding: ${({ width }) => (width ? '12px 10px 12px 14px' : '14px 44px 14px 14px')};
     background-color: var(--background-base,#ffffff);
     box-shadow: inset 0 0 0 1px var(--essential-subdued,#878787);
     color: var(--text-base,#000000);
     border: 0;
-    outline: ${({errors})=> ((errors?.month) ? '2px solid red' : 'transparent')};
+    outline: ${({ errors }) => ((errors?.month) ? '2px solid red' : 'transparent')};
     .month{
         color: #878787;
         &:hover{
             background-color: transparent;
         }
+    }
+    &:focus{
+        outline: 2px solid black;
+        transition: 100ms  all ease-in-out;
     }
 `
 export default Date

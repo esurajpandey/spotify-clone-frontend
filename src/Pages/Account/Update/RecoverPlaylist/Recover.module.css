@@ -1,0 +1,17 @@
+.heading{
+    display: grid;
+    grid-template-columns: 2.2fr 7fr 2fr 0.5fr;
+}
+
+.heading th{
+    letter-spacing: 0.08rem;
+    color: #6a6a6a;
+    font-size: 0.875rem;
+}
+
+
+
+.title, .deleted, .songs, .btn{
+    display: flex;
+    justify-content: flex-start;
+}
