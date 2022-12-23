@@ -54,12 +54,40 @@ export const recentContent = [
     }
 ];
 
+export const artists =  [
+    {
+        id : 1,
+        title : "Arijit Singh",
+        cover : fikernot,
+    },
+    {
+        id : 2,
+        title : "Ranjit Singh",
+        cover : fikernot,
+    },
+    {
+        id : 3,
+        title : "Ankit Pandey",
+        cover : fikernot,
+    },
+    {
+        id : 4,
+        title : "Shreya Ghoshal",
+        cover : fikernot,
+    },
+    {
+        id : 5,
+        title : "Anshu Singh",
+        cover : fikernot,
+    }
+];
+
 
 export const songs = [
     {
         id: 1,
         title : "Ye Dil Mushkil Hai dil",
-        album : "Keshariya",
+        album : {title : "Keshariya"},
         added : "2022-10-01",
         duration : 290000,
         artists:[ 'Arijit Sing','Raja Kumar'],
@@ -70,7 +98,7 @@ export const songs = [
     {
         id: 2,
         title : "Rate labmiya",
-        album : "Sersah",
+        album : {title : "Sersah"},
         added : "2022-06-05",
         duration : 250000,
         artists:[ 'Arijit Sing','Raja Kumar'],
@@ -81,7 +109,7 @@ export const songs = [
     {
         id: 3,
         title : "Hare Dil mera",
-        album : "Keshariya",
+        album : {title : "Keshariya"},
         added : "2020-06-01",
         duration : 290000,
         artists:[ 'Arijit Sing','Raja Kumar'],
@@ -92,7 +120,7 @@ export const songs = [
     {
         id: 4,
         title : "Jay Hind Ki Sena",
-        album : "Sersah",
+        album : {title : "Sersah"},
         added : "2022-05-01",
         duration : 290000,
         artists:[ 'Arijit Sing','Raja Kumar'],
@@ -103,7 +131,7 @@ export const songs = [
     {
         id: 5,
         title : "Ye Dil Mushkil Hai dil",
-        album : "Keshariya",
+        album : {title : "Keshariya"},
         added : "2022-06-01",
         duration : 230000,
         artists:[ 'Arijit Sing','Raja Kumar'],
@@ -114,7 +142,7 @@ export const songs = [
     {
         id: 6,
         title : "Hare Hare Dile Se Hare",
-        album : "Keshariya",
+        album : {title : "Keshariya"},
         added : "2022-06-01",
         duration : 230000,
         artists:[ 'Arijit Sing','Raja Kumar'],

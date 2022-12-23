@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import {HiOutlineDotsHorizontal} from 'react-icons/hi';
+
 import { BsFillPlayFill, BsPause } from 'react-icons/bs';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useStateProvider } from '../../utils/StateProvider';
 import { reducerCases } from '../../utils/Constants';
 
-function TrackListItem(props) {
+function TrackListItemForSearch(props) {
     const { serialNumber, id, cover, title, singers, album_playlist, dateAdded, duration, handlePlay, liked } = props
+
     const [isLiked, setLiked] = useState(false);
     const addedDate = dateAdded ? true : false;
     const [{ isPlaying, currentSong }] = useStateProvider();
 
-    console.log(props);
     const handleLike = (e) => {
         setLiked(!isLiked);
     }
@@ -22,40 +24,10 @@ function TrackListItem(props) {
         return min + ":" + (sec < 10 ? "0" : "") + sec;
     }
 
-    const getDays = (added) => {
-        const now = new Date();
-        const add = new Date(added);
-        const diffTime = Math.abs(now - add);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-
-        let seconds = Math.floor(diffTime / 1000);
-        let minutes = Math.floor(seconds / 60);
-        let hours = Math.floor(minutes / 60);
-
-        let res;
-        if(seconds < 60){
-            res = seconds + " seconds ago";
-        }else if(seconds > 60 && minutes < 60){
-            res = minutes + " minutes ago";
-        }else if(minutes > 60 && hours < 24){
-            res = hours +  (hours === 1  ? " hour ago" : " hours ago");
-        }else if(hours > 24){
-            res =  diffDays + (diffDays === 1 ? " day ago" :  " days ago");
-        }
-        return res;
-    }
-
-
-
     return (
         <Container addedDate={addedDate} >
-            <SerialNumber onClick={() => handlePlay(id)}>
-
+            <Cover onClick={() => handlePlay(id)}>
                 {(currentSong?.id === id && isPlaying) ? <BsPause className='playBtn' /> : <BsFillPlayFill className='playBtn' />}
-                <span>{serialNumber}</span>
-
-            </SerialNumber>
-            <Cover>
                 <img src={cover} alt="" />
             </Cover>
             <Info>
@@ -65,14 +37,6 @@ function TrackListItem(props) {
             <AlbumPlaylist>
                 <a href='.'>{album_playlist?.title}</a>
             </AlbumPlaylist>
-            {
-                props.dateAdded && (
-                    <DateAdded>
-                        <span>{getDays(dateAdded)}</span>
-                    </DateAdded>
-                )
-            }
-
             <Heart>
                 {liked ? <FaHeart className='filled' onClick={handleLike} /> : <FaRegHeart onClick={handleLike} />}
             </Heart>
@@ -80,30 +44,37 @@ function TrackListItem(props) {
             <Duration>
                 <span>{getMinSec(duration)}</span>
             </Duration>
+            <MenuOption>
+                <HiOutlineDotsHorizontal/>
+            </MenuOption>
         </Container>
     )
 }
 
 
-const SerialNumber = styled.div`
+const MenuOption = styled.div`
     display: flex;
     position: relative;
     align-items: center;
-    justify-content: flex-start;
-    span{
-        padding-left: 5px;
+
+    svg{
+        font-size: 1.5rem;;
+    }
+`
+const Cover = styled.div`
+    display: flex;
+    position: relative;
+    img{
+        width: 2.5rem;
+        height: 2.5rem;
     }
     .playBtn{
         opacity: 0;
         position: absolute;
+        top:0.5rem;
+        left:0.5rem;
         color : white;
-        font-size: 1.5rem;
-    }
-`
-const Cover = styled.div`
-    img{
-        width: 2.8rem;
-        height: 2.8rem;
+        font-size: 1.4rem;
     }
 `
 
@@ -128,27 +99,27 @@ const AlbumPlaylist = styled.div`
         font-size: 0.9rem;
     }
 `
-const DateAdded = styled.div`
-    span{
-        font-size: 0.9rem;
-    }
-`
 const Heart = styled.div`
     opacity: 0;
+    display: flex;
+    align-items: center;
     svg{
         color: inherit;
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     .filled{
         fill: #6edf41;
     }
 `
 const Duration = styled.div`
+    display: flex;
+    align-items: center;
     span{
         font-size: 0.9rem;
     }
 `
 const Container = styled.div`
+    width: 100%;
     color:#e0d7d7;
     a{
         text-decoration: none;
@@ -161,18 +132,15 @@ const Container = styled.div`
     cursor: default;
     transition: 0.3s ease-in-out;
     display: grid;
-    /* grid-template-columns: 0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr; *///for nomal
-    grid-template-columns: ${({ addedDate }) => addedDate ? '0.5fr 0.8fr 5fr 3fr 2.5fr 1fr 0.8fr' : '0.6fr 0.9fr 7.7fr 4.8fr 1fr 1.1fr'};
-
-    // grid-template-columns: 0.6fr 0.9fr 7.7fr 4.8fr 1fr 1.3fr;
+    grid-template-columns: 1fr 5fr 2fr 1fr 0.8fr 0.5fr;
     align-items: center;
-    padding: 0.3rem 0.8rem;
+    padding: 0.6rem 0.6rem;
     border-radius: 0.3rem;
     &:hover{
-        background :#242323;
+        background :#383737;
     }
 
-    &:hover ${SerialNumber}{
+    &:hover ${Cover}{
         span{
             opacity: 0;
         }
@@ -184,4 +152,5 @@ const Container = styled.div`
         opacity: 1;
     }
 `
-export default TrackListItem
+
+export default TrackListItemForSearch

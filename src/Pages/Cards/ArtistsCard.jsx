@@ -43,7 +43,7 @@ const Container = styled.div`
     width: 11rem;
     height: 16rem;
     padding:1rem;
-    background: linear-gradient(transparent,#0a0909);
+    background: #1d1c1c;
     border-radius: 4px;
     position: relative;
     transition: 0.8s ease-in-out;
@@ -82,7 +82,7 @@ const Container = styled.div`
     }
     
     &:hover{
-        background: linear-gradient(transparent,#141414);
+        background: #252424;
         ${ButtonContainer}{
             opacity: 1;
             transform:translateY(0px);   

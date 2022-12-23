@@ -20,7 +20,7 @@ import CreatePlaylist from '../Playlist/CreatePlaylist';
 import ProfilePage from '../../Account/Profile/ProfilePage';
 import TopTracks from '../Body/Tracks/TopTracks';
 import PlaylistContainer from '../Body/PlaylistContainer';
-
+import SearchMain from '../Search/SearchMain';
 export default function Spotify() {
 
   const [{token,user,editPopup,isScroll}, dispatch] = useStateProvider()
@@ -83,7 +83,7 @@ export default function Spotify() {
             <TopNavBar navBg={navBg}/>
             <Routes>
                 <Route path='/'  exact element={<Home/>} />
-                <Route path='search' element={<Search/>}/>
+                <Route path='search/*' element={<SearchMain/>}/>
                 <Route path='tagContents/:id' element={<TagBody/>}/>
                 <Route path='createPlaylist' element={<CreatePlaylist/>}/>
                 <Route path='likedSong' element={<LikedSong/>}/>
@@ -147,7 +147,7 @@ const SpotifyBody = styled.div`
       width: 100%;
       overflow: auto;
       position: relative;
-      background: linear-gradient(transparent, #000000);
+      background:#141414;
       &::-webkit-scrollbar{
         width: 0.7rem;
         &-thumb{

@@ -31,7 +31,7 @@ function Body({songs}) {
     dispatch({type:reducerCases.SET_PLAYING,isPlaying: newPlaying})
   }
 
-  
+   
   return (
     <ContainerBody>
     {
@@ -40,7 +40,7 @@ function Body({songs}) {
           <div className="lists">
             {
               songs[0]?.id && 
-              <Header isScroll={isScroll}>
+              <Header isScroll={isScroll} isDate={songs[0]?.addedOn}>
                 <div className="col">
                     <span>#</span>
                 </div>
@@ -50,9 +50,9 @@ function Body({songs}) {
                 <div className="col">
                     <span>ALBUM</span>
                 </div>
-                <div className="col">
+                { songs[0]?.addedOn && <div className="col">
                     <span>DATE ADDED</span>
-                </div>
+                </div>}
                 <div className="col">
                     <span></span>
                 </div>
@@ -97,7 +97,8 @@ const TrackList = styled.div`
 `
 const Header =  styled.div`
     display: grid;
-    grid-template-columns: 0.3fr 4.5fr 2.3fr 1.8fr 1fr 0.7fr;    
+    /* grid-template-columns: 0.3fr 4.5fr 2.3fr 1.8fr 1fr 0.7fr;  */
+    grid-template-columns: ${({isDate})=>(!isDate ? '0.3fr 4.5fr 1.25fr 1.8fr 0.7fr' : '0.3fr 4.5fr 2.3fr 1.8fr 1fr 0.7fr')};
     padding-left: 3.1rem;
     padding-right: 1rem;
     padding-top: 0.8rem;
@@ -119,7 +120,7 @@ const ContainerBody = styled.div`
   transition: 4s ease-in-out;
   .tracks{
     height: 100%;
-    background: linear-gradient(transparent,#1f1d1d);
+    /* background: linear-gradient(transparent,#1f1d1d); */
     padding-left:2rem;
     padding-right: 1rem;
     padding-bottom: 5rem;
