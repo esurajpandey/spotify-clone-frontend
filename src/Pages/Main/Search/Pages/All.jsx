@@ -1,11 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useStateProvider } from '../../../../utils/StateProvider'
 import BigSongContainer from '../../../Element/BigSongContainer'
-import { songs,artists } from '../../Body/HomeContent';
 import { reducerCases } from '../../../../utils/Constants';
+import { useStateProvider } from '../../../../utils/StateProvider'
+
+import { songs,artists,itemContent } from '../../Body/HomeContent';
 import TrackListItemForSearch from '../../../Element/TrackListItemForSearch';
 import ArtistCard from '../../../Cards/ArtistsCard';
+
+import PlaylistCard from "../../../Cards/PlaylistCard";
+
 function All() {
   const [{ currentSong, previousSong, isPlaying }, dispatch] = useStateProvider();
   const songList = songs.slice(0, 4);
@@ -72,6 +76,15 @@ function All() {
 
       <AllAlbums>
         <h2 className='search_heading'>Albums</h2>
+        <div className="artistList">
+          {
+            itemContent.map(item => {
+              return (
+                <PlaylistCard playlist={item} playBtn={true}/>
+              )
+            })
+          }
+        </div>
       </AllAlbums>
 
       <AllPlaylists>
@@ -133,7 +146,13 @@ const AllArtists = styled.div`
 `
 
 const AllAlbums = styled.div`
-  
+  display: flex;
+  flex-direction: column;
+  gap:1rem;
+  .artistList{
+    display: flex;
+    gap:1.6rem;
+  }
 `
 
 const AllPlaylists = styled.div`

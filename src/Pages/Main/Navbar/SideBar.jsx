@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import SpotifyLogo from "../../../assets/Logo";
 
-import UserPlaylist from "../Playlist/UserPlaylist";
+import UserPlaylist from "../Playlist/UserPlaylistData/UserPlaylist";
 import { sideNav } from "./NavContent";
 
 import { Link, useLocation } from "react-router-dom";
@@ -17,6 +17,8 @@ export default function SideBar() {
   curRoute === "/user/artists"){
     curRoute = '/user/playlists'
   }
+
+  
   return (
     <Container>
       <div className="top_links">
@@ -58,6 +60,8 @@ const Container = styled.div`
   width: 22.5rem;
   padding-bottom: 10rem;
   min-width: 17.6rem;
+
+  position: relative;
   @media (max-width: 768px) {
       width: 36rem;
   }

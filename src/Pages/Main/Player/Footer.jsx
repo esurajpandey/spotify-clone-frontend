@@ -69,6 +69,7 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: 2.5fr 4fr 2fr;
     padding: 0.2rem 1.2rem;
+    z-index: -1;
 `
 const Details = styled.div`
     display: flex;

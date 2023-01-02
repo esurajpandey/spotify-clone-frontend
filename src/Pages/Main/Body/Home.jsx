@@ -28,10 +28,8 @@ function Home() {
 
 
 
-
-
     return (
-        <Container>
+        <Container >
             <div className='recent'>
                 <h1>{message}</h1>
                 <ul>

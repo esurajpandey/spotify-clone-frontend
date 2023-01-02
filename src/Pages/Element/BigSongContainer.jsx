@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import imgSrc from '../../assets/femalVersion.jpg';
-import PlayerButton from '../Element/PlayerButton';
+import PlayerButton from './PlayerButton';
 import { BsDot } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 

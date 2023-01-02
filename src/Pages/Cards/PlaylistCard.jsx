@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PlayerButton from '../Element/PlayerButton';
-import music from '../../assets/svg/music.svg';
 import {RiMusic2Line} from 'react-icons/ri';
 
-function ArtistCard({ playlist, playBtn }) {
+function PlaylistCard({ playlist, playBtn }) {
     return (
         <Container className="card_item shadow">
-            <Link to={`/body/${playlist?.id}`}>
+            <Link to={`/spotify/body/${playlist?.id}`}>
                 <div className="card_image shadow">
                     {
                         playlist?.cover ? 
@@ -109,4 +108,4 @@ const Container = styled.div`
 `
 
 
-export default ArtistCard
+export default PlaylistCard

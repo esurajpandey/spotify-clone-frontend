@@ -10,7 +10,7 @@ function PlaylistContent() {
     const [{userPlaylists}] = useStateProvider();
     const play = false;
     const songCount = 0;
-    console.log(userPlaylists);
+    // console.log(userPlaylists);
     return (
         <Container>
             <div className='heading'>

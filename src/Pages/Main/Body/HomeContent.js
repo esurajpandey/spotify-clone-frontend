@@ -7,6 +7,8 @@ import fikernot from "../../../assets/cover/fikarnot.jpg";
 import jayhindkisena from "../../../assets/cover/Jaihind.jpg";
 import manbhariya from "../../../assets/cover/manbhariya.jpg";
 import ranjhana from "../../../assets/cover/ranjhna.jpg";
+
+
 export const recentContent = [
     {
         id:1,
@@ -140,7 +142,7 @@ export const songs = [
         cover: manbhariya
     },
     {
-        id: 6,
+        idranjha: 6,
         title : "Hare Hare Dile Se Hare",
         album : {title : "Keshariya"},
         added : "2022-06-01",
@@ -155,9 +157,9 @@ export const songs = [
 export const itemContent = [
     {
         id : 1,
-        title : 'My Playlist is very good',
+        title : 'Love Playlist',
         description:"This is good playlist",
-        img:'',
+        cover: manbhariya,
         type : 'private',
         likes : 555000,
         songs
@@ -166,17 +168,17 @@ export const itemContent = [
         id : 3,
         title : 'Hollywood',
         description:"This is good playlist",
-        img:'',
         type : 'private',
         likes : 555000,
+        cover : femaleVersion,
         songs
     },
     {
         id : 2,
         title : 'Stark Playlist',
         description:"This is good playlist",
-        img:'',
         type : 'private',
+        cover : jayhindkisena,
         likes : 10,
         songs 
     },
@@ -184,7 +186,7 @@ export const itemContent = [
         id : 4,
         title : 'Bollywood Butter',
         description:"This is good playlist",
-        img:'',
+        cover : jayhindkisena,
         type : 'public',
         likes : 555000,
         songs
@@ -193,7 +195,7 @@ export const itemContent = [
         id : 5,
         title : 'Trending Now',
         description:"This is good playlist",
-        img:'',
+        cover : manbhariya,
         type : 'public',
         likes : 5556,
         songs

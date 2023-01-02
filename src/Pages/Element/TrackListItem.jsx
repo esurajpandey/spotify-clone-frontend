@@ -4,6 +4,7 @@ import { BsFillPlayFill, BsPause } from 'react-icons/bs';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useStateProvider } from '../../utils/StateProvider';
 import { reducerCases } from '../../utils/Constants';
+import { Link } from 'react-router-dom';
 
 function TrackListItem(props) {
     const { serialNumber, id, cover, title, singers, album_playlist, dateAdded, duration, handlePlay, liked } = props
@@ -46,6 +47,10 @@ function TrackListItem(props) {
     }
 
 
+    const redirectToActorPage = (id) =>{
+        
+        alert(id);
+    }
 
     return (
         <Container addedDate={addedDate} >
@@ -60,7 +65,17 @@ function TrackListItem(props) {
             </Cover>
             <Info>
                 <a href='/'>{title}</a>
-                <a href='.' className='singers'>{singers.join(',')}</a>
+                <div className='singers'>
+                    {
+                        singers.map(item => {
+                            return (
+                                <span onClick={()=>redirectToActorPage(item?.id)}>
+                                    {item?.name}
+                                </span>
+                            )
+                        })
+                    }
+                </div>
             </Info>
             <AlbumPlaylist>
                 <a href='.'>{album_playlist?.title}</a>
@@ -114,6 +129,12 @@ const Info = styled.div`
     width: 100%;
     .singers{
         color: #afa8a8;
+        span{
+            font-size: 0.875rem;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
     }
     overflow: hidden;
     a{

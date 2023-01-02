@@ -78,7 +78,7 @@ function DropdownMenu(props) {
 
 const Container = styled.div`
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
     .menu-item{
         overflow: hidden;
